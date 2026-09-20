@@ -415,6 +415,54 @@ section{position:relative;z-index:2}
 .srv-card:nth-child(3) .pulse-line::after{animation-delay:1.6s}
 .srv-card:nth-child(4) .pulse-line::after{animation-delay:2.4s}
 
+/* ── SERVICE TABS ── */
+.tabs-nav{
+  display:flex;justify-content:center;flex-wrap:wrap;
+  gap:12px;margin:0 auto 48px;max-width:900px;
+}
+.tab-btn{
+  display:flex;align-items:center;gap:9px;
+  padding:11px 22px;
+  background:rgba(0,20,40,.5);
+  border:1px solid var(--border);
+  border-radius:6px;
+  color:var(--dim);
+  font-family:'Share Tech Mono',monospace;
+  font-size:.83rem;letter-spacing:.5px;
+  cursor:pointer;
+  backdrop-filter:blur(8px);
+  transition:all .3s;
+}
+.tab-btn:hover{border-color:rgba(0,229,255,.4);color:var(--cyan)}
+.tab-btn.active{
+  background:linear-gradient(135deg,rgba(0,85,153,.35),rgba(0,229,255,.14));
+  border-color:var(--cyan);color:#fff;
+  box-shadow:var(--glow);
+}
+.tb-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--dim);flex-shrink:0;
+  transition:background .3s,box-shadow .3s;
+}
+.tab-btn.active .tb-dot{background:var(--green);box-shadow:var(--gglow)}
+
+.tab-panels{max-width:1180px;margin:0 auto}
+.tab-panel{display:none}
+.tab-panel.active{display:block;animation:tabFade .45s ease}
+@keyframes tabFade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* Placeholder slot reserved for a future image / video per automation card */
+.srv-media-slot{
+  width:100%;height:120px;
+  border:1px dashed rgba(0,229,255,.28);
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:18px;
+  background:rgba(0,20,40,.3);
+  color:var(--dim);font-size:1.5rem;
+  opacity:.55;
+}
+
 /* ── PROCESS ── */
 #process{
   padding:100px 60px;
@@ -767,11 +815,11 @@ footer{
       <span class="t1">אוטומציה חכמה</span><br>
       <span class="t2">שמביאה תוצאות</span>
     </h1>
-    <p class="hero-sub">אוטומציות חכמות, סוכני AI וצ'אטבוטים שחוסכים זמן, מגדילים מכירות ומשדרגים את חוויית הלקוח — מהאפיון ועד הטמעה מלאה.</p>
+    <p class="hero-sub">פתרונות אוטומציה מתקדמים ל-Surense, שהופכים את המערכת לכזו שעובדת בשבילכם — עם אוטומציות, סוכני AI וצ'אטבוטים שמייעלים את העבודה היומיומית.</p>
 
     <div class="hero-btns">
       <a href="#cta" class="btn-p">בואו נדבר &rarr;</a>
-      <a href="#services" class="btn-s">השירותים שלנו</a>
+      <a href="#services" class="btn-s">האוטומציות שלנו ל-Surense</a>
     </div>
 
     <div class="hero-stats">
@@ -820,67 +868,277 @@ footer{
 <section id="services">
   <div class="s-label">// what_we_do</div>
   <div class="s-divider"></div>
-  <h2 class="s-title">השירותים שלנו</h2>
+  <h2 class="s-title">האוטומציות שלנו ל-Surense</h2>
   <p class="s-sub">פתרונות אוטומציה מתקדמים שיחסכו לך זמן ויגדילו את העסק שלך</p>
 
-  <div class="srv-grid">
-    <div class="srv-card reveal">
-      <div class="blc"></div><div class="pulse-line"></div>
-      <div class="srv-icon">🗂️</div>
-      <h3 class="srv-title">הטמעת מערכת CRM עם אוטומציות</h3>
-      <p class="srv-desc">הטמעת מערכות CRM מובילות (Origami, Monday, Airtable) עם אוטומציות חכמות לניהול לידים ולקוחות.</p>
-      <ul class="srv-list">
-        <li>יצירת משימות למניעת פספוס לידים</li>
-        <li>חלוקת לידים לנציגים לפי עומס</li>
-        <li>Follow-up אוטומטי בוואטסאפ</li>
-        <li>חתימות דיגיטליות אוטומטיות</li>
-        <li>סליקת אשראי עם עדכון CRM בזמן אמת</li>
-      </ul>
+  <div class="tabs-nav reveal">
+    <button class="tab-btn active" data-tab="tab-sales" type="button"><span class="tb-dot"></span>מכירות וקליטת לקוח</button>
+    <button class="tab-btn" data-tab="tab-whatsapp" type="button"><span class="tb-dot"></span>אוטומציות וואטסאפ</button>
+    <button class="tab-btn" data-tab="tab-ops" type="button"><span class="tb-dot"></span>תפעול</button>
+    <button class="tab-btn" data-tab="tab-service" type="button"><span class="tb-dot"></span>שירות וחווית לקוח</button>
+  </div>
+
+  <div class="tab-panels reveal" style="transition-delay:.1s">
+
+    <!-- מכירות וקליטת לקוח -->
+    <div class="tab-panel active" id="tab-sales">
+      <div class="srv-grid">
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">📋</div>
+          <h3 class="srv-title">תהליך קליטת לקוח</h3>
+          <p class="srv-desc">אוטומציה שמלווה לקוח חדש מרגע קליטתו במערכת ועד להשלמת כל הפעולות הנדרשות.</p>
+          <ul class="srv-list">
+            <li>טריגר: יצירת לקוח דרך טופס או שינוי סטטוס של ליד/לקוח/תהליך במערכת Surense</li>
+            <li>שליחת הודעת WhatsApp ראשונית</li>
+            <li>שליחת מסמכים ונספחים לחתימה</li>
+            <li>אישור חוזה וקבלת מסמכים נדרשים</li>
+            <li>איסוף תמונות תעודת זהות</li>
+            <li>תיאום פגישה עם הלקוח</li>
+          </ul>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">🏢</div>
+          <h3 class="srv-title">תהליך קליטת לקוח ממעסיק</h3>
+          <p class="srv-desc">אוטומציה שמייעלת את תהליך קליטת העובדים החדשים ומרכזת את כל השלבים במקום אחד.</p>
+          <ul class="srv-list">
+            <li>המעסיק ממלא טופס קליטה עבור העובד החדש</li>
+            <li>שליחת הודעת WhatsApp אוטומטית לעובד</li>
+            <li>שליחת נספחים ומסמכים לחתימה</li>
+            <li>איסוף פרטים ומסמכים נדרשים</li>
+            <li>תיאום פגישה עם העובד</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
-    <div class="srv-card reveal" style="transition-delay:.1s">
-      <div class="blc"></div><div class="pulse-line"></div>
-      <div class="srv-icon">🎙️</div>
-      <h3 class="srv-title">אוטומציה חכמה לוובינרים</h3>
-      <p class="srv-desc">מערכת אוטומציה מקיפה לניהול וובינרים — מעקב משתתפים, תזכורות, Follow-up מותאם אישית.</p>
-      <ul class="srv-list">
-        <li>תזכורות חכמות לפני הוובינר</li>
-        <li>מיון משתתפים לפי זמן שהייה</li>
-        <li>הודעות WhatsApp מותאמות לנוכחות</li>
-        <li>מענה אוטומטי לפי תגובות</li>
-        <li>דוח מסודר / חיבור ל-CRM</li>
-      </ul>
+    <!-- אוטומציות וואטסאפ -->
+    <div class="tab-panel" id="tab-whatsapp">
+      <div class="srv-grid">
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">🤖</div>
+          <h3 class="srv-title">בוט קבלת מידע בסיסי ליד</h3>
+          <p class="srv-desc">בוט חכם שמנהל שיחה ראשונית עם הליד ואוסף מידע חשוב לפני השיחה עם הנציג.</p>
+          <ul class="srv-list">
+            <li>איסוף פרטים ונתונים ראשוניים</li>
+            <li>הבנת הצרכים והמטרות של הליד</li>
+            <li>זיהוי חששות ונקודות חשובות לקראת הפרישה</li>
+            <li>העברת המידע לנציג להמשך טיפול</li>
+          </ul>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">👋</div>
+          <h3 class="srv-title">קליטת לקוח חדש מפרודוקציה</h3>
+          <p class="srv-desc">אוטומציה שמזהה לקוח חדש עם מוצר (פרודוקציה) במערכת Surense ושולחת לו באופן אוטומטי הודעת WhatsApp אישית לקבלת פנים.</p>
+          <ul class="srv-list">
+            <li>שליחת הודעת WhatsApp ראשונית ואישית</li>
+            <li>הצגת השירותים והתחומים שבהם הסוכנות יכולה לסייע</li>
+            <li>מתן פרטי התקשרות בוואטסאפ ובמייל</li>
+            <li>יצירת חוויית קליטה מסודרת ומקצועית ללקוח החדש</li>
+          </ul>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">🎂</div>
+          <h3 class="srv-title">ברכה ליום הולדת</h3>
+          <p class="srv-desc">אוטומציה שמזהה לקוחות שיש להם יום הולדת ושולחת להם באופן אוטומטי ברכה אישית בוואטסאפ.</p>
+          <ul class="srv-list">
+            <li>זיהוי לקוחות שיש להם יום הולדת במערכת Surense</li>
+            <li>שליחת ברכת יום הולדת אוטומטית בוואטסאפ</li>
+            <li>יצירת קשר אישי ושמירה על קשר עם הלקוחות</li>
+          </ul>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">⏰</div>
+          <h3 class="srv-title">תזכורת הגעה לפגישה</h3>
+          <p class="srv-desc">אוטומציה שמתזכרת ללקוחות יום לפני מועד הפגישה ומאפשרת להם לאשר הגעה או לבקש לדחות.</p>
+          <ul class="srv-list">
+            <li>שליחת תזכורת WhatsApp יום לפני הפגישה</li>
+            <li>הצגת מועד הפגישה ואפשרות "מאשר הגעה" או "מבקש לדחות"</li>
+            <li>עדכון הפגישה ב-Surense בהתאם לתשובת הלקוח</li>
+            <li>אפשרות לתאם מועד חדש במקרה של דחייה</li>
+          </ul>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">🔔</div>
+          <h3 class="srv-title">הודעה בשינוי סטטוסים</h3>
+          <p class="srv-desc">אוטומציה ששולחת ללקוח הודעת WhatsApp אוטומטית בהתאם לשינוי סטטוס של תהליך, ליד או לקוח ב-Surense.</p>
+          <ul class="srv-list">
+            <li>זיהוי שינוי סטטוס</li>
+            <li>שליחת הודעה מותאמת בהתאם לסוג התהליך והסטטוס</li>
+            <li>עדכון הלקוח בזמן אמת לאורך התהליך</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
-    <div class="srv-card reveal" style="transition-delay:.2s">
-      <div class="blc"></div><div class="pulse-line"></div>
-      <div class="srv-icon">💬</div>
-      <h3 class="srv-title">בניית צ'אטבוט מותאם אישית</h3>
-      <p class="srv-desc">צ'אטבוט ב-Manychat ל-WhatsApp, Instagram, Facebook ו-TikTok עם Flow אינטראקטיבי.</p>
-      <ul class="srv-list">
-        <li>Flow מותאם למטרות העסק</li>
-        <li>דירוג לידים אוטומטי</li>
-        <li>העברת נתונים ישירות ל-CRM</li>
-        <li>אינטגרציה עם מערכות קיימות</li>
-        <li>שליחת קבצים, קישורים ומדיה</li>
-      </ul>
+    <!-- תפעול -->
+    <div class="tab-panel" id="tab-ops">
+      <div class="srv-grid">
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">📧</div>
+          <h3 class="srv-title">מייל עדכון ללקוח בסיום תהליכים</h3>
+          <p class="srv-desc">אוטומציה שמרכזת את כל התהליכים שבוצעו עבור הלקוח ושולחת לו מייל סיכום מסודר עם תמונת מצב מלאה.</p>
+          <ul class="srv-list">
+            <li>ריכוז כלל התהליכים שבוצעו בתקופה האחרונה</li>
+            <li>פירוט המוצרים, השינויים והפעולות שבוצעו</li>
+            <li>הצגת הסטטוס העדכני של כל תהליך</li>
+            <li>שליחת מייל אוטומטית עם סיכום ברור ומותאם אישית</li>
+            <li>מתן תמונה מלאה ללקוח ללא צורך במעקב או שיחה נוספת</li>
+          </ul>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">📎</div>
+          <h3 class="srv-title">בוט קבלת מסמכים מלקוח</h3>
+          <p class="srv-desc">בוט אוטומטי שמבקש מהלקוח את המסמכים הנדרשים ומרכז אותם ישירות במערכת.</p>
+          <ul class="srv-list">
+            <li>שליחת הודעה אוטומטית עם קישור לטופס העלאת מסמכים</li>
+            <li>הלקוח מעלה את המסמכים הנדרשים דרך הטופס</li>
+            <li>שיוך אוטומטי של המסמכים ללקוח או לתהליך הרלוונטי ב-Surense</li>
+            <li>עדכון סטטוס התהליך בהתאם לקבלת המסמכים</li>
+            <li>חיסכון במעקב ידני וקיצור זמני הטיפול</li>
+          </ul>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">📉</div>
+          <h3 class="srv-title">בדיקת סיום הנחות בביטוח חיים ומשכנתא</h3>
+          <p class="srv-desc">אוטומציה חודשית שמזהה לקוחות שההנחה בפוליסת ביטוח החיים או המשכנתא שלהם צפויה להסתיים בחודש הבא.</p>
+          <ul class="srv-list">
+            <li>איתור פוליסות רלוונטיות</li>
+            <li>שליחת מייל מרוכז עם פרטי הלקוחות והשינוי הצפוי בפרמיה</li>
+            <li>פתיחת משימות או תהליכי שירות בהתאם לקריטריונים</li>
+            <li>טיפול יזום בלקוחות לפני עליית הפרמיה</li>
+          </ul>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">🔍</div>
+          <h3 class="srv-title">בדיקת תהליכים מול פרודוקציה</h3>
+          <p class="srv-desc">אוטומציה שבודקת באופן שוטף שתהליכי ההצטרפות והניוד תואמים למוצר שנקלט בפועל בפרודוקציה.</p>
+          <ul class="srv-list">
+            <li>השוואת המוצר שנקלט מול התהליך במערכת</li>
+            <li>בדיקת דמי ניהול, הפקדות וצבירה/סכום ניוד</li>
+            <li>סגירה אוטומטית של תהליכים תקינים</li>
+            <li>זיהוי חריגות והשארתן לטיפול הסוכנות</li>
+            <li>הצגת הפערים שנמצאו לצורך המשך טיפול</li>
+          </ul>
+        </div>
+      </div>
     </div>
 
-    <div class="srv-card reveal" style="transition-delay:.3s">
-      <div class="blc"></div><div class="pulse-line"></div>
-      <div class="srv-icon">🤖</div>
-      <h3 class="srv-title">סוכן AI לעסקים</h3>
-      <p class="srv-desc">סוכן בינה מלאכותית שמכיר את העסק לעומק, עונה בשפה טבעית וסוגר עסקאות 24/7.</p>
-      <ul class="srv-list">
-        <li>מענה חכם לשאלות פתוחות</li>
-        <li>תיאום פגישות מלוח השנה</li>
-        <li>שליחת לינק לסליקה עצמאית</li>
-        <li>שליחת תמונות ומסמכים</li>
-        <li>זמין 24/7 — גם כשאתם ישנים</li>
-      </ul>
+    <!-- שירות וחווית לקוח -->
+    <div class="tab-panel" id="tab-service">
+      <div class="srv-grid">
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">📅</div>
+          <h3 class="srv-title">קביעת פגישות תקופתיות אוטומטית</h3>
+          <p class="srv-desc">אוטומציה שמייצרת קשר יזום עם לקוחות אחת לתקופה, לחיזוק הקשר, בחינת הצרכים ויצירת הזדמנויות למוצרים ושירותים נוספים.</p>
+          <ul class="srv-list">
+            <li>יצירת תהליך "פגישה תקופתית" ב-Surense עם תאריך טיפול שקובע מתי תישלח ההודעה ללקוח</li>
+            <li>לקוח חדש – תאריך טיפול שנקבע ביחס למועד קליטתו כלקוח</li>
+            <li>לקוח קיים – תאריך טיפול שנקבע ביחס לתהליך האחרון בשורנס</li>
+            <li>תיאום פגישה בהתאם לזמינות הנציגים</li>
+            <li>לאחר התיאום – שליחת מסמכים ונספחים רלוונטיים לחתימה</li>
+            <li>תזכורות אוטומטיות למי שטרם תיאם פגישה או השלים חתימה על הנספחים</li>
+          </ul>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">🔄</div>
+          <h3 class="srv-title">עדכון נתונים שנתי</h3>
+          <p class="srv-desc">אוטומציה ששולחת אחת לשנה ללקוחות פעילים טופס אישי לעדכון ואישור הפרטים שלהם, ומעדכנת את המידע במערכת בהתאם לתשובות.</p>
+          <ul class="srv-list">
+            <li>שליחת טופס אישי עם הנתונים הקיימים במערכת</li>
+            <li>הלקוח מאשר או מעדכן פרטים שהשתנו</li>
+            <li>עדכון אוטומטי של הנתונים ב-Surense</li>
+            <li>זיהוי שינויים, צרכים והזדמנויות חדשות</li>
+            <li>פתיחת משימות או התראות לסוכן בהתאם לתשובות</li>
+            <li>שמירת תיעוד של השינויים שבוצעו</li>
+          </ul>
+        </div>
+
+        <!-- TODO: התוכן שסופק כאן זהה לתוכן של "עדכון נתונים שנתי" למעלה — כנראה שגיאת העתקה, יש לעדכן לתיאור האמיתי של "משוב לאחר פגישה" -->
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">⭐</div>
+          <h3 class="srv-title">משוב לאחר פגישה</h3>
+          <p class="srv-desc">אוטומציה ששולחת אחת לשנה ללקוחות פעילים טופס אישי לעדכון ואישור הפרטים שלהם, ומעדכנת את המידע במערכת בהתאם לתשובות.</p>
+          <ul class="srv-list">
+            <li>שליחת טופס אישי עם הנתונים הקיימים במערכת</li>
+            <li>הלקוח מאשר או מעדכן פרטים שהשתנו</li>
+            <li>עדכון אוטומטי של הנתונים ב-Surense</li>
+            <li>זיהוי שינויים, צרכים והזדמנויות חדשות</li>
+            <li>פתיחת משימות או התראות לסוכן בהתאם לתשובות</li>
+            <li>שמירת תיעוד של השינויים שבוצעו</li>
+          </ul>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-media-slot">🎬</div>
+          <div class="srv-icon">📈</div>
+          <h3 class="srv-title">התראה על עליית דמי ניהול ופרמיה</h3>
+          <p class="srv-desc">אוטומציה חודשית שמשווה בין נתוני הפרודוקציה ומזהה עליות בדמי ניהול או בפרמיה של הלקוחות.</p>
+          <ul class="srv-list">
+            <li>השוואת נתוני החודש הנוכחי לחודש הקודם</li>
+            <li>זיהוי עלייה בדמי ניהול או בפרמיה</li>
+            <li>הצגת השינוי וההשפעה הכספית על הלקוח</li>
+            <li>פתיחת משימה והתראה לסוכנות בהתאם לסף שהוגדר</li>
+          </ul>
+        </div>
+      </div>
     </div>
+
   </div>
 </section>
+
+<script>
+(function(){
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const panels  = document.querySelectorAll('.tab-panel');
+  tabBtns.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      tabBtns.forEach(b=>b.classList.remove('active'));
+      panels.forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      const target = document.getElementById(btn.dataset.tab);
+      if(target) target.classList.add('active');
+    });
+  });
+})();
+</script>
 
 <!-- PROCESS -->
 <section id="process">
@@ -948,13 +1206,14 @@ footer{
 
     <!-- Text content -->
     <div class="about-text-wrap reveal" style="transition-delay:.15s">
-      <div class="s-label" style="text-align:right">// who_am_i</div>
       <div class="s-divider" style="margin:0 0 16px"></div>
-      <h3 class="s-title" style="text-align:right;font-size:1.9rem">בר צור — מומחה אוטומציה עסקית</h3>
+      <h3 class="s-title" style="text-align:right;font-size:1.9rem">בר צור — מומחה לאוטומציה עסקית</h3>
 
-      <p class="about-p">אז מי אני ולמה שתקחו דווקא את השירותים שלי? נעים מאוד, שמי <strong>בר צור</strong>, מומחה לאוטומציה עסקית ובעל תואר ב<strong>הנדסת תעשייה וניהול</strong>. הרקע ההנדסי שלי מעניק לי יכולות אנליטיות גבוהות, חשיבה מערכתית ויכולת להוביל תהליכים מורכבים – כל זאת תוך התאמה אישית לצרכי כל עסק.</p>
-      <p class="about-p">אני משלב בין <strong>הבנה עמוקה של תהליכים עסקיים</strong> לבין שליטה במערכות אוטומציה מתקדמות, במטרה לייעל את העבודה, לחסוך זמן ולמקסם תוצאות עבור לקוחותיי.</p>
-      <p class="about-p">האני מאמין שלי הוא ש<strong>שירות איכותי ויחס אישי הם הבסיס להצלחה</strong> – לכן, כל תהליך אוטומציה שאני בונה מותאם במיוחד לעסק ולמטרותיו, תוך ליווי צמוד ושקיפות מלאה. אני רואה בכל לקוח שותף לדרך, ופועל מתוך מחויבות להצלחתו.</p>
+      <p class="about-p">אז מי אני ולמה שתקחו דווקא את השירותים שלי? נעים מאוד, שמי <strong>בר צור</strong>, מומחה לאוטומציה עסקית ובעל תואר ב<strong>הנדסת תעשייה וניהול</strong>.</p>
+      <p class="about-p">בשנים האחרונות צברתי ניסיון מעשי רב בעבודה עם <strong>Surense</strong> ועם סוכנויות ביטוח, שם אפיינתי, תכננתי והטמעתי מגוון רחב של תהליכי אוטומציה. החל מקליטת לקוחות חדשים, תיאום פגישות ואיסוף מסמכים, ועד מעקבים, התראות, שליחת הודעות, ניהול תהליכים ואוטומציות מורכבות שמחברות בין מערכות שונות.</p>
+      <p class="about-p">הניסיון הזה מאפשר לי להבין לא רק איך לבנות אוטומציה, אלא גם איך סוכנות ביטוח עובדת בפועל — איפה מתבזבז זמן, אילו משימות חוזרות על עצמן ואילו תהליכים ניתן להפוך לאוטומטיים כדי לייעל את העבודה ולשפר את השירות ללקוחות.</p>
+      <p class="about-p">אני משלב בין הבנה עמוקה של תהליכים עסקיים, רקע הנדסי ויכולת טכנולוגית, כדי לבנות פתרונות שמותאמים לצרכים האמיתיים של כל סוכנות.</p>
+      <p class="about-p">האני מאמין שלי הוא ש<strong>אוטומציה טובה מתחילה בהבנת התהליך, ולא בטכנולוגיה</strong>. לכן, אני עובד בשיתוף פעולה עם הלקוח, מאפיין את התהליך, מזהה את נקודות החיכוך ובונה פתרון שמטרתו לחסוך עבודה ידנית, לצמצם טעויות ולאפשר לצוות להתמקד בלקוחות ובעבודה החשובה באמת.</p>
 
       <div class="vals-grid">
         <div class="val"><span class="val-i">🎯</span><div class="val-t"><strong>התאמה אישית</strong>כל פתרון מותאם לעסק הספציפי</div></div>
