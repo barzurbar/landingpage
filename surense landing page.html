@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>בר צור | מומחה אוטומציה עסקית</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #071e30;
+  --bg2:      #0a2540;
+  --card:     rgba(0,35,60,0.55);
+  --cyan:     #00e5ff;
+  --green:    #00ff9d;
+  --blue:     #0077ff;
+  --text:     #c8e6f5;
+  --dim:      #5b8ca8;
+  --border:   rgba(0,229,255,0.18);
+  --glow:     0 0 18px rgba(0,229,255,0.45);
+  --gglow:    0 0 18px rgba(0,255,157,0.45);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Heebo',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  direction:rtl;
+}
+
+/* ── CANVAS ── */
+#pcb-canvas{
+  position:fixed;top:0;left:0;
+  width:100%;height:100%;
+  z-index:0;pointer-events:none;
+  opacity:.55;
+}
+
+/* ── SCAN LINE overlay ── */
+body::after{
+  content:'';
+  position:fixed;top:0;left:0;
+  width:100%;height:100%;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,229,255,0.012) 3px,
+    rgba(0,229,255,0.012) 4px
+  );
+  pointer-events:none;
+  z-index:1;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;width:100%;
+  z-index:200;
+  padding:16px 60px;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(4,13,20,0.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Share Tech Mono',monospace;
+  font-size:1.1rem;color:var(--green);
+  text-shadow:var(--gglow);
+  letter-spacing:2px;
+  display:flex;align-items:center;gap:10px;
+}
+.nav-logo svg{flex-shrink:0}
+.nav-links{display:flex;gap:30px;list-style:none}
+.nav-links a{
+  color:var(--dim);text-decoration:none;
+  font-size:.92rem;font-weight:500;
+  font-family:'Share Tech Mono',monospace;
+  letter-spacing:1px;
+  transition:color .25s;
+}
+.nav-links a:hover{color:var(--cyan);text-shadow:var(--glow)}
+.nav-cta{
+  padding:9px 22px;
+  background:transparent;
+  border:1px solid var(--green);
+  color:var(--green) !important;
+  border-radius:4px;
+  font-family:'Share Tech Mono',monospace !important;
+  transition:all .3s !important;
+  box-shadow:0 0 10px rgba(0,255,157,0.2);
+}
+.nav-cta:hover{
+  background:rgba(0,255,157,0.1) !important;
+  box-shadow:var(--gglow) !important;
+}
+
+/* ── SECTIONS ── */
+section{position:relative;z-index:2}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  padding:120px 20px 80px;
+}
+.hero-inner{max-width:880px}
+
+/* Animated gear + circuit */
+.gear-wrap{
+  position:relative;
+  width:200px;height:200px;
+  margin:0 auto 40px;
+}
+.gear-wrap canvas{
+  position:absolute;top:0;left:0;
+}
+
+/* ── HERO LOGO ── */
+.hero-logo{
+  display:inline-flex;align-items:center;gap:14px;
+  margin-bottom:32px;
+  padding:14px 28px;
+  background:rgba(0,20,45,0.7);
+  border:1px solid rgba(0,229,255,0.25);
+  border-radius:10px;
+  backdrop-filter:blur(10px);
+  position:relative;
+  overflow:hidden;
+}
+.hero-logo::before{
+  content:'';position:absolute;
+  top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(0,229,255,0.06),transparent);
+  animation:sweep 4s ease-in-out infinite;
+}
+/* corner accents */
+.hero-logo::after{
+  content:'';position:absolute;
+  top:6px;right:6px;
+  width:12px;height:12px;
+  border-top:1.5px solid rgba(0,229,255,0.6);
+  border-right:1.5px solid rgba(0,229,255,0.6);
+}
+.logo-icon{
+  flex-shrink:0;
+  animation:spin-slow 14s linear infinite;
+  filter:drop-shadow(0 0 8px rgba(0,229,255,0.6));
+}
+@keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.logo-text{
+  display:flex;flex-direction:column;
+  align-items:center;
+  gap:2px;
+}
+.logo-zur{
+  font-family:'Share Tech Mono',monospace;
+  font-size:2rem;font-weight:900;
+  color:#fff;
+  letter-spacing:5px;
+  line-height:1;
+}
+.logo-auto{
+  font-family:'Share Tech Mono',monospace;
+  font-size:2rem;font-weight:900;
+  letter-spacing:5px;
+  line-height:1;
+  background:linear-gradient(90deg,var(--cyan),var(--green));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.logo-sub{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.62rem;
+  color:var(--dim);
+  letter-spacing:2px;
+  margin-top:4px;
+}
+
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 20px;
+  border:1px solid rgba(0,255,157,0.4);
+  border-radius:3px;
+  font-family:'Share Tech Mono',monospace;
+  font-size:.78rem;
+  color:var(--green);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:26px;
+  background:rgba(0,255,157,0.06);
+}
+.badge-dot{
+  width:7px;height:7px;
+  background:var(--green);
+  border-radius:50%;
+  box-shadow:var(--gglow);
+  animation:blink 1.4s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+.hero-title{
+  font-size:clamp(2.4rem,5.5vw,3.8rem);
+  font-weight:900;line-height:1.18;
+  margin-bottom:22px;
+}
+.hero-title .t1{color:#fff}
+.hero-title .t2{
+  background:linear-gradient(90deg,var(--cyan),var(--green));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  font-size:1.05rem;color:var(--dim);
+  max-width:560px;margin:0 auto 40px;
+  line-height:1.75;
+}
+
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+.btn-p{
+  padding:14px 36px;
+  background:linear-gradient(135deg,#005599,#00aaee);
+  color:#fff;border:none;border-radius:4px;
+  font-size:1rem;font-weight:700;
+  cursor:pointer;text-decoration:none;
+  transition:transform .2s,box-shadow .3s;
+  box-shadow:0 4px 20px rgba(0,120,220,0.45);
+  font-family:'Heebo',sans-serif;
+}
+.btn-p:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,180,255,0.55)}
+
+.btn-s{
+  padding:14px 36px;
+  background:transparent;
+  color:var(--cyan);
+  border:1px solid var(--cyan);
+  border-radius:4px;
+  font-size:1rem;font-weight:700;
+  cursor:pointer;text-decoration:none;
+  transition:all .3s;
+  font-family:'Heebo',sans-serif;
+}
+.btn-s:hover{background:rgba(0,229,255,0.08);box-shadow:var(--glow)}
+
+.hero-stats{
+  display:flex;justify-content:center;gap:60px;
+  margin-top:60px;flex-wrap:wrap;
+}
+.stat{text-align:center}
+.stat-n{
+  font-size:2.4rem;font-weight:900;
+  color:var(--cyan);text-shadow:var(--glow);
+  font-family:'Share Tech Mono',monospace;
+}
+.stat-l{font-size:.82rem;color:var(--dim);margin-top:4px;letter-spacing:1px}
+
+/* ── TICKER ── */
+.ticker{
+  padding:16px 0;
+  background:rgba(0,20,40,.65);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  overflow:hidden;white-space:nowrap;
+  position:relative;z-index:2;
+}
+.ticker-inner{
+  display:inline-flex;gap:50px;
+  animation:tick 28s linear infinite;
+}
+.t-item{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Share Tech Mono',monospace;
+  font-size:.82rem;color:var(--dim);
+}
+.t-dot{
+  width:5px;height:5px;
+  background:var(--green);border-radius:50%;
+  box-shadow:var(--gglow);
+}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── SECTION HEADERS ── */
+.s-label{
+  text-align:center;
+  font-family:'Share Tech Mono',monospace;
+  font-size:.75rem;letter-spacing:3px;
+  text-transform:uppercase;color:var(--green);
+  margin-bottom:10px;
+}
+.s-divider{
+  width:60px;height:2px;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  margin:0 auto 14px;
+  box-shadow:var(--glow);
+  position:relative;
+}
+.s-divider::before,.s-divider::after{
+  content:'';position:absolute;
+  top:50%;transform:translateY(-50%);
+  width:5px;height:5px;
+  background:var(--cyan);border-radius:50%;
+  box-shadow:var(--glow);
+}
+.s-divider::before{right:-8px}
+.s-divider::after{left:-8px}
+.s-title{
+  text-align:center;
+  font-size:clamp(1.7rem,3.5vw,2.4rem);
+  font-weight:900;color:#fff;margin-bottom:14px;
+}
+.s-sub{
+  text-align:center;color:var(--dim);
+  max-width:540px;margin:0 auto 56px;
+  line-height:1.7;
+}
+
+/* ── SERVICES ── */
+#services{padding:100px 60px}
+.srv-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+  gap:24px;max-width:1180px;margin:0 auto;
+}
+
+.srv-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:32px 26px;
+  position:relative;overflow:hidden;
+  backdrop-filter:blur(10px);
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+}
+/* PCB corner decorations */
+.srv-card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--green),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.srv-card::after{
+  content:'';position:absolute;
+  top:8px;right:8px;
+  width:16px;height:16px;
+  border-top:2px solid rgba(0,229,255,0.5);
+  border-right:2px solid rgba(0,229,255,0.5);
+}
+/* bottom-left corner */
+.srv-card .blc{
+  position:absolute;
+  bottom:8px;left:8px;
+  width:16px;height:16px;
+  border-bottom:2px solid rgba(0,229,255,0.3);
+  border-left:2px solid rgba(0,229,255,0.3);
+  pointer-events:none;
+}
+.srv-card:hover{
+  transform:translateY(-7px);
+  box-shadow:0 14px 44px rgba(0,80,160,.35),var(--glow);
+  border-color:rgba(0,229,255,.45);
+}
+.srv-card:hover::before{opacity:1}
+
+.srv-icon{
+  width:54px;height:54px;
+  background:linear-gradient(135deg,rgba(0,70,160,.7),rgba(0,200,255,.25));
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.7rem;margin-bottom:18px;
+  border:1px solid rgba(0,229,255,.3);
+  box-shadow:var(--glow);
+}
+.srv-title{
+  font-size:1.1rem;font-weight:700;
+  color:#fff;margin-bottom:10px;
+}
+.srv-desc{
+  font-size:.88rem;color:var(--dim);
+  line-height:1.65;margin-bottom:18px;
+}
+.srv-list{list-style:none}
+.srv-list li{
+  font-size:.83rem;color:var(--dim);
+  padding:4px 0 4px 0;
+  padding-right:16px;
+  position:relative;line-height:1.5;
+}
+.srv-list li::before{
+  content:'›';
+  position:absolute;right:0;
+  color:var(--green);font-weight:700;
+}
+
+/* Data flow pulse on card */
+.pulse-line{
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  overflow:hidden;
+}
+.pulse-line::after{
+  content:'';
+  position:absolute;
+  top:0;left:-60%;
+  width:40%;height:100%;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  animation:slide-pulse 3s ease-in-out infinite;
+}
+@keyframes slide-pulse{
+  0%{left:-60%}100%{left:120%}
+}
+.srv-card:nth-child(2) .pulse-line::after{animation-delay:.8s}
+.srv-card:nth-child(3) .pulse-line::after{animation-delay:1.6s}
+.srv-card:nth-child(4) .pulse-line::after{animation-delay:2.4s}
+
+/* ── PROCESS ── */
+#process{
+  padding:100px 60px;
+  background:linear-gradient(180deg,transparent,rgba(0,30,55,.4),transparent);
+}
+.proc-steps{
+  display:flex;justify-content:center;
+  gap:0;max-width:920px;margin:0 auto;
+  flex-wrap:wrap;
+}
+.proc-step{
+  flex:1;min-width:160px;
+  text-align:center;padding:0 18px;
+  position:relative;
+}
+/* circuit connector between steps */
+.proc-step:not(:last-child)::after{
+  content:'';position:absolute;
+  top:26px;left:-35px;
+  width:70px;height:1px;
+  background:linear-gradient(270deg,var(--cyan),rgba(0,229,255,.3));
+}
+/* moving dot on connector */
+.proc-step:not(:last-child)::before{
+  content:'';position:absolute;
+  top:22px;left:35px;
+  width:8px;height:8px;
+  background:var(--green);border-radius:50%;
+  box-shadow:var(--gglow);
+  animation:move-dot 2s linear infinite;
+}
+.proc-step:nth-child(2)::before{animation-delay:.5s}
+.proc-step:nth-child(3)::before{animation-delay:1s}
+@keyframes move-dot{
+  0%{transform:translateX(0);opacity:1}
+  100%{transform:translateX(-70px);opacity:0}
+}
+.step-n{
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  color:#fff;font-size:1.2rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 14px;
+  box-shadow:var(--glow);
+  border:2px solid rgba(0,229,255,.4);
+  font-family:'Share Tech Mono',monospace;
+}
+.step-t{font-weight:700;color:#fff;margin-bottom:7px;font-size:.93rem}
+.step-d{font-size:.8rem;color:var(--dim);line-height:1.5}
+
+/* ── ABOUT ── */
+#about{padding:100px 60px}
+.about-wrap{
+  max-width:1080px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1.65fr;
+  gap:70px;align-items:center;
+}
+
+/* Terminal card */
+.terminal{
+  background:#020c14;
+  border:1px solid rgba(0,229,255,.25);
+  border-radius:8px;overflow:hidden;
+  box-shadow:0 0 40px rgba(0,80,150,.3),var(--glow);
+}
+.term-bar{
+  background:rgba(0,40,70,.8);
+  padding:10px 16px;
+  display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid var(--border);
+}
+.term-dot{
+  width:10px;height:10px;
+  border-radius:50%;
+}
+.td1{background:#ff5f57}.td2{background:#febc2e}.td3{background:#28c840}
+.term-title{
+  font-family:'Share Tech Mono',monospace;
+  font-size:.75rem;color:var(--dim);
+  margin-right:auto;letter-spacing:1px;
+}
+.term-body{
+  padding:24px 20px;
+  font-family:'Share Tech Mono',monospace;
+  font-size:.83rem;
+  line-height:2;
+}
+.tl-dim{color:#3a6a8a}
+.tl-key{color:var(--green)}
+.tl-val{color:var(--cyan)}
+.tl-str{color:#ffd080}
+.tl-num{color:#ff8c69}
+.tl-cursor{
+  display:inline-block;
+  width:8px;height:14px;
+  background:var(--green);
+  animation:blink 1s step-end infinite;
+  vertical-align:middle;
+  margin-right:4px;
+}
+
+.about-avatar{
+  width:100px;height:100px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#004488,#0099cc);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.8rem;
+  margin:0 auto 20px;
+  border:2px solid rgba(0,229,255,.4);
+  box-shadow:0 0 30px rgba(0,150,220,.4);
+}
+
+.skills-grid{
+  display:flex;flex-wrap:wrap;gap:8px;
+  margin-top:16px;
+}
+.skill-tag{
+  padding:5px 12px;
+  border:1px solid var(--border);
+  border-radius:3px;
+  font-family:'Share Tech Mono',monospace;
+  font-size:.73rem;color:var(--green);
+  background:rgba(0,255,157,.05);
+  letter-spacing:.5px;
+}
+
+.about-text-wrap .s-label,
+.about-text-wrap .s-title{text-align:right}
+.about-text-wrap .s-divider{margin:0 0 16px}
+
+.about-p{
+  color:var(--dim);line-height:1.85;
+  font-size:.97rem;margin-bottom:16px;
+}
+.about-p strong{color:var(--cyan)}
+
+.vals-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:12px;margin-top:24px;
+}
+.val{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:14px;
+  display:flex;align-items:flex-start;gap:10px;
+  transition:border-color .3s;
+  position:relative;overflow:hidden;
+}
+.val::before{
+  content:'';position:absolute;
+  bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--green),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.val:hover{border-color:rgba(0,255,157,.4)}
+.val:hover::before{opacity:1}
+.val-i{font-size:1.2rem;flex-shrink:0}
+.val-t{font-size:.85rem;color:var(--dim);line-height:1.5}
+.val-t strong{color:#fff;display:block;margin-bottom:2px;font-size:.88rem}
+
+/* ── TESTIMONIALS ── */
+#testimonials{
+  padding:100px 60px;
+  background:linear-gradient(180deg,transparent,rgba(0,25,50,.35),transparent);
+}
+.test-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(295px,1fr));
+  gap:24px;max-width:1080px;margin:0 auto;
+}
+.test-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:28px 24px;
+  position:relative;
+  backdrop-filter:blur(10px);
+  transition:transform .3s,box-shadow .3s;
+}
+.test-card::after{
+  content:'';position:absolute;
+  top:8px;left:8px;
+  width:14px;height:14px;
+  border-top:2px solid rgba(0,229,255,.45);
+  border-left:2px solid rgba(0,229,255,.45);
+}
+.test-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 12px 36px rgba(0,70,150,.3);
+}
+.q-icon{
+  font-size:2.5rem;
+  color:rgba(0,229,255,.15);
+  line-height:1;margin-bottom:10px;
+  font-family:Georgia,serif;
+}
+.test-txt{
+  font-size:.92rem;color:var(--dim);
+  line-height:1.75;margin-bottom:22px;
+  font-style:italic;
+}
+.test-author{
+  display:flex;align-items:center;gap:12px;
+}
+.t-avatar{
+  width:48px;height:48px;border-radius:50%;
+  overflow:hidden;
+  border:2px solid rgba(0,229,255,.35);
+  flex-shrink:0;
+  background:linear-gradient(135deg,#082a4a,#0d4070);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;
+  box-shadow:0 0 10px rgba(0,170,230,.3);
+}
+.t-name{font-weight:700;color:#fff;font-size:.92rem}
+.t-role{font-size:.78rem;color:var(--green);margin-top:2px;font-family:'Share Tech Mono',monospace}
+.stars{color:#ffd700;font-size:.85rem;margin-bottom:7px;letter-spacing:2px}
+
+/* ── CTA ── */
+#cta{padding:110px 60px;text-align:center}
+.cta-box{
+  max-width:680px;margin:0 auto;
+  position:relative;z-index:1;
+}
+/* Animated border */
+.cta-frame{
+  padding:60px 50px;
+  border:1px solid rgba(0,229,255,.25);
+  border-radius:8px;
+  background:rgba(0,20,40,.6);
+  backdrop-filter:blur(12px);
+  position:relative;overflow:hidden;
+}
+.cta-frame::before{
+  content:'';position:absolute;
+  top:0;left:-100%;
+  width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(0,229,255,.04),transparent);
+  animation:sweep 4s ease-in-out infinite;
+}
+@keyframes sweep{
+  0%{left:-100%}60%,100%{left:100%}
+}
+/* Corner brackets */
+.cta-frame .br{position:absolute;width:20px;height:20px}
+.br-tl{top:10px;right:10px;border-top:2px solid var(--cyan);border-right:2px solid var(--cyan)}
+.br-tr{top:10px;left:10px;border-top:2px solid var(--cyan);border-left:2px solid var(--cyan)}
+.br-bl{bottom:10px;right:10px;border-bottom:2px solid var(--cyan);border-right:2px solid var(--cyan)}
+.br-br{bottom:10px;left:10px;border-bottom:2px solid var(--cyan);border-left:2px solid var(--cyan)}
+
+.cta-title{font-size:clamp(1.8rem,3.5vw,2.7rem);font-weight:900;color:#fff;margin-bottom:16px}
+.cta-sub{color:var(--dim);font-size:1rem;line-height:1.7;margin-bottom:38px}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+.btn-wa{
+  padding:14px 36px;
+  background:linear-gradient(135deg,#1a8c45,#25d366);
+  color:#fff;border:none;border-radius:4px;
+  font-size:1rem;font-weight:700;
+  cursor:pointer;text-decoration:none;
+  transition:transform .2s,box-shadow .3s;
+  box-shadow:0 4px 20px rgba(37,211,102,.4);
+  display:flex;align-items:center;gap:9px;
+  font-family:'Heebo',sans-serif;
+}
+.btn-wa:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(37,211,102,.55)}
+
+/* ── FOOTER ── */
+footer{
+  padding:36px 60px;
+  border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:14px;
+  background:rgba(4,13,20,.95);
+  position:relative;z-index:2;
+}
+.f-logo{
+  font-family:'Share Tech Mono',monospace;
+  font-size:1rem;color:var(--green);
+  text-shadow:var(--gglow);letter-spacing:2px;
+}
+.f-copy{font-size:.82rem;color:var(--dim);font-family:'Share Tech Mono',monospace}
+.f-links{display:flex;gap:18px}
+.f-links a{
+  color:var(--dim);text-decoration:none;
+  font-size:.82rem;
+  font-family:'Share Tech Mono',monospace;
+  transition:color .25s;
+}
+.f-links a:hover{color:var(--cyan)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px){
+  nav{padding:14px 22px}
+  .nav-links{display:none}
+  #services,#about,#testimonials,#cta,#process{padding:70px 22px}
+  .about-wrap{grid-template-columns:1fr;gap:40px}
+  .vals-grid{grid-template-columns:1fr}
+  .proc-steps{flex-direction:column;align-items:center;gap:22px}
+  .proc-step::after,.proc-step::before{display:none}
+  footer{padding:28px 22px;flex-direction:column;text-align:center}
+  .cta-frame{padding:40px 24px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="pcb-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+      <path d="M13 4l1.5-3 1.5 3c.7-.1 1.4-.1 2 0l1.5-3 1.3 3.2c.6.3 1.1.6 1.6 1l3-1.3.2 1.4-3 .9c.1.6.1 1.3 0 2l3 .9.2 1.4-3-1.3c-.5.4-1 .7-1.6 1L22 17l-1.3.2-.9-3c-.6.1-1.3.1-2 0l-.9 3L16 17l1.3-3c-.4-.5-.7-1-1-1.6l-3 1.3-.2-1.4 3-.9c-.1-.6-.1-1.3 0-2l-3-.9L13 7l3 1.3c.3-.6.6-1.1 1-1.6L13 4z" fill="#00e5ff" opacity=".9"/>
+      <circle cx="16" cy="12" r="3" fill="none" stroke="#00ff9d" stroke-width="1.5"/>
+      <circle cx="16" cy="12" r="1.2" fill="#00ff9d"/>
+      <line x1="19" y1="12" x2="23" y2="12" stroke="#00ff9d" stroke-width="1" opacity=".7"/>
+      <circle cx="23" cy="12" r="1.2" fill="#00ff9d" opacity=".7"/>
+    </svg>
+    BAR.ZUR // AUTOMATION
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">services</a></li>
+    <li><a href="#about">about</a></li>
+    <li><a href="#process">process</a></li>
+    <li><a href="#testimonials">reviews</a></li>
+    <li><a href="#cta" class="nav-cta">contact_us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <canvas id="gear-canvas" width="200" height="200" style="display:block;margin:0 auto 36px"></canvas>
+
+    <!-- LOGO -->
+    <div class="hero-logo">
+<div class="logo-text">
+        <span class="logo-zur">ZUR</span><span class="logo-auto">AUTOMATION</span>
+      </div>
+    </div>
+
+
+    <h1 class="hero-title">
+      <span class="t1">אוטומציה חכמה</span><br>
+      <span class="t2">שמביאה תוצאות</span>
+    </h1>
+    <p class="hero-sub">אוטומציות חכמות, סוכני AI וצ'אטבוטים שחוסכים זמן, מגדילים מכירות ומשדרגים את חוויית הלקוח — מהאפיון ועד הטמעה מלאה.</p>
+
+    <div class="hero-btns">
+      <a href="#cta" class="btn-p">בואו נדבר &rarr;</a>
+      <a href="#services" class="btn-s">השירותים שלנו</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n" data-count="50">0+</div><div class="stat-l">פרויקטים הושלמו</div></div>
+      <div class="stat"><div class="stat-n" data-count="3">0</div><div class="stat-l">שנות ניסיון</div></div>
+      <div class="stat"><div class="stat-n" data-count="100">0</div><div class="stat-l">% ליווי אישי</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker">
+    <span class="t-item"><span class="t-dot"></span>Make.com</span>
+    <span class="t-item"><span class="t-dot"></span>Zapier</span>
+    <span class="t-item"><span class="t-dot"></span>n8n</span>
+    <span class="t-item"><span class="t-dot"></span>Monday.com</span>
+    <span class="t-item"><span class="t-dot"></span>Airtable</span>
+    <span class="t-item"><span class="t-dot"></span>Manychat</span>
+    <span class="t-item"><span class="t-dot"></span>WhatsApp Business API</span>
+    <span class="t-item"><span class="t-dot"></span>OpenAI</span>
+    <span class="t-item"><span class="t-dot"></span>Origami CRM</span>
+    <span class="t-item"><span class="t-dot"></span>Calendly</span>
+    <span class="t-item"><span class="t-dot"></span>Cal.com</span>
+    <span class="t-item"><span class="t-dot"></span>iCount</span>
+    <span class="t-item"><span class="t-dot"></span>Morning</span>
+    <span class="t-item"><span class="t-dot"></span>Funner</span>
+    <span class="t-item"><span class="t-dot"></span>Make.com</span>
+    <span class="t-item"><span class="t-dot"></span>Zapier</span>
+    <span class="t-item"><span class="t-dot"></span>n8n</span>
+    <span class="t-item"><span class="t-dot"></span>Monday.com</span>
+    <span class="t-item"><span class="t-dot"></span>Airtable</span>
+    <span class="t-item"><span class="t-dot"></span>Manychat</span>
+    <span class="t-item"><span class="t-dot"></span>WhatsApp Business API</span>
+    <span class="t-item"><span class="t-dot"></span>OpenAI</span>
+    <span class="t-item"><span class="t-dot"></span>Origami CRM</span>
+    <span class="t-item"><span class="t-dot"></span>Calendly</span>
+    <span class="t-item"><span class="t-dot"></span>Cal.com</span>
+    <span class="t-item"><span class="t-dot"></span>iCount</span>
+    <span class="t-item"><span class="t-dot"></span>Morning</span>
+    <span class="t-item"><span class="t-dot"></span>Funner</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="s-label">// what_we_do</div>
+  <div class="s-divider"></div>
+  <h2 class="s-title">השירותים שלנו</h2>
+  <p class="s-sub">פתרונות אוטומציה מתקדמים שיחסכו לך זמן ויגדילו את העסק שלך</p>
+
+  <div class="srv-grid">
+    <div class="srv-card reveal">
+      <div class="blc"></div><div class="pulse-line"></div>
+      <div class="srv-icon">🗂️</div>
+      <h3 class="srv-title">הטמעת מערכת CRM עם אוטומציות</h3>
+      <p class="srv-desc">הטמעת מערכות CRM מובילות (Origami, Monday, Airtable) עם אוטומציות חכמות לניהול לידים ולקוחות.</p>
+      <ul class="srv-list">
+        <li>יצירת משימות למניעת פספוס לידים</li>
+        <li>חלוקת לידים לנציגים לפי עומס</li>
+        <li>Follow-up אוטומטי בוואטסאפ</li>
+        <li>חתימות דיגיטליות אוטומטיות</li>
+        <li>סליקת אשראי עם עדכון CRM בזמן אמת</li>
+      </ul>
+    </div>
+
+    <div class="srv-card reveal" style="transition-delay:.1s">
+      <div class="blc"></div><div class="pulse-line"></div>
+      <div class="srv-icon">🎙️</div>
+      <h3 class="srv-title">אוטומציה חכמה לוובינרים</h3>
+      <p class="srv-desc">מערכת אוטומציה מקיפה לניהול וובינרים — מעקב משתתפים, תזכורות, Follow-up מותאם אישית.</p>
+      <ul class="srv-list">
+        <li>תזכורות חכמות לפני הוובינר</li>
+        <li>מיון משתתפים לפי זמן שהייה</li>
+        <li>הודעות WhatsApp מותאמות לנוכחות</li>
+        <li>מענה אוטומטי לפי תגובות</li>
+        <li>דוח מסודר / חיבור ל-CRM</li>
+      </ul>
+    </div>
+
+    <div class="srv-card reveal" style="transition-delay:.2s">
+      <div class="blc"></div><div class="pulse-line"></div>
+      <div class="srv-icon">💬</div>
+      <h3 class="srv-title">בניית צ'אטבוט מותאם אישית</h3>
+      <p class="srv-desc">צ'אטבוט ב-Manychat ל-WhatsApp, Instagram, Facebook ו-TikTok עם Flow אינטראקטיבי.</p>
+      <ul class="srv-list">
+        <li>Flow מותאם למטרות העסק</li>
+        <li>דירוג לידים אוטומטי</li>
+        <li>העברת נתונים ישירות ל-CRM</li>
+        <li>אינטגרציה עם מערכות קיימות</li>
+        <li>שליחת קבצים, קישורים ומדיה</li>
+      </ul>
+    </div>
+
+    <div class="srv-card reveal" style="transition-delay:.3s">
+      <div class="blc"></div><div class="pulse-line"></div>
+      <div class="srv-icon">🤖</div>
+      <h3 class="srv-title">סוכן AI לעסקים</h3>
+      <p class="srv-desc">סוכן בינה מלאכותית שמכיר את העסק לעומק, עונה בשפה טבעית וסוגר עסקאות 24/7.</p>
+      <ul class="srv-list">
+        <li>מענה חכם לשאלות פתוחות</li>
+        <li>תיאום פגישות מלוח השנה</li>
+        <li>שליחת לינק לסליקה עצמאית</li>
+        <li>שליחת תמונות ומסמכים</li>
+        <li>זמין 24/7 — גם כשאתם ישנים</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="s-label">// workflow</div>
+  <div class="s-divider"></div>
+  <h2 class="s-title">התהליך שלנו</h2>
+  <p class="s-sub">מהשיחה הראשונה ועד לאוטומציה שרצה — ארבעה שלבים פשוטים</p>
+  <div class="proc-steps">
+    <div class="proc-step reveal">
+      <div class="step-n">01</div>
+      <div class="step-t">אפיון צרכים</div>
+      <div class="step-d">שיחת היכרות מעמיקה להבנת העסק, הכאבים והמטרות</div>
+    </div>
+    <div class="proc-step reveal" style="transition-delay:.1s">
+      <div class="step-n">02</div>
+      <div class="step-t">תכנון פתרון</div>
+      <div class="step-d">בניית מפת דרכים מותאמת עם הכלים הנכונים</div>
+    </div>
+    <div class="proc-step reveal" style="transition-delay:.2s">
+      <div class="step-n">03</div>
+      <div class="step-t">בנייה והטמעה</div>
+      <div class="step-d">פיתוח האוטומציות, QA ועלייה לאוויר</div>
+    </div>
+    <div class="proc-step reveal" style="transition-delay:.3s">
+      <div class="step-n">04</div>
+      <div class="step-t">ליווי ותמיכה</div>
+      <div class="step-d">הכשרה, תמיכה שוטפת ושיפורים מתמידים</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="s-label">// about_me</div>
+  <div class="s-divider"></div>
+  <h2 class="s-title">אז מי אני?</h2>
+
+  <div class="about-wrap">
+    <!-- Profile photo -->
+    <div class="reveal" style="display:flex;justify-content:center;align-items:center;">
+      <div style="position:relative;display:inline-block;">
+        <div style="
+          border-radius:12px;
+          border:1px solid rgba(0,229,255,0.3);
+          box-shadow:0 0 40px rgba(0,150,220,0.25), 0 0 80px rgba(0,229,255,0.08);
+          overflow:hidden;
+          position:relative;
+        ">
+          <img src="https://i.imgur.com/zVv2avL.jpeg" alt="בר צור"
+            style="display:block;width:100%;max-width:320px;height:auto;object-fit:cover;">
+          <!-- subtle cyan overlay at bottom -->
+          <div style="
+            position:absolute;bottom:0;left:0;right:0;height:80px;
+            background:linear-gradient(to top,rgba(0,20,45,0.55),transparent);
+            pointer-events:none;
+          "></div>
+        </div>
+        <!-- corner accents -->
+        <div style="position:absolute;top:-1px;right:-1px;width:18px;height:18px;border-top:2px solid var(--cyan);border-right:2px solid var(--cyan);border-radius:0 4px 0 0;"></div>
+        <div style="position:absolute;top:-1px;left:-1px;width:18px;height:18px;border-top:2px solid var(--cyan);border-left:2px solid var(--cyan);border-radius:4px 0 0 0;"></div>
+        <div style="position:absolute;bottom:-1px;right:-1px;width:18px;height:18px;border-bottom:2px solid var(--green);border-right:2px solid var(--green);border-radius:0 0 4px 0;"></div>
+        <div style="position:absolute;bottom:-1px;left:-1px;width:18px;height:18px;border-bottom:2px solid var(--green);border-left:2px solid var(--green);border-radius:0 0 0 4px;"></div>
+      </div>
+    </div>
+
+    <!-- Text content -->
+    <div class="about-text-wrap reveal" style="transition-delay:.15s">
+      <div class="s-label" style="text-align:right">// who_am_i</div>
+      <div class="s-divider" style="margin:0 0 16px"></div>
+      <h3 class="s-title" style="text-align:right;font-size:1.9rem">בר צור — מומחה אוטומציה עסקית</h3>
+
+      <p class="about-p">אז מי אני ולמה שתקחו דווקא את השירותים שלי? נעים מאוד, שמי <strong>בר צור</strong>, מומחה לאוטומציה עסקית ובעל תואר ב<strong>הנדסת תעשייה וניהול</strong>. הרקע ההנדסי שלי מעניק לי יכולות אנליטיות גבוהות, חשיבה מערכתית ויכולת להוביל תהליכים מורכבים – כל זאת תוך התאמה אישית לצרכי כל עסק.</p>
+      <p class="about-p">אני משלב בין <strong>הבנה עמוקה של תהליכים עסקיים</strong> לבין שליטה במערכות אוטומציה מתקדמות, במטרה לייעל את העבודה, לחסוך זמן ולמקסם תוצאות עבור לקוחותיי.</p>
+      <p class="about-p">האני מאמין שלי הוא ש<strong>שירות איכותי ויחס אישי הם הבסיס להצלחה</strong> – לכן, כל תהליך אוטומציה שאני בונה מותאם במיוחד לעסק ולמטרותיו, תוך ליווי צמוד ושקיפות מלאה. אני רואה בכל לקוח שותף לדרך, ופועל מתוך מחויבות להצלחתו.</p>
+
+      <div class="vals-grid">
+        <div class="val"><span class="val-i">🎯</span><div class="val-t"><strong>התאמה אישית</strong>כל פתרון מותאם לעסק הספציפי</div></div>
+        <div class="val"><span class="val-i">🤝</span><div class="val-t"><strong>שותפות אמיתית</strong>ליווי מהאפיון ועד ההטמעה</div></div>
+        <div class="val"><span class="val-i">⚡</span><div class="val-t"><strong>תוצאות מדידות</strong>חיסכון בזמן ועלייה בהמרות</div></div>
+        <div class="val"><span class="val-i">🔍</span><div class="val-t"><strong>שקיפות מלאה</strong>אתם תמיד יודעים מה קורה</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="s-label">// client_reviews</div>
+  <div class="s-divider"></div>
+  <h2 class="s-title">לקוחות מרוצים</h2>
+  <p class="s-sub">מה שמשנה הוא התוצאות שהלקוחות מקבלים</p>
+
+  <div class="test-grid">
+    <div class="test-card reveal">
+      <div class="stars">★★★★★</div>
+      <div class="q-icon">"</div>
+      <p class="test-txt">קיבלתי מבר שירות אישי ומקצועי, והצ'אטבוט נבנה בדיוק כמו שרציתי. הוא אוסף את כל הפרטים ומעביר אותם ל-CRM בצורה יעילה. פתרון מצוין שעושה לי סדר בעסק.</p>
+      <div class="test-author">
+        <div class="t-avatar"><img src="https://i.imgur.com/dbETj5I.png?auto=compress&cs=tinysrgb&w=300" alt="חן שאול" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
+        <div><div class="t-name">חן שאול</div><div class="t-role">מכון גמילה מהתמכרויות</div></div>
+      </div>
+    </div>
+    <div class="test-card reveal" style="transition-delay:.12s">
+      <div class="stars">★★★★★</div>
+      <div class="q-icon">"</div>
+      <p class="test-txt">בר מקצוען אמיתי, בנה לנו בהתנדבות מלאה את כל מערך האוטומציה — גיבויים, אוטומציות ב-Monday, תרחישים ב-Make, אינטגרציה מול האתר ומול מערכת הנהלת החשבונות.</p>
+      <div class="test-author">
+        <div class="t-avatar"><img src="https://i.imgur.com/kTf3FYg.png" alt="ניר בר-אל" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
+        <div><div class="t-name">ניר בר-אל</div><div class="t-role">מנהל עמותה DJsDoGood</div></div>
+      </div>
+    </div>
+    <div class="test-card reveal" style="transition-delay:.24s">
+      <div class="stars">★★★★★</div>
+      <div class="q-icon">"</div>
+      <p class="test-txt">השירות האישי של בר הפך את הוובינר לכלי מדויק בהבאת לידים. האוטומציה זיהתה את זמן הנוכחות ושלחה הודעות מותאמות אישית ברגע הנכון.</p>
+      <div class="test-author">
+        <div class="t-avatar"><img src="https://i.imgur.com/pXN5lNk.png" alt="אלדד אהרוני" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
+        <div><div class="t-name">אלדד אהרוני</div><div class="t-role">יועץ ביוטי עסקי</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-box reveal">
+    <div class="cta-frame">
+      <div class="br br-tl"></div><div class="br br-tr"></div>
+      <div class="br br-bl"></div><div class="br br-br"></div>
+      <div class="s-label">// ready_to_start?</div>
+      <div class="s-divider"></div>
+      <h2 class="cta-title">בואו נבנה את האוטומציה שתשנה את העסק שלך</h2>
+      <p class="cta-sub">שיחת ייעוץ ראשונה ללא עלות — נבין את הצרכים ונבנה תכנית מותאמת אישית.</p>
+      <div class="cta-btns">
+        <a href="https://wa.me/972526761879" class="btn-wa" target="_blank">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          שלח הודעה בוואטסאפ
+        </a>
+        <a href="mailto:barzurbar1@gmail.com" class="btn-p">שלח אימייל</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT FORM -->
+<section id="contact" style="padding:100px 60px;position:relative;z-index:2;">
+  <div class="s-label">// leave_details</div>
+  <div class="s-divider"></div>
+  <h2 class="s-title">השאירו פרטים ונחזור אליכם</h2>
+  <p class="s-sub">מלאו את הטופס ובר יחזור אליכם תוך 24 שעות לשיחת ייעוץ ראשונה ללא עלות.</p>
+
+  <form id="contact-form" style="max-width:560px;margin:0 auto;" onsubmit="handleSubmit(event)">
+    <div style="display:flex;flex-direction:column;gap:18px;">
+
+      <div class="field-wrap">
+        <label class="field-label">שם מלא</label>
+        <div class="field-inner">
+          <span class="field-icon">👤</span>
+          <input type="text" name="name" placeholder="ישראל ישראלי" required class="form-input">
+        </div>
+      </div>
+
+      <div class="field-wrap">
+        <label class="field-label">כתובת מייל</label>
+        <div class="field-inner">
+          <span class="field-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg></span>
+          <input type="email" name="email" placeholder="israel@example.com" required class="form-input">
+        </div>
+      </div>
+
+      <div class="field-wrap">
+        <label class="field-label">טלפון</label>
+        <div class="field-inner">
+          <span class="field-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.01 2.18 2 2 0 012 .01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span>
+          <input type="tel" name="phone" id="phone-input" placeholder="050-0000000" required class="form-input">
+        </div>
+      </div>
+
+      <div class="field-wrap">
+        <label class="field-label">אילו תהליכים הייתם רוצים לייעל או להפוך לאוטומטיים?</label>
+        <div class="field-inner" style="align-items:flex-start;padding-top:12px;padding-bottom:12px;">
+          <span class="field-icon" style="margin-top:2px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
+          <textarea name="notes" placeholder="לדוגמא: ניהול לידים, תזכורות אוטומטיות, צ'אטבוט..." rows="4" class="form-input" style="resize:vertical;min-height:100px;padding-top:2px;"></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="form-btn">
+        <span id="btn-text">שליחה →</span>
+      </button>
+
+      <div id="form-success" style="display:none;text-align:center;padding:14px;border:1px solid var(--green);border-radius:6px;color:var(--green);font-family:'Share Tech Mono',monospace;font-size:.9rem;background:rgba(0,255,157,0.06);">
+        ✓ &nbsp;הפרטים נשלחו בהצלחה! נחזור אליך בקרוב.
+      </div>
+    </div>
+  </form>
+</section>
+
+<style>
+.field-wrap{display:flex;flex-direction:column;gap:7px}
+.field-label{font-family:'Share Tech Mono',monospace;font-size:1rem;color:var(--green);letter-spacing:1px;font-weight:600}
+.field-inner{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(0,30,55,.6);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:0 14px;
+  transition:border-color .25s,box-shadow .25s;
+}
+.field-inner:focus-within{
+  border-color:rgba(0,229,255,.55);
+  box-shadow:0 0 12px rgba(0,229,255,.15);
+}
+.field-icon{font-size:1rem;flex-shrink:0}
+.form-input{
+  flex:1;background:transparent;border:none;outline:none;
+  color:var(--text);font-family:'Heebo',sans-serif;
+  font-size:.97rem;padding:14px 0;
+  direction:rtl;
+}
+.form-input::placeholder{color:var(--dim)}
+.form-input:-webkit-autofill,
+.form-input:-webkit-autofill:hover,
+.form-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(0,30,55,1) inset !important;
+  -webkit-text-fill-color: var(--text) !important;
+  caret-color: var(--text);
+}
+.form-btn{
+  margin-top:6px;
+  padding:15px;
+  background:linear-gradient(135deg,#005599,#00aaee);
+  color:#fff;border:none;border-radius:6px;
+  font-size:1rem;font-weight:700;
+  cursor:pointer;font-family:'Heebo',sans-serif;
+  transition:transform .2s,box-shadow .3s;
+  box-shadow:0 4px 20px rgba(0,120,220,.4);
+  letter-spacing:.5px;
+}
+.form-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,180,255,.5)}
+.form-btn:active{transform:translateY(0)}
+</style>
+
+<script>
+async function handleSubmit(e){
+  e.preventDefault();
+  const btn = document.getElementById('btn-text');
+  const form = document.getElementById('contact-form');
+  const successEl = document.getElementById('form-success');
+
+  btn.textContent = 'שולח...';
+  form.querySelector('button').disabled = true;
+
+  const data = {
+    name:  form.querySelector('[name="name"]').value.trim(),
+    email: form.querySelector('[name="email"]').value.trim(),
+    phone: form.querySelector('[name="phone"]').value.trim(),
+    notes: form.querySelector('[name="notes"]').value.trim(),
+  };
+
+  try {
+    await fetch('https://hook.eu2.make.com/na3lymff2u6vueurwm9yi28k8l8x7npd', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    form.reset();
+    successEl.style.display = 'block';
+    setTimeout(() => { successEl.style.display = 'none'; }, 5000);
+  } catch (err) {
+    alert('אירעה שגיאה בשליחה. אנא נסו שוב או פנו אלינו ישירות.');
+  } finally {
+    btn.textContent = 'שליחה →';
+    form.querySelector('button').disabled = false;
+  }
+}
+
+// Normalize phone: convert +972X... → 0X...
+(function(){
+  const phoneInput = document.getElementById('phone-input');
+  if(!phoneInput) return;
+  function normalizePhone(){
+    let v = phoneInput.value.trim();
+    // +9725... → 05...
+    if(v.startsWith('+9720')) v = '0' + v.slice(4);
+    else if(v.startsWith('+972')) v = '0' + v.slice(4);
+    // 9725... → 05...
+    else if(v.startsWith('9720')) v = '0' + v.slice(3);
+    else if(v.startsWith('972')) v = '0' + v.slice(3);
+    phoneInput.value = v;
+  }
+  phoneInput.addEventListener('change', normalizePhone);
+  phoneInput.addEventListener('blur', normalizePhone);
+  // Also catch autocomplete (animationstart trick)
+  phoneInput.addEventListener('animationstart', normalizePhone);
+})();
+</script>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">⚙ BAR.ZUR // AUTOMATION</div>
+  <div class="f-copy">© 2025 ALL_RIGHTS_RESERVED</div>
+  <div class="f-links">
+    <a href="#services">services</a>
+    <a href="#about">about</a>
+    <a href="#cta">contact</a>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════
+   PCB CIRCUIT BOARD BACKGROUND CANVAS
+══════════════════════════════════════════ */
+(function(){
+  const canvas = document.getElementById('pcb-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+
+  function resize(){
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    buildCircuit();
+  }
+
+  const GRID = 60;
+  let nodes = [], edges = [], pulses = [];
+
+  function buildCircuit(){
+    nodes = []; edges = []; pulses = [];
+    const cols = Math.ceil(W / GRID) + 1;
+    const rows = Math.ceil(H / GRID) + 1;
+
+    // Create grid nodes (not all — random subset)
+    for(let r = 0; r < rows; r++){
+      for(let c = 0; c < cols; c++){
+        if(Math.random() < 0.45){
+          nodes.push({
+            x: c * GRID + (Math.random()-0.5)*10,
+            y: r * GRID + (Math.random()-0.5)*10,
+            r: Math.random() < 0.15 ? 3.5 : 1.8,
+            alpha: Math.random()*0.5+0.2,
+            pulse: Math.random()*Math.PI*2
+          });
+        }
+      }
+    }
+
+    // Connect nearby nodes with orthogonal-ish lines
+    for(let i=0;i<nodes.length;i++){
+      let connected = 0;
+      for(let j=i+1;j<nodes.length;j++){
+        if(connected >= 2) break;
+        const dx = Math.abs(nodes[i].x - nodes[j].x);
+        const dy = Math.abs(nodes[i].y - nodes[j].y);
+        if((dx < GRID*1.4 && dy < 18) || (dy < GRID*1.4 && dx < 18)){
+          edges.push({a:i, b:j, alpha: Math.random()*0.2+0.06});
+          connected++;
+        }
+      }
+    }
+
+    // Seed some pulses
+    for(let i=0;i<edges.length;i++){
+      if(Math.random()<0.05){
+        spawnPulse(i);
+      }
+    }
+  }
+
+  function spawnPulse(edgeIdx){
+    pulses.push({
+      edge: edgeIdx,
+      t: 0,
+      speed: Math.random()*0.008 + 0.004,
+      color: Math.random() < 0.6 ? '#00e5ff' : '#00ff9d',
+      r: Math.random() < 0.3 ? 3 : 2
+    });
+  }
+
+  let frameId;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    const t = Date.now() * 0.001;
+
+    // Very faint hex grid
+    ctx.strokeStyle = 'rgba(0,100,160,0.04)';
+    ctx.lineWidth = 1;
+    for(let x=0;x<W;x+=GRID){
+      ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();
+    }
+    for(let y=0;y<H;y+=GRID){
+      ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
+    }
+
+    // Edges
+    edges.forEach(e=>{
+      const a = nodes[e.a], b = nodes[e.b];
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      // Orthogonal routing: go horizontal then vertical
+      const mx = b.x;
+      ctx.lineTo(mx, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.strokeStyle = `rgba(0,180,220,${e.alpha * 0.45})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
+
+    // Nodes
+    nodes.forEach(n=>{
+      n.pulse += 0.025;
+      const glow = 0.3 + 0.25*Math.sin(n.pulse);
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(0,229,255,${glow * n.alpha})`;
+      ctx.fill();
+      if(n.r > 2.5){
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r+3, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(0,229,255,${glow*0.15})`;
+        ctx.fill();
+      }
+    });
+
+    // Pulses (data packets moving along edges)
+    pulses.forEach((p,i)=>{
+      const e = edges[p.edge];
+      if(!e){ pulses.splice(i,1); return; }
+      const a = nodes[e.a], b = nodes[e.b];
+      p.t += p.speed;
+      if(p.t > 1){ p.t = 0; if(Math.random()<0.3) p.edge = Math.floor(Math.random()*edges.length); }
+
+      // Follow the orthogonal path
+      let px, py;
+      const half = 0.5;
+      if(p.t < half){
+        const tt = p.t / half;
+        px = a.x + (b.x - a.x)*tt;
+        py = a.y;
+      } else {
+        const tt = (p.t - half)/half;
+        px = b.x;
+        py = a.y + (b.y - a.y)*tt;
+      }
+
+      // Glow trail
+      const grad = ctx.createRadialGradient(px,py,0,px,py,p.r*4);
+      grad.addColorStop(0, p.color.replace('ff','cc')+'cc');
+      grad.addColorStop(1, 'transparent');
+      ctx.beginPath();
+      ctx.arc(px, py, p.r*4, 0, Math.PI*2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(px, py, p.r, 0, Math.PI*2);
+      ctx.fillStyle = p.color;
+      ctx.shadowColor = p.color;
+      ctx.shadowBlur = 3;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+
+    // Occasionally spawn new pulses
+    if(Math.random()<0.015 && edges.length){
+      spawnPulse(Math.floor(Math.random()*edges.length));
+      if(pulses.length > 35) pulses.shift();
+    }
+
+    frameId = requestAnimationFrame(draw);
+  }
+
+  resize();
+  window.addEventListener('resize', ()=>{ cancelAnimationFrame(frameId); resize(); draw(); });
+  draw();
+})();
+
+/* ══════════════════════════════════════════
+   HERO GEAR + CIRCUIT CANVAS
+══════════════════════════════════════════ */
+(function(){
+  const c = document.getElementById('gear-canvas');
+  if(!c) return;
+  const ctx = c.getContext('2d');
+  const cx = 100, cy = 100, R = 44, teeth = 10;
+  let angle = 0;
+
+  const circuitLines = [
+    {ox:R+4, oy:0,  dx:30, dy:0,  branch:[{bx:0,by:-16}]},
+    {ox:0,   oy:R+4,dx:0,  dy:30, branch:[{bx:14,by:0}]},
+    {ox:-R-4,oy:0,  dx:-28,dy:0,  branch:[{bx:0,by:12}]},
+    {ox:0,   oy:-R-4,dx:0,dy:-26,branch:[{bx:-12,by:0}]},
+    {ox:(R+4)*.7,oy:(R+4)*.7,dx:20,dy:20,branch:[]},
+  ];
+
+  function drawGear(ctx, x, y, r, teethN, ia){
+    const toothH = r*0.22, toothW = (2*Math.PI/teethN)*0.4;
+    ctx.beginPath();
+    for(let i=0;i<teethN;i++){
+      const a = ia + (i/teethN)*Math.PI*2;
+      const a1=a-toothW/2, a2=a-toothW*0.15, a3=a+toothW*0.15, a4=a+toothW/2;
+      ctx.lineTo(Math.cos(a1)*(r)+x, Math.sin(a1)*(r)+y);
+      ctx.lineTo(Math.cos(a2)*(r+toothH)+x, Math.sin(a2)*(r+toothH)+y);
+      ctx.lineTo(Math.cos(a3)*(r+toothH)+x, Math.sin(a3)*(r+toothH)+y);
+      ctx.lineTo(Math.cos(a4)*(r)+x, Math.sin(a4)*(r)+y);
+    }
+    ctx.closePath();
+  }
+
+  let pulseT = 0;
+  function frame(){
+    ctx.clearRect(0,0,200,200);
+    angle += 0.006;
+    pulseT += 0.04;
+
+    // Gear body
+    ctx.save();
+    drawGear(ctx, cx, cy, R, teeth, angle);
+    const g = ctx.createLinearGradient(cx-R, cy-R, cx+R, cy+R);
+    g.addColorStop(0,'#0055aa');
+    g.addColorStop(1,'#00aacc');
+    ctx.fillStyle = g;
+    ctx.shadowColor = '#00e5ff';
+    ctx.shadowBlur = 18;
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(0,229,255,0.7)';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+    ctx.restore();
+
+    // Inner circle
+    ctx.beginPath();
+    ctx.arc(cx, cy, R*0.42, 0, Math.PI*2);
+    ctx.fillStyle = '#040d14';
+    ctx.fill();
+    ctx.strokeStyle = '#00ff9d';
+    ctx.lineWidth = 1.5;
+    ctx.shadowColor = '#00ff9d';
+    ctx.shadowBlur = 10;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // Center dot
+    ctx.beginPath();
+    ctx.arc(cx, cy, R*0.14, 0, Math.PI*2);
+    ctx.fillStyle = '#00e5ff';
+    ctx.shadowColor = '#00e5ff';
+    ctx.shadowBlur = 12;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // Circuit lines
+    circuitLines.forEach(l=>{
+      const ex = cx + l.ox + l.dx, ey = cy + l.oy + l.dy;
+      ctx.strokeStyle = 'rgba(0,229,255,0.5)';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(cx + l.ox, cy + l.oy);
+      ctx.lineTo(ex, ey);
+      ctx.stroke();
+
+      l.branch.forEach(b=>{
+        ctx.beginPath();
+        ctx.moveTo(ex, ey);
+        ctx.lineTo(ex+b.bx, ey+b.by);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(ex+b.bx, ey+b.by, 2.5, 0, Math.PI*2);
+        ctx.fillStyle = '#00ff9d';
+        ctx.shadowColor = '#00ff9d';
+        ctx.shadowBlur = 8;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      ctx.beginPath();
+      ctx.arc(ex, ey, 2.2, 0, Math.PI*2);
+      const bright = 0.5 + 0.5*Math.sin(pulseT + l.ox);
+      ctx.fillStyle = `rgba(0,229,255,${bright})`;
+      ctx.fill();
+    });
+
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ══════════════════════════════════════════
+   COUNTERS
+══════════════════════════════════════════ */
+function runCounters(){
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const target = parseInt(el.getAttribute('data-count'));
+    let cur = 0;
+    const step = Math.max(1, Math.ceil(target/60));
+    const iv = setInterval(()=>{
+      cur = Math.min(cur+step, target);
+      el.textContent = cur + (target===100?'%':'+');
+      if(cur>=target) clearInterval(iv);
+    }, 28);
+  });
+}
+const statsObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ runCounters(); statsObs.disconnect(); } });
+},{threshold:.4});
+const statsEl = document.querySelector('.hero-stats');
+if(statsEl) statsObs.observe(statsEl);
+
+/* ══════════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════════ */
+const revObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); revObs.unobserve(e.target); } });
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+/* ══════════════════════════════════════════
+   SMOOTH SCROLL + NAV SCROLL STYLE
+══════════════════════════════════════════ */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if(t) t.scrollIntoView({behavior:'smooth'});
+  });
+});
+window.addEventListener('scroll',()=>{
+  document.querySelector('nav').style.background =
+    window.scrollY > 60 ? 'rgba(4,13,20,0.98)' : 'rgba(4,13,20,0.92)';
+});
+</script>
+</body>
+</html>
