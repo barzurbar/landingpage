@@ -1085,6 +1085,63 @@ footer{
 @media (max-width:420px){
   .modal{max-width:100%}
 }
+
+/* ===== onboarding demo (status change) ===== */
+.ob-txt{font-size:.95rem;line-height:1.7;color:var(--text);margin-bottom:14px}
+.ob-hint-txt{font-size:.85rem;color:var(--cyan);text-align:center;margin:12px 0 16px;min-height:1.4em}
+.ob-crm{
+  background:#fff;border-radius:8px;border:1px solid var(--border);
+  box-shadow:0 8px 28px rgba(0,0,0,.35);color:#1f2d3d;
+  font-family:'Heebo',sans-serif;font-size:.82rem;position:relative;
+  padding-bottom:6px;
+}
+.ob-row{display:grid;grid-template-columns:1.4fr 1fr 1.1fr;align-items:center;gap:8px;padding:8px 10px}
+.ob-row.head{border-bottom:1px solid #e3e8ee;color:#6b7785;font-size:.78rem}
+.ob-type{border:1px solid #2f7fd8;color:#2f7fd8;border-radius:4px;padding:3px 6px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ob-client{color:#2f7fd8}
+.ob-status-cell{position:relative}
+.ob-status{
+  width:100%;border:none;border-radius:3px;padding:6px 4px;cursor:pointer;
+  font-family:'Heebo',sans-serif;font-weight:700;font-size:.8rem;
+  background:#a9b3bf;color:#fff;transition:background .3s;
+}
+.ob-status.done{background:#1e90e0}
+.ob-menu{
+  margin:4px 10px 4px;border:1px solid #e3e8ee;border-radius:6px;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);background:#fff;padding:8px 0;
+}
+.ob-menu[hidden]{display:none}
+.ob-search{
+  margin:0 10px 8px;border:1.5px solid #1f2d3d;border-radius:6px;
+  padding:6px 10px;color:#9aa5b1;display:flex;justify-content:space-between;align-items:center;
+}
+.ob-group{color:#6b7785;font-size:.76rem;padding:4px 14px}
+.ob-opt{
+  display:flex;align-items:center;gap:8px;width:100%;
+  background:none;border:none;padding:8px 14px;cursor:pointer;
+  font-family:'Heebo',sans-serif;font-weight:700;font-size:.82rem;color:#1f2d3d;text-align:right;
+  position:relative;
+}
+.ob-opt:hover{background:#f2f6fa}
+.ob-opt:disabled{cursor:default}
+.ob-opt:disabled:hover{background:none}
+.ob-sq{width:11px;height:11px;border-radius:2px;flex-shrink:0}
+.ob-check{margin-right:auto;font-size:.9rem}
+.ob-pulse{animation:obPulse 1.3s ease-in-out infinite;border-radius:4px;z-index:1}
+@keyframes obPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(0,229,255,.9)}
+  60%{box-shadow:0 0 0 7px rgba(0,229,255,0)}
+}
+.ob-status{position:relative}
+.ob-status.ob-pulse{padding-left:28px}
+.ob-pointer{
+  position:absolute;left:8px;top:50%;transform:translateY(-50%);
+  font-size:1rem;animation:obNudge 1s ease-in-out infinite;pointer-events:none;
+}
+.ob-pointer[hidden]{display:none}
+@keyframes obNudge{0%,100%{left:8px}50%{left:14px}}
+#obWaWrap{margin-top:16px}
+#obWaWrap[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -1212,6 +1269,9 @@ footer{
             <li>איסוף תמונות תעודת זהות</li>
             <li>תיאום פגישה עם הלקוח</li>
           </ul>
+          <button class="demo-cta" id="openObModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
 
         <div class="srv-card">
@@ -2466,6 +2526,82 @@ window.addEventListener('scroll',()=>{
 
   wireWaButtons();
   render();
+})();
+</script>
+<div class="overlay" id="obOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="obTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="obTitle">// שלב 1 — שינוי סטטוס בשורנס</div>
+      <button class="modal-close" id="obClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="ob-txt">האוטומציה מתחילה ברגע שמשנים בשורנס את הסטטוס של הליד ל"תהליך קליטת לקוח".</p>
+      <div class="ob-crm">
+        <div class="ob-row head"><span>סוג ליד</span><span>לקוח</span><span>סטטוס ↓</span></div>
+        <div class="ob-row">
+          <span class="ob-type">בדיקת תיק ללקוח חדש</span>
+          <span class="ob-client">בדיקה בר</span>
+          <span class="ob-status-cell">
+            <button class="ob-status ob-pulse" id="obStatus" type="button"><span id="obStatusTxt">חדש</span><span class="ob-pointer" id="obPtr1" aria-hidden="true">👉</span></button>
+          </span>
+        </div>
+        <div class="ob-menu" id="obMenu" hidden>
+          <div class="ob-search"><span>חיפוש</span><span>⚙</span></div>
+          <div class="ob-group">פתוח</div>
+          <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#f07b1d"></span>נשלחה בקשה למשוב</button>
+          <button class="ob-opt ob-pulse" id="obPick" type="button"><span class="ob-sq" style="background:#1e90e0"></span>תהליך קליטת לקוח<span class="ob-pointer" aria-hidden="true">👉</span></button>
+          <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#a9b3bf"></span>חדש<span class="ob-check">✓</span></button>
+        </div>
+      </div>
+      <p class="ob-hint-txt" id="obHint">לחצו על הסטטוס "חדש"</p>
+      <div id="obWaWrap" hidden>
+        <button class="wa-cta" id="obToWa" type="button">▶ פתח סימולציית WhatsApp</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('obOverlay');
+  const status = document.getElementById('obStatus');
+  const ptr1 = document.getElementById('obPtr1');
+  const menu = document.getElementById('obMenu');
+  const pick = document.getElementById('obPick');
+  const hint = document.getElementById('obHint');
+  const waWrap = document.getElementById('obWaWrap');
+
+  function reset(){
+    document.getElementById('obStatusTxt').textContent='חדש';
+    status.classList.remove('done');
+    status.classList.add('ob-pulse');
+    status.disabled=false;
+    ptr1.hidden=false;
+    menu.hidden=true;
+    waWrap.hidden=true;
+    hint.hidden=false;
+    hint.textContent='לחצו על הסטטוס "חדש"';
+  }
+  function close(){ ov.hidden=true; }
+
+  status.addEventListener('click', ()=>{
+    menu.hidden=false;
+    status.classList.remove('ob-pulse');
+    ptr1.hidden=true;
+    hint.textContent='בחרו בסטטוס "תהליך קליטת לקוח"';
+  });
+  pick.addEventListener('click', ()=>{
+    menu.hidden=true;
+    document.getElementById('obStatusTxt').textContent='תהליך קליטת לקוח';
+    status.classList.add('done');
+    status.disabled=true;
+    hint.textContent='✓ הסטטוס עודכן, האוטומציה הופעלה';
+    setTimeout(()=>{ waWrap.hidden=false; }, 500);
+  });
+
+  document.getElementById('openObModal').addEventListener('click', ()=>{ reset(); ov.hidden=false; });
+  document.getElementById('obClose').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
 </script>
 </body>
