@@ -2558,7 +2558,7 @@ window.addEventListener('scroll',()=>{
     <div class="modal-head">
       <div class="modal-head-title" id="obTitle">
         <span id="obStepLabel">// שלב 1 — שינוי סטטוס בשורנס</span>
-        <span class="step-dots" aria-hidden="true"><i class="on" data-ob-dot="1"></i><i data-ob-dot="2"></i><i data-ob-dot="3"></i><i data-ob-dot="4"></i><i data-ob-dot="5"></i></span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-ob-dot="1"></i><i data-ob-dot="2"></i><i data-ob-dot="3"></i><i data-ob-dot="4"></i><i data-ob-dot="5"></i><i data-ob-dot="6"></i><i data-ob-dot="7"></i><i data-ob-dot="8"></i><i data-ob-dot="9"></i></span>
       </div>
       <button class="modal-close" id="obClose" aria-label="סגור" type="button">✕</button>
     </div>
@@ -2654,6 +2654,90 @@ window.addEventListener('scroll',()=>{
         </div>
       </div>
 
+      <!-- OB STEP 6: power of attorney (copied from the periodic-meetings demo) -->
+      <div class="step" data-ob-step="6">
+        <p class="step-txt" style="margin-bottom:12px">אחרי החתימה על ייפוי הכוח, הלקוח מקבל מסך אישור:</p>
+        <div class="poa-frame">
+          <div class="poa-logo">🧭</div>
+          <div class="poa-brand">המצפן סוכנות לביטוח</div>
+          <div class="poa-brand-sub">פיננסים | ביטוח | פנסיה</div>
+          <div class="poa-heading">אתם בידיים טובות!</div>
+          <button class="poa-continue" id="obPoaContinue" type="button">המשך</button>
+        </div>
+      </div>
+
+      <!-- OB STEP 7: details -->
+      <div class="step" data-ob-step="7">
+        <p class="step-txt" style="margin-bottom:12px">ולבסוף, אימות ועדכון הפרטים האישיים של הלקוח:</p>
+        <div class="frm-frame">
+          <div class="frm-heading">כמה פרטים עליך</div>
+
+          <div class="frm-field">
+            <label>שם פרטי</label>
+            <div class="frm-box"><span class="frm-val">דניאל</span><span class="fi">👤</span></div>
+          </div>
+
+          <div class="frm-field">
+            <label>שם משפחה</label>
+            <div class="frm-box"><span class="frm-val">ישראלי</span><span class="fi">👤</span></div>
+          </div>
+
+          <div class="frm-row">
+            <div class="frm-field">
+              <label>תעודת זהות</label>
+              <div class="frm-box"><span class="frm-val">20222222</span><span class="fi">🪪</span></div>
+            </div>
+            <div class="frm-dd"><span>ת.ז</span><span>⌄</span></div>
+          </div>
+
+          <div class="frm-field">
+            <label>סלולרי</label>
+            <div class="frm-box"><span class="frm-val">052-123-4567</span><span class="fi">📱</span></div>
+          </div>
+
+          <div class="frm-field">
+            <label>דוא"ל</label>
+            <div class="frm-box"><span class="frm-val">danielisraeli@gmail.com</span><span class="fi">✉️</span></div>
+          </div>
+
+          <div class="frm-checks">
+            <label class="frm-check">
+              <p>הריני לאשר את <a href="#" onclick="return false">תנאי השימוש</a> ו<a href="#" onclick="return false">מדיניות הפרטיות</a> של האתר</p>
+              <input type="checkbox" checked>
+            </label>
+            <label class="frm-check">
+              <p>הריני לאשר קבלת מידע שיווקי, פרסומי, הודעות והצעות לרכישת מוצרים</p>
+              <input type="checkbox">
+            </label>
+          </div>
+
+          <div class="frm-continue-wrap">
+            <button class="poa-continue" id="obFrmContinue" type="button">המשך</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- OB STEP 8: insurance POA signature -->
+      <div class="step" data-ob-step="8">
+        <p class="step-txt" style="margin-bottom:12px">ולבסוף, חתימה על ייפוי כוח לחברות הביטוח (עם חתימה שכבר מולאה מראש):</p>
+        <div class="sig-frame">
+          <div class="sig-heading">כדי לבדוק את הביטוחים שלך...</div>
+          <div class="sig-desc">הריני לאשר בחתימתי בפנייתכם לחברות הביטוח לקבלת העתקי הפוליסות שלי ושל ילדיי הקטנים</div>
+          <a class="sig-poa-link" href="#" onclick="return false">לצפייה בייפוי הכוח</a>
+          <div class="sig-box">
+            <span class="sig-name">דניאל ישראלי</span>
+            <svg class="sig-flourish" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 14 C 30 4, 50 20, 80 10 S 130 2, 160 12 S 190 18, 198 8" stroke="#1a3a6b" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <a class="sig-redo" href="#" onclick="return false">מחק וחתום שוב</a>
+          <div class="frm-continue-wrap">
+            <button class="poa-continue" id="obSigContinue" type="button">המשך</button>
+          </div>
+        </div>
+      </div>
+
+
     </div>
   </div>
 </div>
@@ -2669,12 +2753,12 @@ window.addEventListener('scroll',()=>{
   const waWrap = document.getElementById('obWaWrap');
   const waBody = document.getElementById('obWaBody');
   const stepLabel = document.getElementById('obStepLabel');
-  const labels = {1:'// שלב 1 — שינוי סטטוס בשורנס',2:'// שלב 2 — הודעת WhatsApp',3:'// שלב 3 — הסכם שכר טרחה',4:'// שלב 4 — חתימה על ההסכם',5:'// שלב 5 — אישור החתימה'};
+  const labels = {1:'// שלב 1 — שינוי סטטוס בשורנס',2:'// שלב 2 — הודעת WhatsApp',3:'// שלב 3 — הסכם שכר טרחה',4:'// שלב 4 — חתימה על ההסכם',5:'// שלב 5 — אישור החתימה',6:'// שלב 6 — חתימה על ייפוי כוח',7:'// שלב 7 — אימות פרטים',8:'// שלב 8 — חתימה על ייפוי כוח לביטוחים',9:'// שלב 9 — סיום'};
   let timers = [];
 
   function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
   function show(n){
-    const view = n===5 ? 2 : n;
+    const view = (n===5 || n===9) ? 2 : n;
     document.querySelectorAll('[data-ob-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.obStep)===view));
     document.querySelectorAll('[data-ob-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.obDot)<=n));
     stepLabel.textContent = labels[n];
@@ -2754,7 +2838,27 @@ window.addEventListener('scroll',()=>{
     show(5);
     scrollBottom();
     sendMsg('היי דניאל,\nקיבלנו את החתימה שלך על ההסכם – תודה רבה!🙏\n\nהשלב הבא הוא חתימה על נספחי הרשאות, שיאפשרו לנו לפנות בשמך לגופים הרלוונטיים ולקבל מידע חיוני לצורך התהליך.\n\n✍לחתימה על ההרשאות – יש ללחוץ על הכפתור מטה👇\n\nלכל שאלה – אנחנו כאן,\nהמצפן סוכנות לביטוח',
-      'לחתימה על נספחים', null);
+      'לחתימה על נספחים', ()=>show(6));
+  });
+
+  document.getElementById('obPoaContinue').addEventListener('click', ()=>show(7));
+  document.getElementById('obFrmContinue').addEventListener('click', ()=>show(8));
+  document.getElementById('obSigContinue').addEventListener('click', ()=>{
+    show(9);
+    scrollBottom();
+    const t = typing();
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      b.textContent = 'תודה על אישור וחתימת הנספחים.\nהכל התקבל ונקלט בהצלחה.\nנתראה בקרוב 😊\nהמצפן סוכנות לביטוח';
+      const tm = document.createElement('div');
+      tm.className = 'wa-time';
+      tm.textContent = now();
+      b.appendChild(tm);
+      waBody.appendChild(b);
+      scrollBottom();
+    }, 900);
   });
 
   document.getElementById('openObModal').addEventListener('click', ()=>{ reset(); ov.hidden=false; });
