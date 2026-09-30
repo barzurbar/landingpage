@@ -2594,9 +2594,9 @@ window.addEventListener('scroll',()=>{
           <div class="ob-menu" id="obMenu" hidden>
             <div class="ob-search"><span>חיפוש</span><span>⚙</span></div>
             <div class="ob-group">פתוח</div>
-            <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#f07b1d"></span>נשלחה בקשה למשוב</button>
-            <button class="ob-opt ob-pulse" id="obPick" type="button"><span class="ob-sq" style="background:#1e90e0"></span>תהליך קליטת לקוח<span class="ob-pointer" aria-hidden="true">👉</span></button>
             <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#a9b3bf"></span>חדש<span class="ob-check">✓</span></button>
+            <button class="ob-opt ob-pulse" id="obPick" type="button"><span class="ob-sq" style="background:#1e90e0"></span>תהליך קליטת לקוח<span class="ob-pointer" aria-hidden="true">👉</span></button>
+            <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#f07b1d"></span>נשלחה בקשה למשוב</button>
           </div>
         </div>
         <p class="ob-hint-txt" id="obHint">לחצו על הסטטוס "חדש"</p>
@@ -2914,7 +2914,7 @@ window.addEventListener('scroll',()=>{
   document.getElementById('obConfirmSig').addEventListener('click', ()=>{
     show(5);
     scrollBottom();
-    sendMsg('היי דניאל,\nקיבלנו את החתימה שלך על ההסכם – תודה רבה!🙏\n\nהשלב הבא הוא חתימה על נספחי הרשאות, שיאפשרו לנו לפנות בשמך לגופים הרלוונטיים ולקבל מידע חיוני לצורך התהליך.\n\n✍לחתימה על ההרשאות – יש ללחוץ על הכפתור מטה👇\n\nלכל שאלה – אנחנו כאן,\nהמצפן סוכנות לביטוח',
+    sendMsg('קיבלנו את החתימה שלך על ההסכם – תודה רבה!🙏\n\nהשלב הבא הוא חתימה על נספחי הרשאות, שיאפשרו לנו לפנות בשמך לגופים הרלוונטיים ולקבל מידע חיוני לצורך התהליך.\n\n✍לחתימה על ההרשאות – יש ללחוץ על הכפתור מטה👇\n\nלכל שאלה – אנחנו כאן,\nהמצפן סוכנות לביטוח',
       'לחתימה על נספחים', ()=>show(6));
   });
 
