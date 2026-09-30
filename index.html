@@ -2558,7 +2558,7 @@ window.addEventListener('scroll',()=>{
     <div class="modal-head">
       <div class="modal-head-title" id="obTitle">
         <span id="obStepLabel">// שלב 1 — שינוי סטטוס בשורנס</span>
-        <span class="step-dots" aria-hidden="true"><i class="on" data-ob-dot="1"></i><i data-ob-dot="2"></i><i data-ob-dot="3"></i><i data-ob-dot="4"></i><i data-ob-dot="5"></i><i data-ob-dot="6"></i><i data-ob-dot="7"></i><i data-ob-dot="8"></i><i data-ob-dot="9"></i></span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-ob-dot="1"></i><i data-ob-dot="2"></i><i data-ob-dot="3"></i><i data-ob-dot="4"></i><i data-ob-dot="5"></i><i data-ob-dot="6"></i><i data-ob-dot="7"></i><i data-ob-dot="8"></i><i data-ob-dot="9"></i><i data-ob-dot="10"></i><i data-ob-dot="11"></i></span>
       </div>
       <button class="modal-close" id="obClose" aria-label="סגור" type="button">✕</button>
     </div>
@@ -2653,6 +2653,40 @@ window.addEventListener('scroll',()=>{
           </div>
         </div>
       </div>
+
+      <!-- OB STEP 10: meeting booking (copied from the periodic-meetings demo) -->
+      <div class="step" data-ob-step="10">
+        <p class="step-txt" style="margin-bottom:12px">הלקוח מועבר לחלון בחירת מועד, עם היומן והזמינות האמיתיים של הסוכנות:</p>
+        <div class="bk-frame">
+          <div class="bk-head">
+            <div class="bk-org"><b>המצפן סוכנות לביטוח</b></div>
+            <div class="bk-logo">🧭</div>
+          </div>
+          <div class="bk-titlebox">
+            <h4 id="obBkTitle">פגישה ראשונה</h4>
+            <div class="bk-meta">
+              <span>⏱ 30 דק'</span>
+              <span>📍 2 אפשרויות מיקום</span>
+              <span>🌍 Asia/Jerusalem</span>
+            </div>
+          </div>
+          <div class="bk-cal-nav"><span>‹</span><span>אוקטובר 2026</span><span>›</span></div>
+          <div class="bk-grid" id="obBkGrid">
+            <div class="wd">שבת</div><div class="wd">יום ו</div><div class="wd">יום ה</div><div class="wd">יום ד</div><div class="wd">יום ג</div><div class="wd">יום ב</div><div class="wd">יום א</div>
+            <div class="d mute">3</div><div class="d mute">2</div><div class="d mute">1</div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+            <div class="d pick" data-date="2026-10-10" data-wd="שבת">10</div><div class="d pick" data-date="2026-10-09" data-wd="שישי">9</div><div class="d pick" data-date="2026-10-08" data-wd="חמישי">8</div><div class="d pick" data-date="2026-10-07" data-wd="רביעי">7</div><div class="d pick" data-date="2026-10-06" data-wd="שלישי">6</div><div class="d pick" data-date="2026-10-05" data-wd="שני">5</div><div class="d pick sel" data-date="2026-10-04" data-wd="ראשון">4</div>
+            <div class="d pick" data-date="2026-10-17" data-wd="שבת">17</div><div class="d pick" data-date="2026-10-16" data-wd="שישי">16</div><div class="d pick" data-date="2026-10-15" data-wd="חמישי">15</div><div class="d pick" data-date="2026-10-14" data-wd="רביעי">14</div><div class="d pick" data-date="2026-10-13" data-wd="שלישי">13</div><div class="d pick" data-date="2026-10-12" data-wd="שני">12</div><div class="d pick" data-date="2026-10-11" data-wd="ראשון">11</div>
+          </div>
+          <div class="bk-slots" id="obBkSlots">
+            <div class="bk-slot"><span>9:00am</span><i></i></div>
+            <div class="bk-slot"><span>9:30am</span><i></i></div>
+            <div class="bk-slot"><span>10:00am</span><i></i></div>
+            <div class="bk-slot"><span>10:30am</span><i></i></div>
+            <div class="bk-slot"><span>11:00am</span><i></i></div>
+          </div>
+        </div>
+      </div>
+
 
       <!-- OB STEP 6: power of attorney (copied from the periodic-meetings demo) -->
       <div class="step" data-ob-step="6">
@@ -2753,12 +2787,12 @@ window.addEventListener('scroll',()=>{
   const waWrap = document.getElementById('obWaWrap');
   const waBody = document.getElementById('obWaBody');
   const stepLabel = document.getElementById('obStepLabel');
-  const labels = {1:'// שלב 1 — שינוי סטטוס בשורנס',2:'// שלב 2 — הודעת WhatsApp',3:'// שלב 3 — הסכם שכר טרחה',4:'// שלב 4 — חתימה על ההסכם',5:'// שלב 5 — אישור החתימה',6:'// שלב 6 — חתימה על ייפוי כוח',7:'// שלב 7 — אימות פרטים',8:'// שלב 8 — חתימה על ייפוי כוח לביטוחים',9:'// שלב 9 — סיום'};
+  const labels = {1:'// שלב 1 — שינוי סטטוס בשורנס',2:'// שלב 2 — הודעת WhatsApp',3:'// שלב 3 — הסכם שכר טרחה',4:'// שלב 4 — חתימה על ההסכם',5:'// שלב 5 — אישור החתימה',6:'// שלב 6 — חתימה על ייפוי כוח',7:'// שלב 7 — אימות פרטים',8:'// שלב 8 — חתימה על ייפוי כוח לביטוחים',9:'// שלב 9 — תיאום פגישה',10:'// שלב 10 — קביעת מועד',11:'// שלב 11 — סיום'};
   let timers = [];
 
   function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
   function show(n){
-    const view = (n===5 || n===9) ? 2 : n;
+    const view = (n===5 || n===9 || n===11) ? 2 : n;
     document.querySelectorAll('[data-ob-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.obStep)===view));
     document.querySelectorAll('[data-ob-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.obDot)<=n));
     stepLabel.textContent = labels[n];
@@ -2810,6 +2844,8 @@ window.addEventListener('scroll',()=>{
     waWrap.hidden=true;
     hint.textContent='לחצו על הסטטוס "חדש"';
     waBody.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    obGrid.querySelectorAll('.d.sel').forEach(c=>c.classList.remove('sel'));
+    if(obDefaultSel) obDefaultSel.classList.add('sel');
     show(1);
   }
   function close(){ ov.hidden=true; timers.forEach(clearTimeout); timers = []; }
@@ -2846,12 +2882,36 @@ window.addEventListener('scroll',()=>{
   document.getElementById('obSigContinue').addEventListener('click', ()=>{
     show(9);
     scrollBottom();
+    sendMsg('קיבלנו את החתימה על הנספחים – תודה!🙌\nכעת נשמח לתאם את הפגישה הראשונה שלך ולהתחיל את התהליך בצורה מסודרת.\n\n📅לקביעת מועד לפגישה – יש ללחוץ על הכפתור מטה👇\n\nמחכים לפגוש אותך,\nהמצפן סוכנות לביטוח',
+      'לחץ לתיאום פגישה', ()=>show(10));
+  });
+
+  const obGrid = document.getElementById('obBkGrid');
+  const obDefaultSel = obGrid.querySelector('.d.sel');
+  obGrid.addEventListener('click', (e)=>{
+    const cell = e.target.closest('.d.pick');
+    if(!cell) return;
+    obGrid.querySelectorAll('.d.sel').forEach(c=>c.classList.remove('sel'));
+    cell.classList.add('sel');
+  });
+  document.getElementById('obBkSlots').addEventListener('click', (e)=>{
+    const slot = e.target.closest('.bk-slot');
+    const cell = obGrid.querySelector('.d.sel');
+    if(!slot || !cell) return;
+    const m = slot.querySelector('span').textContent.match(/^(\d{1,2}):(\d{2})(am|pm)$/i);
+    let h = parseInt(m[1],10);
+    if(m[3].toLowerCase()==='pm' && h!==12) h += 12;
+    if(m[3].toLowerCase()==='am' && h===12) h = 0;
+    const [y,mo,d] = cell.dataset.date.split('-');
+    const text = 'נקבעה לך פגישה ביום '+cell.dataset.wd+', בתאריך '+d+'.'+mo+'.'+y.slice(2)+' בשעה '+String(h).padStart(2,'0')+':'+m[2]+'.\nמחכים לפגוש אותך,\nהמצפן סוכנות לביטוח';
+    show(11);
+    scrollBottom();
     const t = typing();
     later(()=>{
       t.remove();
       const b = document.createElement('div');
       b.className = 'wa-bubble pop';
-      b.textContent = 'תודה על אישור וחתימת הנספחים.\nהכל התקבל ונקלט בהצלחה.\nנתראה בקרוב 😊\nהמצפן סוכנות לביטוח';
+      b.textContent = text;
       const tm = document.createElement('div');
       tm.className = 'wa-time';
       tm.textContent = now();
