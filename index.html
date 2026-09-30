@@ -1143,6 +1143,21 @@ footer{
 #obWaWrap{margin-top:16px}
 #obWaWrap[hidden]{display:none}
 .ob-wa-btns{margin-top:-6px;margin-bottom:12px}
+/* Surense rows (status summary) */
+.sr-table{background:#fff;border-radius:8px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;font-size:.78rem;color:#1f2d3d;margin-bottom:8px;overflow:hidden}
+.sr-row{display:grid;grid-template-columns:1fr 1.9fr .9fr;gap:8px;align-items:center;padding:8px 10px}
+.sr-row.head{border-bottom:1px solid #e3e8ee;color:#6b7785;font-size:.74rem;padding:7px 10px}
+.sr-meet .sr-row{grid-template-columns:1.1fr 1fr 1fr 1fr}
+.sr-type{border:1px solid #2f7fd8;color:#1f2d3d;border-radius:4px;padding:4px 6px;text-align:center}
+.sr-status{color:#fff;border-radius:4px;padding:5px 6px;text-align:center;font-weight:700;line-height:1.35}
+.sr-client{color:#2f7fd8}
+.sr-subj{color:#1f2d3d}
+.sr-row>span{min-width:0;overflow-wrap:anywhere}
+.sr-glow{position:relative;margin-top:14px;border-radius:10px;animation:srGlow 2.4s ease-in-out infinite}
+.sr-glow .sr-table{margin-bottom:0;border-color:rgba(0,229,255,.6)}
+.sr-badge{position:absolute;top:-11px;left:12px;z-index:2;background:linear-gradient(135deg,#00b4ff,#00e5ff);color:#04202e;font-size:.68rem;font-weight:800;padding:2px 10px;border-radius:20px;box-shadow:0 0 12px rgba(0,229,255,.6)}
+@keyframes srGlow{0%,100%{box-shadow:0 0 10px 1px rgba(0,229,255,.35)}50%{box-shadow:0 0 24px 5px rgba(0,229,255,.6)}}
+@media (prefers-reduced-motion:reduce){.sr-glow{animation:none;box-shadow:0 0 18px 3px rgba(0,229,255,.5)}}
 .ob-wa-btns .wa-btn.ob-pulse{border-radius:0 0 8px 8px}
 /* FillFaster-style signing pages */
 .ff-frame{background:#fff;border-radius:8px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);color:#1f2937;overflow:hidden}
@@ -2558,7 +2573,7 @@ window.addEventListener('scroll',()=>{
     <div class="modal-head">
       <div class="modal-head-title" id="obTitle">
         <span id="obStepLabel">// שלב 1 — שינוי סטטוס בשורנס</span>
-        <span class="step-dots" aria-hidden="true"><i class="on" data-ob-dot="1"></i><i data-ob-dot="2"></i><i data-ob-dot="3"></i><i data-ob-dot="4"></i><i data-ob-dot="5"></i><i data-ob-dot="6"></i><i data-ob-dot="7"></i><i data-ob-dot="8"></i><i data-ob-dot="9"></i><i data-ob-dot="10"></i><i data-ob-dot="11"></i></span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-ob-dot="1"></i><i data-ob-dot="2"></i><i data-ob-dot="3"></i><i data-ob-dot="4"></i><i data-ob-dot="5"></i><i data-ob-dot="6"></i><i data-ob-dot="7"></i><i data-ob-dot="8"></i><i data-ob-dot="9"></i><i data-ob-dot="10"></i><i data-ob-dot="11"></i><i data-ob-dot="12"></i></span>
       </div>
       <button class="modal-close" id="obClose" aria-label="סגור" type="button">✕</button>
     </div>
@@ -2598,6 +2613,9 @@ window.addEventListener('scroll',()=>{
             המצפן סוכנות לביטוח
           </div>
           <div class="wa-body" id="obWaBody"></div>
+        </div>
+        <div class="wa-continue-wrap" id="obContinueWrap" hidden>
+          <button class="wa-continue-btn" id="obContinueBtn" type="button">המשך לשלב הבא ›</button>
         </div>
       </div>
 
@@ -2687,6 +2705,29 @@ window.addEventListener('scroll',()=>{
         </div>
       </div>
 
+
+      <!-- OB STEP 12: automatic status updates in Surense -->
+      <div class="step" data-ob-step="12">
+        <p class="step-txt">בכל שלב בתהליך בהתאם לתגובת הלקוח, הסטטוס בשורנס של התהליך מתעדכן אוטומטית:</p>
+        <div class="sr-table">
+          <div class="sr-row head"><span>☰ סוג תהליך</span><span>סטטוס</span><span>לקוח</span></div>
+          <div class="sr-row"><span class="sr-type">קליטת לקוח</span><span class="sr-status" style="background:#fbbf24">נחתם חוזה שכ"ט, נשלח לינק אישור נספחים</span><span class="sr-client">ישראלי דניאל</span></div>
+        </div>
+        <div class="shot-cap">מיד לאחר חתימת הלקוח על ההסכם — "נחתם חוזה שכ"ט, נשלח לינק אישור נספחים"</div>
+        <div class="sr-table">
+          <div class="sr-row head"><span>☰ סוג תהליך</span><span>סטטוס</span><span>לקוח</span></div>
+          <div class="sr-row"><span class="sr-type">קליטת לקוח</span><span class="sr-status" style="background:#00c97a">תואמה פגישה</span><span class="sr-client">ישראלי דניאל</span></div>
+        </div>
+        <div class="shot-cap">ולאחר חתימה על הנספחים וקביעת המועד — "תואמה פגישה"</div>
+        <p class="step-txt">ובמקביל, נוצרת אוטומטית פגישה חדשה בלוח הפגישות של שורנס:</p>
+        <div class="sr-glow">
+          <span class="sr-badge">✨ נוצרה אוטומטית</span>
+          <div class="sr-table sr-meet">
+            <div class="sr-row head"><span>נושא</span><span>לקוח</span><span>סוג</span><span>סטטוס</span></div>
+            <div class="sr-row"><span class="sr-subj">פגישה ראשונה</span><span class="sr-client">ישראלי דניאל</span><span class="sr-status" style="background:#ec4fa8">פגישה מקוונת</span><span class="sr-status" style="background:#1e90e0">מתוכננת</span></div>
+          </div>
+        </div>
+      </div>
 
       <!-- OB STEP 6: power of attorney (copied from the periodic-meetings demo) -->
       <div class="step" data-ob-step="6">
@@ -2787,7 +2828,7 @@ window.addEventListener('scroll',()=>{
   const waWrap = document.getElementById('obWaWrap');
   const waBody = document.getElementById('obWaBody');
   const stepLabel = document.getElementById('obStepLabel');
-  const labels = {1:'// שלב 1 — שינוי סטטוס בשורנס',2:'// שלב 2 — הודעת WhatsApp',3:'// שלב 3 — הסכם שכר טרחה',4:'// שלב 4 — חתימה על ההסכם',5:'// שלב 5 — אישור החתימה',6:'// שלב 6 — חתימה על ייפוי כוח',7:'// שלב 7 — אימות פרטים',8:'// שלב 8 — חתימה על ייפוי כוח לביטוחים',9:'// שלב 9 — תיאום פגישה',10:'// שלב 10 — קביעת מועד',11:'// שלב 11 — סיום'};
+  const labels = {1:'// שלב 1 — שינוי סטטוס בשורנס',2:'// שלב 2 — הודעת WhatsApp',3:'// שלב 3 — הסכם שכר טרחה',4:'// שלב 4 — חתימה על ההסכם',5:'// שלב 5 — אישור החתימה',6:'// שלב 6 — חתימה על ייפוי כוח',7:'// שלב 7 — אימות פרטים',8:'// שלב 8 — חתימה על ייפוי כוח לביטוחים',9:'// שלב 9 — תיאום פגישה',10:'// שלב 10 — קביעת מועד',11:'// שלב 11 — אישור הפגישה',12:'// שלב 12 — עדכון סטטוס בשורנס'};
   let timers = [];
 
   function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
@@ -2844,6 +2885,7 @@ window.addEventListener('scroll',()=>{
     waWrap.hidden=true;
     hint.textContent='לחצו על הסטטוס "חדש"';
     waBody.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    document.getElementById('obContinueWrap').hidden = true;
     obGrid.querySelectorAll('.d.sel').forEach(c=>c.classList.remove('sel'));
     if(obDefaultSel) obDefaultSel.classList.add('sel');
     show(1);
@@ -2917,9 +2959,11 @@ window.addEventListener('scroll',()=>{
       tm.textContent = now();
       b.appendChild(tm);
       waBody.appendChild(b);
+      document.getElementById('obContinueWrap').hidden = false;
       scrollBottom();
     }, 900);
   });
+  document.getElementById('obContinueBtn').addEventListener('click', ()=>show(12));
 
   document.getElementById('openObModal').addEventListener('click', ()=>{ reset(); ov.hidden=false; });
   document.getElementById('obClose').addEventListener('click', close);
