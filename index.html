@@ -1142,6 +1142,31 @@ footer{
 @keyframes obNudge{0%,100%{left:8px}50%{left:14px}}
 #obWaWrap{margin-top:16px}
 #obWaWrap[hidden]{display:none}
+.ob-wa-btns{margin-top:-6px;margin-bottom:12px}
+.ob-wa-btns .wa-btn.ob-pulse{border-radius:0 0 8px 8px}
+/* FillFaster-style signing pages */
+.ff-frame{background:#fff;border-radius:8px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);color:#1f2937;overflow:hidden}
+.ff-pad{padding:18px 16px}
+.ff-doc{max-height:48vh;overflow-y:auto;padding:18px 16px 10px;font-size:.8rem;line-height:1.75}
+.ff-doc p{margin-bottom:8px}
+.ff-title{text-align:center;font-size:1rem;font-weight:800;text-decoration:underline;margin-bottom:4px;color:#111827}
+.ff-sub{text-align:center;font-size:.75rem;color:#4b5563}
+.ff-box{border:1.5px solid #374151;padding:10px 12px;margin:12px 0}
+.ff-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;margin-top:6px}
+.ff-fields>span{min-width:0;overflow-wrap:anywhere}
+@media (max-width:480px){.ff-fields{grid-template-columns:1fr}}
+.ff-fill{border-bottom:1px solid #111827;padding:0 4px;color:#111827;font-weight:500}
+.ff-sec{font-weight:800;text-decoration:underline;margin-top:10px}
+.ff-cta-wrap{display:flex;justify-content:center;padding:12px 16px 16px;border-top:1px solid #eef0f3;background:#fff}
+.ff-pad .ff-cta-wrap{border-top:none;padding:18px 0 0}
+.ff-cta{background:#0b2a7a;color:#fff;border:none;border-radius:8px;padding:12px 30px;font-family:'Heebo',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer}
+.ff-lbl{font-size:.85rem;color:#111827}
+.ff-lbl span{color:#dc2626}
+.ff-lbl-sub{font-size:.8rem;color:#374151;margin:4px 0 10px}
+.ff-sigpad{position:relative;background:#eeeeee;border-bottom:1.5px solid #6b7280;min-height:140px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ff-clear{position:absolute;top:8px;right:8px;background:#f5f5f5;border:1px solid #ddd;border-radius:4px;font-size:.72rem;color:#6b7280;padding:3px 8px}
+.ff-sigpad .sig-name{font-size:1.8rem}
+.ff-sigpad .sig-flourish{bottom:28px}
 </style>
 </head>
 <body>
@@ -2531,46 +2556,167 @@ window.addEventListener('scroll',()=>{
 <div class="overlay" id="obOverlay" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="obTitle">
     <div class="modal-head">
-      <div class="modal-head-title" id="obTitle">// שלב 1 — שינוי סטטוס בשורנס</div>
+      <div class="modal-head-title" id="obTitle">
+        <span id="obStepLabel">// שלב 1 — שינוי סטטוס בשורנס</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-ob-dot="1"></i><i data-ob-dot="2"></i><i data-ob-dot="3"></i><i data-ob-dot="4"></i><i data-ob-dot="5"></i></span>
+      </div>
       <button class="modal-close" id="obClose" aria-label="סגור" type="button">✕</button>
     </div>
-    <div class="modal-body">
-      <p class="ob-txt">האוטומציה מתחילה ברגע שמשנים בשורנס את הסטטוס של הליד ל"תהליך קליטת לקוח".</p>
-      <div class="ob-crm">
-        <div class="ob-row head"><span>סוג ליד</span><span>לקוח</span><span>סטטוס ↓</span></div>
-        <div class="ob-row">
-          <span class="ob-type">בדיקת תיק ללקוח חדש</span>
-          <span class="ob-client">בדיקה בר</span>
-          <span class="ob-status-cell">
-            <button class="ob-status ob-pulse" id="obStatus" type="button"><span id="obStatusTxt">חדש</span><span class="ob-pointer" id="obPtr1" aria-hidden="true">👉</span></button>
-          </span>
+    <div class="modal-body" id="obBody">
+
+      <!-- OB STEP 1: status change -->
+      <div class="step active" data-ob-step="1">
+        <p class="ob-txt">האוטומציה מתחילה ברגע שמשנים בשורנס את הסטטוס של הליד ל"תהליך קליטת לקוח".</p>
+        <div class="ob-crm">
+          <div class="ob-row head"><span>סוג ליד</span><span>לקוח</span><span>סטטוס ↓</span></div>
+          <div class="ob-row">
+            <span class="ob-type">בדיקת תיק ללקוח חדש</span>
+            <span class="ob-client">דניאל ישראלי</span>
+            <span class="ob-status-cell">
+              <button class="ob-status ob-pulse" id="obStatus" type="button"><span id="obStatusTxt">חדש</span><span class="ob-pointer" id="obPtr1" aria-hidden="true">👉</span></button>
+            </span>
+          </div>
+          <div class="ob-menu" id="obMenu" hidden>
+            <div class="ob-search"><span>חיפוש</span><span>⚙</span></div>
+            <div class="ob-group">פתוח</div>
+            <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#f07b1d"></span>נשלחה בקשה למשוב</button>
+            <button class="ob-opt ob-pulse" id="obPick" type="button"><span class="ob-sq" style="background:#1e90e0"></span>תהליך קליטת לקוח<span class="ob-pointer" aria-hidden="true">👉</span></button>
+            <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#a9b3bf"></span>חדש<span class="ob-check">✓</span></button>
+          </div>
         </div>
-        <div class="ob-menu" id="obMenu" hidden>
-          <div class="ob-search"><span>חיפוש</span><span>⚙</span></div>
-          <div class="ob-group">פתוח</div>
-          <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#f07b1d"></span>נשלחה בקשה למשוב</button>
-          <button class="ob-opt ob-pulse" id="obPick" type="button"><span class="ob-sq" style="background:#1e90e0"></span>תהליך קליטת לקוח<span class="ob-pointer" aria-hidden="true">👉</span></button>
-          <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#a9b3bf"></span>חדש<span class="ob-check">✓</span></button>
+        <p class="ob-hint-txt" id="obHint">לחצו על הסטטוס "חדש"</p>
+        <div id="obWaWrap" hidden>
+          <button class="wa-cta" id="obToWa" type="button">▶ פתח סימולציית WhatsApp</button>
         </div>
       </div>
-      <p class="ob-hint-txt" id="obHint">לחצו על הסטטוס "חדש"</p>
-      <div id="obWaWrap" hidden>
-        <button class="wa-cta" id="obToWa" type="button">▶ פתח סימולציית WhatsApp</button>
+
+      <!-- OB STEP 2: WhatsApp -->
+      <div class="step" data-ob-step="2">
+        <div class="wa-frame">
+          <div class="wa-top">
+            <div class="wa-avatar">🧭</div>
+            המצפן סוכנות לביטוח
+          </div>
+          <div class="wa-body" id="obWaBody"></div>
+        </div>
       </div>
+
+      <!-- OB STEP 3: fee agreement (FillFaster-style) -->
+      <div class="step" data-ob-step="3">
+        <p class="step-txt" style="margin-bottom:12px">הלקוח מועבר למסמך ההסכם, עם הפרטים שלו כבר ממולאים:</p>
+        <div class="ff-frame">
+          <div class="ff-doc">
+            <h4 class="ff-title">הסכם שכר טרחה</h4>
+            <p class="ff-sub">נחתם ביום <span class="ff-fill">30.09.2026</span></p>
+            <div class="ff-box">
+              <p><b>בין:</b> המצפן סוכנות לביטוח (להלן: "הסוכנות")</p>
+              <p><b>לבין:</b> הלקוח/ה שפרטיו/ה להלן (להלן: "הלקוח")</p>
+              <div class="ff-fields">
+                <span>שם מלא: <span class="ff-fill">דניאל ישראלי</span></span>
+                <span>ת.ז: <span class="ff-fill">20222222</span></span>
+                <span>טלפון: <span class="ff-fill">0521234567</span></span>
+                <span>דוא"ל: <span class="ff-fill">danielisraeli@gmail.com</span></span>
+              </div>
+            </div>
+            <p class="ff-sec">1. מהות השירות</p>
+            <p>הסוכנות תעניק ללקוח שירותי ייעוץ, בדיקה וניהול של תיק הביטוח והחיסכון שלו, לרבות איסוף מידע מהגופים המוסדיים, ניתוח הכיסויים הקיימים והצגת המלצות.</p>
+            <p class="ff-sec">2. שכר הטרחה</p>
+            <p>בתמורה לשירות ישלם הלקוח לסוכנות שכר טרחה חד פעמי בסך <span class="ff-fill">1,500 ₪</span> בתוספת מע"מ, שישולם עם תחילת העבודה.</p>
+            <p class="ff-sec">3. תקופת ההסכם</p>
+            <p>ההסכם בתוקף ל-12 חודשים ממועד חתימתו. כל צד רשאי לסיים אותו בהודעה בכתב של 14 יום מראש.</p>
+            <p class="ff-sec">4. סודיות</p>
+            <p>הסוכנות תשמור בסודיות את כל המידע שיימסר לה, ותשתמש בו רק לצורך מתן השירות ובהתאם לחוק הגנת הפרטיות, התשמ"א–1981.</p>
+            <p class="ff-sec">5. הצהרת הלקוח</p>
+            <p>הלקוח מאשר שקרא את ההסכם, הבין את תנאיו ומסכים להם.</p>
+          </div>
+          <div class="ff-cta-wrap">
+            <button class="ff-cta ob-pulse" id="obToSign" type="button">✍ למילוי וחתימה</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- OB STEP 4: signature -->
+      <div class="step" data-ob-step="4">
+        <p class="step-txt" style="margin-bottom:12px">החתימה של הלקוח (כבר מולאה מראש להדגמה):</p>
+        <div class="ff-frame ff-pad">
+          <div class="ff-lbl">חתימה <span>*</span></div>
+          <div class="ff-lbl-sub">✍ חתימה (אפשר לחתום עם האצבע או העכבר)</div>
+          <div class="ff-sigpad">
+            <span class="ff-clear">🗑 ניקוי חתימה</span>
+            <span class="sig-name">דניאל ישראלי</span>
+            <svg class="sig-flourish" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 14 C 30 4, 50 20, 80 10 S 130 2, 160 12 S 190 18, 198 8" stroke="#1a3a6b" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="ff-cta-wrap">
+            <button class="ff-cta ob-pulse" id="obConfirmSig" type="button">✓ אישור חתימה</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 <script>
 (function(){
   const ov = document.getElementById('obOverlay');
+  const obBody = document.getElementById('obBody');
   const status = document.getElementById('obStatus');
   const ptr1 = document.getElementById('obPtr1');
   const menu = document.getElementById('obMenu');
   const pick = document.getElementById('obPick');
   const hint = document.getElementById('obHint');
   const waWrap = document.getElementById('obWaWrap');
+  const waBody = document.getElementById('obWaBody');
+  const stepLabel = document.getElementById('obStepLabel');
+  const labels = {1:'// שלב 1 — שינוי סטטוס בשורנס',2:'// שלב 2 — הודעת WhatsApp',3:'// שלב 3 — הסכם שכר טרחה',4:'// שלב 4 — חתימה על ההסכם',5:'// שלב 5 — אישור החתימה'};
+  let timers = [];
+
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    const view = n===5 ? 2 : n;
+    document.querySelectorAll('[data-ob-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.obStep)===view));
+    document.querySelectorAll('[data-ob-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.obDot)<=n));
+    stepLabel.textContent = labels[n];
+    obBody.scrollTop = 0;
+  }
+  function scrollBottom(){ obBody.scrollTop = obBody.scrollHeight; }
+  function typing(){
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    waBody.appendChild(t);
+    scrollBottom();
+    return t;
+  }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function sendMsg(text, btnLabel, onBtn){
+    const t = typing();
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      b.textContent = text;
+      const tm = document.createElement('div');
+      tm.className = 'wa-time';
+      tm.textContent = now();
+      b.appendChild(tm);
+      waBody.appendChild(b);
+      const wrap = document.createElement('div');
+      wrap.className = 'wa-btns-wrap pop ob-wa-btns';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'wa-btn' + (onBtn ? ' ob-pulse' : '');
+      btn.textContent = '🔗 ' + btnLabel;
+      if(onBtn) btn.addEventListener('click', ()=>{ btn.classList.remove('ob-pulse'); onBtn(); });
+      wrap.appendChild(btn);
+      waBody.appendChild(wrap);
+      scrollBottom();
+    }, 900);
+  }
 
   function reset(){
+    timers.forEach(clearTimeout); timers = [];
     document.getElementById('obStatusTxt').textContent='חדש';
     status.classList.remove('done');
     status.classList.add('ob-pulse');
@@ -2578,10 +2724,11 @@ window.addEventListener('scroll',()=>{
     ptr1.hidden=false;
     menu.hidden=true;
     waWrap.hidden=true;
-    hint.hidden=false;
     hint.textContent='לחצו על הסטטוס "חדש"';
+    waBody.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    show(1);
   }
-  function close(){ ov.hidden=true; }
+  function close(){ ov.hidden=true; timers.forEach(clearTimeout); timers = []; }
 
   status.addEventListener('click', ()=>{
     menu.hidden=false;
@@ -2595,7 +2742,19 @@ window.addEventListener('scroll',()=>{
     status.classList.add('done');
     status.disabled=true;
     hint.textContent='✓ הסטטוס עודכן, האוטומציה הופעלה';
-    setTimeout(()=>{ waWrap.hidden=false; }, 500);
+    later(()=>{ waWrap.hidden=false; }, 500);
+  });
+  document.getElementById('obToWa').addEventListener('click', ()=>{
+    show(2);
+    sendMsg('היי דניאל,\nבהמשך לשיחתנו, מצורף לך קישור לחתימה על ההסכם מולנו.\nכדי לעבור לחתימה, לחץ/י על הכפתור מטה👇\n\nלכל שאלה – אנחנו כאן לשירותך,\nהמצפן סוכנות לביטוח',
+      'לחתימה על ההסכם', ()=>show(3));
+  });
+  document.getElementById('obToSign').addEventListener('click', ()=>show(4));
+  document.getElementById('obConfirmSig').addEventListener('click', ()=>{
+    show(5);
+    scrollBottom();
+    sendMsg('היי דניאל,\nקיבלנו את החתימה שלך על ההסכם – תודה רבה!🙏\n\nהשלב הבא הוא חתימה על נספחי הרשאות, שיאפשרו לנו לפנות בשמך לגופים הרלוונטיים ולקבל מידע חיוני לצורך התהליך.\n\n✍לחתימה על ההרשאות – יש ללחוץ על הכפתור מטה👇\n\nלכל שאלה – אנחנו כאן,\nהמצפן סוכנות לביטוח',
+      'לחתימה על נספחים', null);
   });
 
   document.getElementById('openObModal').addEventListener('click', ()=>{ reset(); ov.hidden=false; });
