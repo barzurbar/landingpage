@@ -1153,6 +1153,12 @@ footer{
 .sr-client{color:#2f7fd8}
 .sr-subj{color:#1f2d3d}
 .sr-row>span{min-width:0;overflow-wrap:anywhere}
+.sr-live{transition:background .4s}
+.sr-flip{animation:srFlip .45s ease}
+@keyframes srFlip{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:none}}
+.sr-steps{display:flex;justify-content:center;gap:6px;margin:10px 0 4px}
+.sr-steps i{width:22px;height:4px;border-radius:2px;background:rgba(0,229,255,.2);transition:background .3s}
+.sr-steps i.on{background:var(--cyan);box-shadow:0 0 6px rgba(0,229,255,.6)}
 .sr-glow{position:relative;margin-top:14px;border-radius:10px;animation:srGlow 2.4s ease-in-out infinite}
 .sr-glow .sr-table{margin-bottom:0;border-color:rgba(0,229,255,.6)}
 @keyframes srGlow{0%,100%{box-shadow:0 0 16px 3px rgba(0,229,255,.55),0 0 2px 1px rgba(0,229,255,.9)}50%{box-shadow:0 0 36px 10px rgba(0,229,255,.85),0 0 3px 2px rgba(0,229,255,1)}}
@@ -2594,9 +2600,9 @@ window.addEventListener('scroll',()=>{
           <div class="ob-menu" id="obMenu" hidden>
             <div class="ob-search"><span>חיפוש</span><span>⚙</span></div>
             <div class="ob-group">פתוח</div>
-            <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#f07b1d"></span>נשלחה בקשה למשוב</button>
-            <button class="ob-opt ob-pulse" id="obPick" type="button"><span class="ob-sq" style="background:#1e90e0"></span>תהליך קליטת לקוח<span class="ob-pointer" aria-hidden="true">👉</span></button>
             <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#a9b3bf"></span>חדש<span class="ob-check">✓</span></button>
+            <button class="ob-opt ob-pulse" id="obPick" type="button"><span class="ob-sq" style="background:#1e90e0"></span>תהליך קליטת לקוח<span class="ob-pointer" aria-hidden="true">👉</span></button>
+            <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#f07b1d"></span>נשלחה בקשה למשוב</button>
           </div>
         </div>
         <p class="ob-hint-txt" id="obHint">לחצו על הסטטוס "חדש"</p>
@@ -2708,17 +2714,13 @@ window.addEventListener('scroll',()=>{
 
       <!-- OB STEP 12: automatic status updates in Surense -->
       <div class="step" data-ob-step="12">
-        <p class="step-txt">בכל שלב בתהליך בהתאם לתגובת הלקוח, הסטטוס בשורנס של התהליך מתעדכן אוטומטית:</p>
+        <p class="step-txt">בכל שלב הסטטוס של התהליך בשורנס משתנה אוטומטית, בהתאם למצב התהליך מול הלקוח:</p>
         <div class="sr-table">
           <div class="sr-row head"><span>☰ סוג תהליך</span><span>סטטוס</span><span>לקוח</span></div>
-          <div class="sr-row"><span class="sr-type">קליטת לקוח</span><span class="sr-status" style="background:#fbbf24">נחתם חוזה שכ"ט, נשלח לינק אישור נספחים</span><span class="sr-client">ישראלי דניאל</span></div>
+          <div class="sr-row"><span class="sr-type">קליטת לקוח</span><span class="sr-status sr-live" id="obLiveStatus" style="background:#1e90e0">תהליך קליטת לקוח</span><span class="sr-client">ישראלי דניאל</span></div>
         </div>
-        <div class="shot-cap">מיד לאחר חתימת הלקוח על ההסכם — "נחתם חוזה שכ"ט, נשלח לינק אישור נספחים"</div>
-        <div class="sr-table">
-          <div class="sr-row head"><span>☰ סוג תהליך</span><span>סטטוס</span><span>לקוח</span></div>
-          <div class="sr-row"><span class="sr-type">קליטת לקוח</span><span class="sr-status" style="background:#00c97a">תואמה פגישה</span><span class="sr-client">ישראלי דניאל</span></div>
-        </div>
-        <div class="shot-cap">ולאחר חתימה על הנספחים וקביעת המועד — "תואמה פגישה"</div>
+        <div class="sr-steps" id="obLiveSteps" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+        <div class="shot-cap" id="obLiveCap">הלקוח נכנס לתהליך קליטה</div>
         <p class="step-txt">ובמקביל, נוצרת אוטומטית פגישה חדשה בלוח הפגישות של שורנס:</p>
         <div class="sr-glow">
           <div class="sr-table sr-meet">
@@ -2875,6 +2877,7 @@ window.addEventListener('scroll',()=>{
 
   function reset(){
     timers.forEach(clearTimeout); timers = [];
+    stopLive();
     document.getElementById('obStatusTxt').textContent='חדש';
     status.classList.remove('done');
     status.classList.add('ob-pulse');
@@ -2889,7 +2892,7 @@ window.addEventListener('scroll',()=>{
     if(obDefaultSel) obDefaultSel.classList.add('sel');
     show(1);
   }
-  function close(){ ov.hidden=true; timers.forEach(clearTimeout); timers = []; }
+  function close(){ ov.hidden=true; timers.forEach(clearTimeout); timers = []; stopLive(); }
 
   status.addEventListener('click', ()=>{
     menu.hidden=false;
@@ -2914,7 +2917,7 @@ window.addEventListener('scroll',()=>{
   document.getElementById('obConfirmSig').addEventListener('click', ()=>{
     show(5);
     scrollBottom();
-    sendMsg('היי דניאל,\nקיבלנו את החתימה שלך על ההסכם – תודה רבה!🙏\n\nהשלב הבא הוא חתימה על נספחי הרשאות, שיאפשרו לנו לפנות בשמך לגופים הרלוונטיים ולקבל מידע חיוני לצורך התהליך.\n\n✍לחתימה על ההרשאות – יש ללחוץ על הכפתור מטה👇\n\nלכל שאלה – אנחנו כאן,\nהמצפן סוכנות לביטוח',
+    sendMsg('קיבלנו את החתימה שלך על ההסכם – תודה רבה!🙏\n\nהשלב הבא הוא חתימה על נספחי הרשאות, שיאפשרו לנו לפנות בשמך לגופים הרלוונטיים ולקבל מידע חיוני לצורך התהליך.\n\n✍לחתימה על ההרשאות – יש ללחוץ על הכפתור מטה👇\n\nלכל שאלה – אנחנו כאן,\nהמצפן סוכנות לביטוח',
       'לחתימה על נספחים', ()=>show(6));
   });
 
@@ -2962,7 +2965,32 @@ window.addEventListener('scroll',()=>{
       scrollBottom();
     }, 900);
   });
-  document.getElementById('obContinueBtn').addEventListener('click', ()=>show(12));
+  const liveSteps = [
+    ['תהליך קליטת לקוח','#1e90e0','הלקוח נכנס לתהליך קליטה'],
+    ['נשלח הסכם שכ"ט','#f07b1d','נשלח ללקוח הסכם שכר טרחה לחתימה'],
+    ['נחתם חוזה שכ"ט, נשלח לינק אישור נספחים','#f5b400','הלקוח חתם על ההסכם ונשלחו לו הנספחים'],
+    ['נחתם אישור נספחים, נשלח תיאום פגישה','#2563eb','הלקוח חתם על הנספחים ונשלח לו קישור לתיאום'],
+    ['תואמה פגישה','#00c97a','הלקוח קבע את הפגישה הראשונה']
+  ];
+  let liveTimer = null;
+  function stopLive(){ if(liveTimer){ clearInterval(liveTimer); liveTimer=null; } }
+  function startLive(){
+    stopLive();
+    const el = document.getElementById('obLiveStatus');
+    const cap = document.getElementById('obLiveCap');
+    const dots = document.querySelectorAll('#obLiveSteps i');
+    let i = 0;
+    const paint = ()=>{
+      el.classList.remove('sr-flip'); void el.offsetWidth; el.classList.add('sr-flip');
+      el.textContent = liveSteps[i][0];
+      el.style.background = liveSteps[i][1];
+      cap.textContent = liveSteps[i][2];
+      dots.forEach((d,k)=>d.classList.toggle('on', k<=i));
+    };
+    paint();
+    liveTimer = setInterval(()=>{ i = (i+1) % liveSteps.length; paint(); }, 2200);
+  }
+  document.getElementById('obContinueBtn').addEventListener('click', ()=>{ show(12); startLive(); });
 
   document.getElementById('openObModal').addEventListener('click', ()=>{ reset(); ov.hidden=false; });
   document.getElementById('obClose').addEventListener('click', close);
