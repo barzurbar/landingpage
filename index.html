@@ -1099,6 +1099,12 @@ footer{
 .pm-table.play .pm-item{opacity:0;animation:pmIn .5s ease forwards;animation-delay:calc(.35s + var(--i) * .55s)}
 @keyframes pmIn{0%{opacity:0;transform:translateY(-8px);background:#e6f7ff}60%{opacity:1;background:#e6f7ff}100%{opacity:1;transform:none;background:transparent}}
 @media (prefers-reduced-motion:reduce){.pm-table.play .pm-item{animation:none;opacity:1}}
+.pm-table{position:relative;padding-bottom:12px}
+.pm-status{transition:background-color .35s}
+.pm-cursor{position:absolute;top:0;left:0;z-index:3;pointer-events:none;opacity:0;transition:transform .9s cubic-bezier(.45,.05,.3,1),opacity .3s;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+.pm-cursor.show{opacity:1}
+.pm-cursor svg{display:block;transition:transform .12s}
+.pm-cursor.click svg{transform:scale(.8)}
 @media (max-width:480px){.pm-row{font-size:.7rem;gap:6px;padding:6px 8px}.pm-type{white-space:normal;padding:3px 2px}}
 /* ===== onboarding demo (status change) ===== */
 .ob-txt{font-size:.95rem;line-height:1.7;color:var(--text);margin-bottom:14px}
@@ -2213,10 +2219,11 @@ window.addEventListener('scroll',()=>{
         <div class="pm-table" id="pmTable" role="img" aria-label="תהליכי פגישה תקופתית נוצרים בשורנס">
           <div class="pm-title">תהליכי פגישה תקופתית (<span id="pmCount">526</span>)</div>
           <div class="pm-row head"><span>☰ סוג תהליך</span><span>סטטוס</span><span>תאריך טיפול נדרש</span></div>
-          <div class="pm-row pm-item" style="--i:0"><span class="pm-type">פגישה תקופתית</span><span class="pm-status" style="background:#9b00f0">אושר לשליחה</span><span class="pm-date">18/11/2026</span></div>
+          <div class="pm-row pm-item" style="--i:0"><span class="pm-type">פגישה תקופתית</span><span class="pm-status" style="background:#0a93e0">ממתין לאישור שליחה</span><span class="pm-date">18/11/2026</span></div>
           <div class="pm-row pm-item" style="--i:1"><span class="pm-type">פגישה תקופתית</span><span class="pm-status" style="background:#0a93e0">ממתין לאישור שליחה</span><span class="pm-date">20/09/2028</span></div>
           <div class="pm-row pm-item" style="--i:2"><span class="pm-type">פגישה תקופתית</span><span class="pm-status" style="background:#0a93e0">ממתין לאישור שליחה</span><span class="pm-date">28/07/2027</span></div>
           <div class="pm-row pm-item" style="--i:3"><span class="pm-type">פגישה תקופתית</span><span class="pm-status" style="background:#0a93e0">ממתין לאישור שליחה</span><span class="pm-date">25/08/2027</span></div>
+          <span class="pm-cursor" id="pmCursor" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 2l15 11-6.5 1.2L16 21l-3 1.4-3.4-6.8L4 19z" fill="#fff" stroke="#111" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
         </div>
         <button class="wa-cta" id="toStep2" type="button">▶ פתח סימולציית WhatsApp</button>
       </div>
@@ -2285,7 +2292,6 @@ window.addEventListener('scroll',()=>{
 
       <!-- STEP 4 -->
       <div class="step" id="step4">
-        <p class="step-txt" style="margin-bottom:12px">אחרי החתימה על ייפוי הכוח, הלקוח מקבל מסך אישור:</p>
         <div class="poa-frame">
           <div class="poa-logo">🧭</div>
           <div class="poa-brand">המצפן סוכנות לביטוח</div>
@@ -2376,7 +2382,12 @@ window.addEventListener('scroll',()=>{
         <div class="sr-steps" id="pmLiveSteps" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div>
         <div class="shot-cap" id="pmLiveCap">התהליך אושר לשליחה ללקוח</div>
         <p class="step-txt">ובמקביל, נוצרת אוטומטית פגישה חדשה בלוח הפגישות של שורנס:</p>
-        <div class="sr-glow"><img class="shot" src="data:image/png;base64,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" alt="פגישה חדשה נוצרת בתצוגה הראשית של שורנס"></div>
+        <div class="sr-glow">
+          <div class="sr-table sr-meet">
+            <div class="sr-row head"><span>נושא</span><span>לקוח</span><span>סוג</span><span>סטטוס</span></div>
+            <div class="sr-row"><span class="sr-subj">פגישה תקופתית</span><span class="sr-client">ישראלי דניאל</span><span class="sr-status" style="background:#ec4fa8">פגישה מקוונת</span><span class="sr-status" style="background:#1e90e0">מתוכננת</span></div>
+          </div>
+        </div>
       </div>
 
       <div class="step-nav">
@@ -2621,10 +2632,43 @@ window.addEventListener('scroll',()=>{
     let n = 522;
     c.textContent = n;
     [0,1,2,3].forEach(k=>setTimeout(()=>{ c.textContent = ++n; }, 350 + k*550 + 250));
+    pmApprove();
+  }
+  // after the rows appear, a mouse changes rows 1 and 4 to "אושר לשליחה"
+  let pmApproveTimers = [];
+  function pmApproveStop(){ pmApproveTimers.forEach(clearTimeout); pmApproveTimers = []; }
+  function pmApprove(){
+    pmApproveStop();
+    const t = document.getElementById('pmTable');
+    const cur = document.getElementById('pmCursor');
+    const sts = t.querySelectorAll('.pm-item .pm-status');
+    sts.forEach(el=>{ el.textContent = 'ממתין לאישור שליחה'; el.style.background = '#0a93e0'; });
+    cur.classList.remove('show','click');
+    const at = (ms, fn)=>pmApproveTimers.push(setTimeout(fn, ms));
+    const moveTo = (el)=>{
+      const tr = t.getBoundingClientRect(), r = el.getBoundingClientRect();
+      cur.style.transform = 'translate(' + (r.left - tr.left + r.width*0.45) + 'px,' + (r.top - tr.top + r.height*0.2) + 'px)';
+    };
+    cur.style.transition = 'none';
+    cur.style.transform = 'translate(' + (t.clientWidth*0.5) + 'px,' + (t.clientHeight + 10) + 'px)';
+    void cur.offsetWidth; cur.style.transition = '';
+    const approve = (el)=>{
+      cur.classList.add('click');
+      at(150, ()=>{
+        cur.classList.remove('click');
+        el.textContent = 'אושר לשליחה'; el.style.background = '#9b00f0';
+        el.classList.remove('sr-flip'); void el.offsetWidth; el.classList.add('sr-flip');
+      });
+    };
+    at(3000, ()=>{ cur.classList.add('show'); moveTo(sts[0]); });
+    at(4100, ()=>approve(sts[0]));
+    at(4900, ()=>moveTo(sts[3]));
+    at(6000, ()=>approve(sts[3]));
+    at(7000, ()=>cur.classList.remove('show'));
   }
   openBtn.addEventListener('click', ()=>{ overlay.hidden=false; history=[1]; render(); playPm(); });
-  closeBtn.addEventListener('click', ()=>{ overlay.hidden=true; stopPmLive(); });
-  overlay.addEventListener('click', (e)=>{ if(e.target===overlay){ overlay.hidden=true; stopPmLive(); } });
+  closeBtn.addEventListener('click', ()=>{ overlay.hidden=true; stopPmLive(); pmApproveStop(); });
+  overlay.addEventListener('click', (e)=>{ if(e.target===overlay){ overlay.hidden=true; stopPmLive(); pmApproveStop(); } });
   toStep2.addEventListener('click', ()=>goto(2));
   navBack.addEventListener('click', back);
   navRestart.addEventListener('click', restart);
@@ -2792,7 +2836,6 @@ window.addEventListener('scroll',()=>{
 
       <!-- OB STEP 6: power of attorney (copied from the periodic-meetings demo) -->
       <div class="step" data-ob-step="6">
-        <p class="step-txt" style="margin-bottom:12px">אחרי החתימה על ייפוי הכוח, הלקוח מקבל מסך אישור:</p>
         <div class="poa-frame">
           <div class="poa-logo">🧭</div>
           <div class="poa-brand">המצפן סוכנות לביטוח</div>
