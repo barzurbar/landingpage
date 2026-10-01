@@ -1099,6 +1099,12 @@ footer{
 .pm-table.play .pm-item{opacity:0;animation:pmIn .5s ease forwards;animation-delay:calc(.35s + var(--i) * .55s)}
 @keyframes pmIn{0%{opacity:0;transform:translateY(-8px);background:#e6f7ff}60%{opacity:1;background:#e6f7ff}100%{opacity:1;transform:none;background:transparent}}
 @media (prefers-reduced-motion:reduce){.pm-table.play .pm-item{animation:none;opacity:1}}
+.pm-table{position:relative;padding-bottom:12px}
+.pm-status{transition:background-color .35s}
+.pm-cursor{position:absolute;top:0;left:0;z-index:3;pointer-events:none;opacity:0;transition:transform .9s cubic-bezier(.45,.05,.3,1),opacity .3s;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+.pm-cursor.show{opacity:1}
+.pm-cursor svg{display:block;transition:transform .12s}
+.pm-cursor.click svg{transform:scale(.8)}
 @media (max-width:480px){.pm-row{font-size:.7rem;gap:6px;padding:6px 8px}.pm-type{white-space:normal;padding:3px 2px}}
 /* ===== onboarding demo (status change) ===== */
 .ob-txt{font-size:.95rem;line-height:1.7;color:var(--text);margin-bottom:14px}
@@ -2213,10 +2219,11 @@ window.addEventListener('scroll',()=>{
         <div class="pm-table" id="pmTable" role="img" aria-label="תהליכי פגישה תקופתית נוצרים בשורנס">
           <div class="pm-title">תהליכי פגישה תקופתית (<span id="pmCount">526</span>)</div>
           <div class="pm-row head"><span>☰ סוג תהליך</span><span>סטטוס</span><span>תאריך טיפול נדרש</span></div>
-          <div class="pm-row pm-item" style="--i:0"><span class="pm-type">פגישה תקופתית</span><span class="pm-status" style="background:#9b00f0">אושר לשליחה</span><span class="pm-date">18/11/2026</span></div>
+          <div class="pm-row pm-item" style="--i:0"><span class="pm-type">פגישה תקופתית</span><span class="pm-status" style="background:#0a93e0">ממתין לאישור שליחה</span><span class="pm-date">18/11/2026</span></div>
           <div class="pm-row pm-item" style="--i:1"><span class="pm-type">פגישה תקופתית</span><span class="pm-status" style="background:#0a93e0">ממתין לאישור שליחה</span><span class="pm-date">20/09/2028</span></div>
           <div class="pm-row pm-item" style="--i:2"><span class="pm-type">פגישה תקופתית</span><span class="pm-status" style="background:#0a93e0">ממתין לאישור שליחה</span><span class="pm-date">28/07/2027</span></div>
           <div class="pm-row pm-item" style="--i:3"><span class="pm-type">פגישה תקופתית</span><span class="pm-status" style="background:#0a93e0">ממתין לאישור שליחה</span><span class="pm-date">25/08/2027</span></div>
+          <span class="pm-cursor" id="pmCursor" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 2l15 11-6.5 1.2L16 21l-3 1.4-3.4-6.8L4 19z" fill="#fff" stroke="#111" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
         </div>
         <button class="wa-cta" id="toStep2" type="button">▶ פתח סימולציית WhatsApp</button>
       </div>
@@ -2625,10 +2632,43 @@ window.addEventListener('scroll',()=>{
     let n = 522;
     c.textContent = n;
     [0,1,2,3].forEach(k=>setTimeout(()=>{ c.textContent = ++n; }, 350 + k*550 + 250));
+    pmApprove();
+  }
+  // after the rows appear, a mouse changes rows 1 and 4 to "אושר לשליחה"
+  let pmApproveTimers = [];
+  function pmApproveStop(){ pmApproveTimers.forEach(clearTimeout); pmApproveTimers = []; }
+  function pmApprove(){
+    pmApproveStop();
+    const t = document.getElementById('pmTable');
+    const cur = document.getElementById('pmCursor');
+    const sts = t.querySelectorAll('.pm-item .pm-status');
+    sts.forEach(el=>{ el.textContent = 'ממתין לאישור שליחה'; el.style.background = '#0a93e0'; });
+    cur.classList.remove('show','click');
+    const at = (ms, fn)=>pmApproveTimers.push(setTimeout(fn, ms));
+    const moveTo = (el)=>{
+      const tr = t.getBoundingClientRect(), r = el.getBoundingClientRect();
+      cur.style.transform = 'translate(' + (r.left - tr.left + r.width*0.45) + 'px,' + (r.top - tr.top + r.height*0.2) + 'px)';
+    };
+    cur.style.transition = 'none';
+    cur.style.transform = 'translate(' + (t.clientWidth*0.5) + 'px,' + (t.clientHeight + 10) + 'px)';
+    void cur.offsetWidth; cur.style.transition = '';
+    const approve = (el)=>{
+      cur.classList.add('click');
+      at(150, ()=>{
+        cur.classList.remove('click');
+        el.textContent = 'אושר לשליחה'; el.style.background = '#9b00f0';
+        el.classList.remove('sr-flip'); void el.offsetWidth; el.classList.add('sr-flip');
+      });
+    };
+    at(3000, ()=>{ cur.classList.add('show'); moveTo(sts[0]); });
+    at(4100, ()=>approve(sts[0]));
+    at(4900, ()=>moveTo(sts[3]));
+    at(6000, ()=>approve(sts[3]));
+    at(7000, ()=>cur.classList.remove('show'));
   }
   openBtn.addEventListener('click', ()=>{ overlay.hidden=false; history=[1]; render(); playPm(); });
-  closeBtn.addEventListener('click', ()=>{ overlay.hidden=true; stopPmLive(); });
-  overlay.addEventListener('click', (e)=>{ if(e.target===overlay){ overlay.hidden=true; stopPmLive(); } });
+  closeBtn.addEventListener('click', ()=>{ overlay.hidden=true; stopPmLive(); pmApproveStop(); });
+  overlay.addEventListener('click', (e)=>{ if(e.target===overlay){ overlay.hidden=true; stopPmLive(); pmApproveStop(); } });
   toStep2.addEventListener('click', ()=>goto(2));
   navBack.addEventListener('click', back);
   navRestart.addEventListener('click', restart);
