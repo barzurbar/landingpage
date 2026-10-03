@@ -1224,6 +1224,16 @@ footer{
 .em-in{border:1px solid #d5dbe3;border-radius:8px;padding:9px 12px;font-size:.88rem;background:#f8fafc;min-height:38px;display:flex;align-items:center;justify-content:space-between}
 .em-ltr{direction:ltr;justify-content:flex-end}
 .em-caret{color:#8a94a6}
+button.em-in{width:100%;font-family:'Heebo',sans-serif;color:#1f2d3d;cursor:pointer;text-align:right}
+button.em-in:disabled{cursor:default}
+.em-ph{color:#8a94a6}
+.em-pick.ob-pulse{border-color:#1e5bb8}
+.em-menu{margin-top:6px;border:1px solid #d5dbe3;border-radius:8px;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.12);overflow:hidden}
+.em-menu[hidden]{display:none}
+.em-opt{display:block;width:100%;text-align:right;background:none;border:none;padding:10px 12px;font-family:'Heebo',sans-serif;font-size:.88rem;color:#1f2d3d;cursor:pointer;border-radius:0}
+.em-opt+.em-opt{border-top:1px solid #eef1f4}
+.em-opt:hover{background:#f2f6fa}
+#emMeetBadge{white-space:nowrap;overflow-wrap:normal;word-break:keep-all;padding-left:6px;padding-right:6px}
 .em-submit{display:block;width:100%;margin-top:18px;border:none;border-radius:8px;padding:12px;background:#1e5bb8;color:#fff;font-family:'Heebo',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer}
 .em-submit:disabled{background:#9db4d6;cursor:default}
 .em-up-hero{position:relative;height:96px;background:linear-gradient(180deg,#e9f2ff,#fff);overflow:hidden}
@@ -3163,10 +3173,18 @@ window.addEventListener('scroll',()=>{
               <div class="em-fld"><label>שם המעסיק <i>*</i></label><div class="em-in">זוהן בע"מ</div></div>
               <div class="em-fld"><label>איש קשר של המעסיק <i>*</i></label><div class="em-in">משה כהן</div></div>
             </div>
-            <button class="em-submit ob-pulse" id="emSubmit" type="button">שליחת הטופס</button>
+            <div class="em-fld"><label>סוג הפגישה <i>*</i></label>
+              <button class="em-in em-sel em-pick ob-pulse" id="emMeet" type="button"><span id="emMeetTxt" class="em-ph">בחרו סוג פגישה</span><span class="em-caret">⌄</span></button>
+              <div class="em-menu ob-pulse" id="emMeetMenu" hidden>
+                <button class="em-opt" type="button" data-meet="front">🤝 פרונטלית</button>
+                <button class="em-opt" type="button" data-meet="meet">📹 גוגל מיט</button>
+                <button class="em-opt" type="button" data-meet="phone">📞 טלפונית</button>
+              </div>
+            </div>
+            <button class="em-submit" id="emSubmit" type="button" disabled>שליחת הטופס</button>
           </div>
         </div>
-        <p class="ob-hint-txt" id="emHint">לחצו על "שליחת הטופס"</p>
+        <p class="ob-hint-txt" id="emHint">לחצו על השדה "סוג הפגישה"</p>
         <div id="emWaWrap" hidden>
           <button class="wa-cta" id="emToWa" type="button">▶ פתח סימולציית WhatsApp</button>
         </div>
@@ -3218,7 +3236,7 @@ window.addEventListener('scroll',()=>{
             <h4 id="emBkTitle">פגישת היכרות</h4>
             <div class="bk-meta">
               <span>⏱ 30 דק'</span>
-              <span>📍 2 אפשרויות מיקום</span>
+              <span id="emBkLoc">📹 Google Meet</span>
               <span>🌍 Asia/Jerusalem</span>
             </div>
           </div>
@@ -3253,7 +3271,7 @@ window.addEventListener('scroll',()=>{
         <div class="sr-glow">
           <div class="sr-table sr-meet">
             <div class="sr-row head"><span>נושא</span><span>לקוח</span><span>סוג</span><span>סטטוס</span></div>
-            <div class="sr-row"><span class="sr-subj">פגישת היכרות</span><span class="sr-client">ישראלי דניאל</span><span class="sr-status" style="background:#ec4fa8">פגישה מקוונת</span><span class="sr-status" style="background:#1e90e0">מתוכננת</span></div>
+            <div class="sr-row"><span class="sr-subj">פגישת היכרות</span><span class="sr-client">ישראלי דניאל</span><span class="sr-status" id="emMeetBadge" style="background:#ec4fa8">פגישה מקוונת</span><span class="sr-status" style="background:#1e90e0">מתוכננת</span></div>
           </div>
         </div>
       </div>
@@ -3405,14 +3423,19 @@ window.addEventListener('scroll',()=>{
   function reset(){
     timers.forEach(clearTimeout); timers = [];
     stopLive();
-    submit.disabled=false;
+    submit.disabled=true;
     submit.textContent='שליחת הטופס';
-    submit.classList.add('ob-pulse');
+    submit.classList.remove('ob-pulse');
+    meetType=null;
+    meetBtn.disabled=false;
+    meetBtn.classList.add('ob-pulse');
+    meetTxt.textContent='בחרו סוג פגישה'; meetTxt.classList.add('em-ph');
+    meetMenu.hidden=true;
     [dropF,dropB].forEach(d=>{ d.classList.remove('done','ob-pulse'); d.disabled=false; d.querySelector('.em-drop-ic').textContent='📁'; d.querySelector('.em-drop-txt').innerHTML='גרור ושחרר קובץ או <u>עיון</u>'; });
     dropF.classList.add('ob-pulse');
     upSend.disabled=true; upSend.classList.remove('ob-pulse');
     waWrap.hidden=true;
-    hint.textContent='לחצו על "שליחת הטופס"';
+    hint.textContent='לחצו על השדה "סוג הפגישה"';
     waBody.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
     document.getElementById('emContinueWrap').hidden = true;
     obGrid.querySelectorAll('.d.sel').forEach(c=>c.classList.remove('sel'));
@@ -3421,11 +3444,38 @@ window.addEventListener('scroll',()=>{
   }
   function close(){ ov.hidden=true; timers.forEach(clearTimeout); timers = []; stopLive(); }
 
+  const meetBtn = document.getElementById('emMeet');
+  const meetTxt = document.getElementById('emMeetTxt');
+  const meetMenu = document.getElementById('emMeetMenu');
+  const MEET = {
+    front:{label:'פרונטלית', phrase:'פרונטלית', loc:'🤝 פגישה פרונטלית במשרדי הסוכנות', badge:'פרונטלית', color:'#8b5cf6'},
+    meet:{label:'גוגל מיט', phrase:'בגוגל מיט', loc:'📹 Google Meet', badge:'פגישה מקוונת', color:'#ec4fa8'},
+    phone:{label:'טלפונית', phrase:'טלפונית', loc:'📞 שיחה טלפונית', badge:'טלפונית', color:'#f07b1d'}
+  };
+  let meetType = null;
+  meetBtn.addEventListener('click', ()=>{
+    meetMenu.hidden = !meetMenu.hidden;
+    meetBtn.classList.remove('ob-pulse');
+    hint.textContent='בחרו את סוג הפגישה שתתואם עם העובד';
+  });
+  meetMenu.addEventListener('click', (e)=>{
+    const o = e.target.closest('.em-opt');
+    if(!o) return;
+    meetType = MEET[o.dataset.meet];
+    meetTxt.textContent = meetType.label; meetTxt.classList.remove('em-ph');
+    meetMenu.hidden = true;
+    submit.disabled = false; submit.classList.add('ob-pulse');
+    hint.textContent='לחצו על "שליחת הטופס"';
+    document.getElementById('emBkLoc').textContent = meetType.loc;
+    const badge = document.getElementById('emMeetBadge');
+    badge.textContent = meetType.badge; badge.style.background = meetType.color;
+  });
   submit.addEventListener('click', ()=>{
     submit.classList.remove('ob-pulse');
     submit.disabled=true;
+    meetBtn.disabled=true;
     submit.textContent='✓ הטופס נשלח';
-    hint.textContent='✓ נוצר ליד ותהליך קליטת עובד בשורנס, האוטומציה הופעלה';
+    hint.innerHTML='✓ נוצר ליד ותהליך קליטת עובד בשורנס, והאוטומציה הופעלה.<br>בהמשך התהליך יישלח לעובד קישור לתיאום פגישה '+meetType.phrase+', לפי סוג הפגישה שנבחר בטופס.';
     later(()=>{ waWrap.hidden=false; }, 500);
   });
   document.getElementById('emToWa').addEventListener('click', ()=>{
@@ -3453,7 +3503,7 @@ window.addEventListener('scroll',()=>{
   document.getElementById('emSigContinue').addEventListener('click', ()=>{
     show(8);
     scrollBottom();
-    sendMsg('קיבלנו את החתימה על הנספחים – תודה!🙌\nכעת נשמח לתאם איתך פגישת היכרות, כדי להתאים לך את הפנסיה והביטוחים כעובד/ת חדש/ה בזוהן בע"מ.\n\n📅לקביעת מועד לפגישה – יש ללחוץ על הכפתור מטה👇\n\nמחכים לפגוש אותך,\nהמצפן סוכנות לביטוח',
+    sendMsg('קיבלנו את החתימה על הנספחים – תודה!🙌\nכעת נשמח לתאם איתך פגישת היכרות '+meetType.phrase+', כדי להתאים לך את הפנסיה והביטוחים כעובד/ת חדש/ה בזוהן בע"מ.\n\n📅לקביעת מועד לפגישה – יש ללחוץ על הכפתור מטה👇\n\nמחכים לפגוש אותך,\nהמצפן סוכנות לביטוח',
       'לחץ לתיאום פגישה', ()=>show(9));
   });
 
@@ -3474,7 +3524,7 @@ window.addEventListener('scroll',()=>{
     if(m[3].toLowerCase()==='pm' && h!==12) h += 12;
     if(m[3].toLowerCase()==='am' && h===12) h = 0;
     const [y,mo,d] = cell.dataset.date.split('-');
-    const text = 'נקבעה לך פגישה ביום '+cell.dataset.wd+', בתאריך '+d+'.'+mo+'.'+y.slice(2)+' בשעה '+String(h).padStart(2,'0')+':'+m[2]+'.\nמחכים לפגוש אותך,\nהמצפן סוכנות לביטוח';
+    const text = (meetType ? 'נקבעה לך פגישה '+meetType.phrase+' ביום ' : 'נקבעה לך פגישה ביום ')+cell.dataset.wd+', בתאריך '+d+'.'+mo+'.'+y.slice(2)+' בשעה '+String(h).padStart(2,'0')+':'+m[2]+'.\nמחכים לפגוש אותך,\nהמצפן סוכנות לביטוח';
     show(10);
     scrollBottom();
     const t = typing();
