@@ -1208,6 +1208,34 @@ footer{
 .ff-clear{position:absolute;top:8px;right:8px;background:#f5f5f5;border:1px solid #ddd;border-radius:4px;font-size:.72rem;color:#6b7280;padding:3px 8px}
 .ff-sigpad .sig-name{font-size:1.8rem}
 .ff-sigpad .sig-flourish{bottom:28px}
+/* employer onboarding demo */
+.em-form{background:#fff;border-radius:12px;border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 28px rgba(0,0,0,.35);overflow:hidden;font-family:'Heebo',sans-serif;color:#1f2d3d}
+.em-form-head{background:linear-gradient(135deg,#0b2a7a,#1e5bb8);color:#fff;text-align:center;padding:20px 16px 18px}
+.em-logo{width:52px;height:52px;margin:0 auto 8px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:1.7rem;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.em-logo.sm{width:38px;height:38px;font-size:1.25rem;margin:0;flex-shrink:0}
+.em-form-title{font-size:1.15rem;font-weight:800}
+.em-form-brand{font-size:.85rem;opacity:.85;margin-top:2px}
+.em-form-body{padding:16px 18px 20px}
+.em-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:480px){.em-row2{grid-template-columns:1fr;gap:0}}
+.em-fld{margin-top:12px;min-width:0}
+.em-fld label{display:block;font-size:.8rem;font-weight:600;color:#3a4550;margin-bottom:5px}
+.em-fld label i{color:#dc2626;font-style:normal}
+.em-in{border:1px solid #d5dbe3;border-radius:8px;padding:9px 12px;font-size:.88rem;background:#f8fafc;min-height:38px;display:flex;align-items:center;justify-content:space-between}
+.em-ltr{direction:ltr;justify-content:flex-end}
+.em-caret{color:#8a94a6}
+.em-submit{display:block;width:100%;margin-top:18px;border:none;border-radius:8px;padding:12px;background:#1e5bb8;color:#fff;font-family:'Heebo',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer}
+.em-submit:disabled{background:#9db4d6;cursor:default}
+.em-up-hero{position:relative;height:96px;background:linear-gradient(180deg,#e9f2ff,#fff);overflow:hidden}
+.em-up-arc{position:absolute;left:-60px;top:-80px;width:160px;height:160px;border-radius:50%;border:22px solid #1e5bb8;opacity:.9}
+.em-up-brand{position:absolute;right:16px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:10px;font-size:.92rem;color:#0b2a7a}
+.em-up-brand small{display:block;font-size:.72rem;color:#5b6b80;font-weight:400}
+.em-drop{width:100%;border:1.5px dashed #c7d0db;border-radius:10px;background:#fafbfc;padding:18px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;color:#5b6b80;font-family:'Heebo',sans-serif;font-size:.85rem;cursor:pointer}
+.em-drop.ob-pulse{border-style:solid;border-color:#1e5bb8;border-radius:10px}
+.em-drop.done{border-style:solid;border-color:#00c97a;background:#effcf6;color:#0a7a4a;cursor:default}
+.em-drop-ic{font-size:1.3rem}
+.em-drop u{color:#1e5bb8}
+
 </style>
 </head>
 <body>
@@ -1353,6 +1381,9 @@ footer{
             <li>איסוף פרטים ומסמכים נדרשים</li>
             <li>תיאום פגישה עם העובד</li>
           </ul>
+          <button class="demo-cta" id="openEmModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
       </div>
     </div>
@@ -3097,6 +3128,399 @@ window.addEventListener('scroll',()=>{
 
   document.getElementById('openObModal').addEventListener('click', ()=>{ reset(); ov.hidden=false; });
   document.getElementById('obClose').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="emOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="emTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="emTitle">
+        <span id="emStepLabel">// שלב 1 — טופס קליטה מהמעסיק</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-em-dot="1"></i><i data-em-dot="2"></i><i data-em-dot="3"></i><i data-em-dot="4"></i><i data-em-dot="5"></i><i data-em-dot="6"></i><i data-em-dot="7"></i><i data-em-dot="8"></i><i data-em-dot="9"></i><i data-em-dot="10"></i><i data-em-dot="11"></i></span>
+      </div>
+      <button class="modal-close" id="emClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="emBody">
+
+      <!-- EM STEP 1: employer onboarding form -->
+      <div class="step active" data-em-step="1">
+        <p class="ob-txt">האוטומציה מתחילה ברגע שהמעסיק ממלא טופס קליטה עבור העובד החדש.<br>נוצר ליד בשורנס ותהליך מסוג קליטת עובד ממעסיק, ונשלחת לעובד הודעת WhatsApp.</p>
+        <div class="em-form">
+          <div class="em-form-head">
+            <div class="em-logo">🧭</div>
+            <div class="em-form-title">טופס קליטת עובד חדש</div>
+            <div class="em-form-brand">המצפן סוכנות לביטוח</div>
+          </div>
+          <div class="em-form-body">
+            <div class="em-row2">
+              <div class="em-fld"><label>שם פרטי <i>*</i></label><div class="em-in">דניאל</div></div>
+              <div class="em-fld"><label>שם משפחה <i>*</i></label><div class="em-in">ישראלי</div></div>
+            </div>
+            <div class="em-fld"><label>טלפון <i>*</i></label><div class="em-in em-ltr">052-123-4567</div></div>
+            <div class="em-fld"><label>סוג הליד (עבור השורנס) <i>*</i></label><div class="em-in em-sel"><span>עובד חדש</span><span class="em-caret">⌄</span></div></div>
+            <div class="em-row2">
+              <div class="em-fld"><label>שם המעסיק <i>*</i></label><div class="em-in">זוהן בע"מ</div></div>
+              <div class="em-fld"><label>איש קשר של המעסיק <i>*</i></label><div class="em-in">משה כהן</div></div>
+            </div>
+            <button class="em-submit ob-pulse" id="emSubmit" type="button">שליחת הטופס</button>
+          </div>
+        </div>
+        <p class="ob-hint-txt" id="emHint">לחצו על "שליחת הטופס"</p>
+        <div id="emWaWrap" hidden>
+          <button class="wa-cta" id="emToWa" type="button">▶ פתח סימולציית WhatsApp</button>
+        </div>
+      </div>
+
+      <!-- EM STEP 2: WhatsApp -->
+      <div class="step" data-em-step="2">
+        <div class="wa-frame">
+          <div class="wa-top">
+            <div class="wa-avatar">🧭</div>
+            המצפן סוכנות לביטוח
+          </div>
+          <div class="wa-body" id="emWaBody"></div>
+        </div>
+        <div class="wa-continue-wrap" id="emContinueWrap" hidden>
+          <button class="wa-continue-btn" id="emContinueBtn" type="button">המשך לשלב הבא ›</button>
+        </div>
+      </div>
+
+      <!-- EM STEP 3: ID photo upload -->
+      <div class="step" data-em-step="3">
+        <p class="step-txt" style="margin-bottom:12px">העובד מועבר לטופס העלאת צילום תעודת הזהות:</p>
+        <div class="em-form">
+          <div class="em-up-hero">
+            <div class="em-up-arc"></div>
+            <div class="em-up-brand"><span class="em-logo sm">🧭</span><span><b>המצפן סוכנות לביטוח</b><small>פיננסים | ביטוח | פנסיה</small></span></div>
+          </div>
+          <div class="em-form-body">
+            <div class="em-fld"><label>העלאת צילום של תעודת זהות מקדימה <i>*</i></label>
+              <button class="em-drop ob-pulse" id="emDropFront" type="button"><span class="em-drop-ic">📁</span><span class="em-drop-txt">גרור ושחרר קובץ או <u>עיון</u></span></button>
+            </div>
+            <div class="em-fld"><label>העלאת צילום של תעודת זהות מאחורה</label>
+              <button class="em-drop" id="emDropBack" type="button"><span class="em-drop-ic">📁</span><span class="em-drop-txt">גרור ושחרר קובץ או <u>עיון</u></span></button>
+            </div>
+            <button class="em-submit" id="emUpSend" type="button" disabled>שלח</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- EM STEP 9: meeting booking (copied from the periodic-meetings demo) -->
+      <div class="step" data-em-step="9">
+        <p class="step-txt" style="margin-bottom:12px">העובד מועבר לחלון בחירת מועד, עם היומן והזמינות האמיתיים של הסוכנות:</p>
+        <div class="bk-frame">
+          <div class="bk-head">
+            <div class="bk-org"><b>המצפן סוכנות לביטוח</b></div>
+            <div class="bk-logo">🧭</div>
+          </div>
+          <div class="bk-titlebox">
+            <h4 id="emBkTitle">פגישת היכרות</h4>
+            <div class="bk-meta">
+              <span>⏱ 30 דק'</span>
+              <span>📍 2 אפשרויות מיקום</span>
+              <span>🌍 Asia/Jerusalem</span>
+            </div>
+          </div>
+          <div class="bk-cal-nav"><span>‹</span><span>אוקטובר 2026</span><span>›</span></div>
+          <div class="bk-grid" id="emBkGrid">
+            <div class="wd">שבת</div><div class="wd">יום ו</div><div class="wd">יום ה</div><div class="wd">יום ד</div><div class="wd">יום ג</div><div class="wd">יום ב</div><div class="wd">יום א</div>
+            <div class="d mute">3</div><div class="d mute">2</div><div class="d mute">1</div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+            <div class="d pick" data-date="2026-10-10" data-wd="שבת">10</div><div class="d pick" data-date="2026-10-09" data-wd="שישי">9</div><div class="d pick" data-date="2026-10-08" data-wd="חמישי">8</div><div class="d pick" data-date="2026-10-07" data-wd="רביעי">7</div><div class="d pick" data-date="2026-10-06" data-wd="שלישי">6</div><div class="d pick" data-date="2026-10-05" data-wd="שני">5</div><div class="d pick sel" data-date="2026-10-04" data-wd="ראשון">4</div>
+            <div class="d pick" data-date="2026-10-17" data-wd="שבת">17</div><div class="d pick" data-date="2026-10-16" data-wd="שישי">16</div><div class="d pick" data-date="2026-10-15" data-wd="חמישי">15</div><div class="d pick" data-date="2026-10-14" data-wd="רביעי">14</div><div class="d pick" data-date="2026-10-13" data-wd="שלישי">13</div><div class="d pick" data-date="2026-10-12" data-wd="שני">12</div><div class="d pick" data-date="2026-10-11" data-wd="ראשון">11</div>
+          </div>
+          <div class="bk-slots" id="emBkSlots">
+            <div class="bk-slot"><span>9:00am</span><i></i></div>
+            <div class="bk-slot"><span>9:30am</span><i></i></div>
+            <div class="bk-slot"><span>10:00am</span><i></i></div>
+            <div class="bk-slot"><span>10:30am</span><i></i></div>
+            <div class="bk-slot"><span>11:00am</span><i></i></div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- EM STEP 11: automatic status updates in Surense -->
+      <div class="step" data-em-step="11">
+        <p class="step-txt">בכל שלב הסטטוס של התהליך בשורנס משתנה אוטומטית, בהתאם למצב התהליך מול העובד:</p>
+        <div class="sr-table">
+          <div class="sr-row head"><span>☰ סוג תהליך</span><span>סטטוס</span><span>לקוח</span></div>
+          <div class="sr-row"><span class="sr-type">קליטת עובד ממעסיק</span><span class="sr-status sr-live" id="emLiveStatus" style="background:#1e90e0">תהליך קליטת עובד</span><span class="sr-client">ישראלי דניאל</span></div>
+        </div>
+        <div class="sr-steps" id="emLiveSteps" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+        <div class="shot-cap" id="emLiveCap">המעסיק מילא טופס קליטה ונפתח תהליך לעובד</div>
+        <p class="step-txt">ובמקביל, נוצרת אוטומטית פגישה חדשה בלוח הפגישות של שורנס:</p>
+        <div class="sr-glow">
+          <div class="sr-table sr-meet">
+            <div class="sr-row head"><span>נושא</span><span>לקוח</span><span>סוג</span><span>סטטוס</span></div>
+            <div class="sr-row"><span class="sr-subj">פגישת היכרות</span><span class="sr-client">ישראלי דניאל</span><span class="sr-status" style="background:#ec4fa8">פגישה מקוונת</span><span class="sr-status" style="background:#1e90e0">מתוכננת</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EM STEP 5: power of attorney (copied from the periodic-meetings demo) -->
+      <div class="step" data-em-step="5">
+        <div class="poa-frame">
+          <div class="poa-logo">🧭</div>
+          <div class="poa-brand">המצפן סוכנות לביטוח</div>
+          <div class="poa-brand-sub">פיננסים | ביטוח | פנסיה</div>
+          <div class="poa-heading">אתם בידיים טובות!</div>
+          <button class="poa-continue" id="emPoaContinue" type="button">המשך</button>
+        </div>
+      </div>
+
+      <!-- EM STEP 6: details -->
+      <div class="step" data-em-step="6">
+        <p class="step-txt" style="margin-bottom:12px">ולבסוף, אימות ועדכון הפרטים האישיים של העובד:</p>
+        <div class="frm-frame">
+          <div class="frm-heading">כמה פרטים עליך</div>
+
+          <div class="frm-field">
+            <label>שם פרטי</label>
+            <div class="frm-box"><span class="frm-val">דניאל</span><span class="fi">👤</span></div>
+          </div>
+
+          <div class="frm-field">
+            <label>שם משפחה</label>
+            <div class="frm-box"><span class="frm-val">ישראלי</span><span class="fi">👤</span></div>
+          </div>
+
+          <div class="frm-row">
+            <div class="frm-field">
+              <label>תעודת זהות</label>
+              <div class="frm-box"><span class="frm-val">20222222</span><span class="fi">🪪</span></div>
+            </div>
+            <div class="frm-dd"><span>ת.ז</span><span>⌄</span></div>
+          </div>
+
+          <div class="frm-field">
+            <label>סלולרי</label>
+            <div class="frm-box"><span class="frm-val">052-123-4567</span><span class="fi">📱</span></div>
+          </div>
+
+          <div class="frm-field">
+            <label>דוא"ל</label>
+            <div class="frm-box"><span class="frm-val">danielisraeli@gmail.com</span><span class="fi">✉️</span></div>
+          </div>
+
+          <div class="frm-checks">
+            <label class="frm-check">
+              <p>הריני לאשר את <a href="#" onclick="return false">תנאי השימוש</a> ו<a href="#" onclick="return false">מדיניות הפרטיות</a> של האתר</p>
+              <input type="checkbox" checked>
+            </label>
+            <label class="frm-check">
+              <p>הריני לאשר קבלת מידע שיווקי, פרסומי, הודעות והצעות לרכישת מוצרים</p>
+              <input type="checkbox">
+            </label>
+          </div>
+
+          <div class="frm-continue-wrap">
+            <button class="poa-continue" id="emFrmContinue" type="button">המשך</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- EM STEP 7: insurance POA signature -->
+      <div class="step" data-em-step="7">
+        <p class="step-txt" style="margin-bottom:12px">ולבסוף, חתימה על ייפוי כוח לחברות הביטוח (עם חתימה שכבר מולאה מראש):</p>
+        <div class="sig-frame">
+          <div class="sig-heading">כדי לבדוק את הביטוחים שלך...</div>
+          <div class="sig-desc">הריני לאשר בחתימתי בפנייתכם לחברות הביטוח לקבלת העתקי הפוליסות שלי ושל ילדיי הקטנים</div>
+          <a class="sig-poa-link" href="#" onclick="return false">לצפייה בייפוי הכוח</a>
+          <div class="sig-box">
+            <span class="sig-name">דניאל ישראלי</span>
+            <svg class="sig-flourish" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 14 C 30 4, 50 20, 80 10 S 130 2, 160 12 S 190 18, 198 8" stroke="#1a3a6b" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <a class="sig-redo" href="#" onclick="return false">מחק וחתום שוב</a>
+          <div class="frm-continue-wrap">
+            <button class="poa-continue" id="emSigContinue" type="button">המשך</button>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('emOverlay');
+  const obBody = document.getElementById('emBody');
+  const hint = document.getElementById('emHint');
+  const submit = document.getElementById('emSubmit');
+  const dropF = document.getElementById('emDropFront');
+  const dropB = document.getElementById('emDropBack');
+  const upSend = document.getElementById('emUpSend');
+  const waWrap = document.getElementById('emWaWrap');
+  const waBody = document.getElementById('emWaBody');
+  const stepLabel = document.getElementById('emStepLabel');
+  const labels = {1:'// שלב 1 — טופס קליטה מהמעסיק',2:'// שלב 2 — הודעת WhatsApp לעובד',3:'// שלב 3 — העלאת צילום ת.ז',4:'// שלב 4 — אישור קבלת ת.ז',5:'// שלב 5 — חתימה על ייפוי כוח',6:'// שלב 6 — אימות פרטים',7:'// שלב 7 — חתימה על ייפוי כוח לביטוחים',8:'// שלב 8 — תיאום פגישה',9:'// שלב 9 — קביעת מועד',10:'// שלב 10 — אישור הפגישה',11:'// שלב 11 — עדכון סטטוס בשורנס'};
+  let timers = [];
+
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    const view = (n===4 || n===8 || n===10) ? 2 : n;
+    ov.querySelectorAll('[data-em-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.emStep)===view));
+    ov.querySelectorAll('[data-em-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.emDot)<=n));
+    stepLabel.textContent = labels[n];
+    obBody.scrollTop = 0;
+  }
+  function scrollBottom(){ obBody.scrollTop = obBody.scrollHeight; }
+  function typing(){
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    waBody.appendChild(t);
+    scrollBottom();
+    return t;
+  }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function sendMsg(text, btnLabel, onBtn){
+    const t = typing();
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      b.textContent = text;
+      const tm = document.createElement('div');
+      tm.className = 'wa-time';
+      tm.textContent = now();
+      b.appendChild(tm);
+      waBody.appendChild(b);
+      const wrap = document.createElement('div');
+      wrap.className = 'wa-btns-wrap pop ob-wa-btns';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'wa-btn' + (onBtn ? ' ob-pulse' : '');
+      btn.textContent = '🔗 ' + btnLabel;
+      if(onBtn) btn.addEventListener('click', ()=>{ btn.classList.remove('ob-pulse'); onBtn(); });
+      wrap.appendChild(btn);
+      waBody.appendChild(wrap);
+      scrollBottom();
+    }, 900);
+  }
+
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    stopLive();
+    submit.disabled=false;
+    submit.textContent='שליחת הטופס';
+    submit.classList.add('ob-pulse');
+    [dropF,dropB].forEach(d=>{ d.classList.remove('done','ob-pulse'); d.disabled=false; d.querySelector('.em-drop-ic').textContent='📁'; d.querySelector('.em-drop-txt').innerHTML='גרור ושחרר קובץ או <u>עיון</u>'; });
+    dropF.classList.add('ob-pulse');
+    upSend.disabled=true; upSend.classList.remove('ob-pulse');
+    waWrap.hidden=true;
+    hint.textContent='לחצו על "שליחת הטופס"';
+    waBody.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    document.getElementById('emContinueWrap').hidden = true;
+    obGrid.querySelectorAll('.d.sel').forEach(c=>c.classList.remove('sel'));
+    if(obDefaultSel) obDefaultSel.classList.add('sel');
+    show(1);
+  }
+  function close(){ ov.hidden=true; timers.forEach(clearTimeout); timers = []; stopLive(); }
+
+  submit.addEventListener('click', ()=>{
+    submit.classList.remove('ob-pulse');
+    submit.disabled=true;
+    submit.textContent='✓ הטופס נשלח';
+    hint.textContent='✓ נוצר ליד ותהליך קליטת עובד בשורנס, האוטומציה הופעלה';
+    later(()=>{ waWrap.hidden=false; }, 500);
+  });
+  document.getElementById('emToWa').addEventListener('click', ()=>{
+    show(2);
+    sendMsg('היי דניאל, ברוך הבא לזוהן בע"מ! 🎉\nאנחנו המצפן סוכנות לביטוח, ונלווה אותך בכל נושאי הפנסיה והביטוח במסגרת הקליטה לעבודה.\n\nכשלב ראשון, נבקש להעלות צילום של תעודת הזהות שלך.\n📷להעלאת הצילום – יש ללחוץ על הכפתור מטה👇\n\nלכל שאלה – אנחנו כאן לשירותך,\nהמצפן סוכנות לביטוח',
+      'להעלאת צילום ת.ז', ()=>show(3));
+  });
+  function upload(d, name){
+    d.classList.remove('ob-pulse'); d.classList.add('done'); d.disabled=true;
+    d.querySelector('.em-drop-ic').textContent='✅';
+    d.querySelector('.em-drop-txt').textContent=name;
+  }
+  dropF.addEventListener('click', ()=>{ upload(dropF,'id-front.jpg'); if(!dropB.disabled) dropB.classList.add('ob-pulse'); else ready(); });
+  dropB.addEventListener('click', ()=>{ upload(dropB,'id-back.jpg'); if(dropF.disabled) ready(); });
+  function ready(){ upSend.disabled=false; upSend.classList.add('ob-pulse'); }
+  upSend.addEventListener('click', ()=>{
+    show(4);
+    scrollBottom();
+    sendMsg('קיבלנו את צילומי תעודת הזהות – תודה רבה!🙏\n\nהשלב הבא הוא חתימה על נספחי הרשאות, שיאפשרו לנו לפנות בשמך לגופים הרלוונטיים ולבדוק את מצב הפנסיה והביטוחים שלך.\n\n✍לחתימה על ההרשאות – יש ללחוץ על הכפתור מטה👇\n\nלכל שאלה – אנחנו כאן,\nהמצפן סוכנות לביטוח',
+      'לחתימה על נספחים', ()=>show(5));
+  });
+
+  document.getElementById('emPoaContinue').addEventListener('click', ()=>show(6));
+  document.getElementById('emFrmContinue').addEventListener('click', ()=>show(7));
+  document.getElementById('emSigContinue').addEventListener('click', ()=>{
+    show(8);
+    scrollBottom();
+    sendMsg('קיבלנו את החתימה על הנספחים – תודה!🙌\nכעת נשמח לתאם איתך פגישת היכרות, כדי להתאים לך את הפנסיה והביטוחים כעובד/ת חדש/ה בזוהן בע"מ.\n\n📅לקביעת מועד לפגישה – יש ללחוץ על הכפתור מטה👇\n\nמחכים לפגוש אותך,\nהמצפן סוכנות לביטוח',
+      'לחץ לתיאום פגישה', ()=>show(9));
+  });
+
+  const obGrid = document.getElementById('emBkGrid');
+  const obDefaultSel = obGrid.querySelector('.d.sel');
+  obGrid.addEventListener('click', (e)=>{
+    const cell = e.target.closest('.d.pick');
+    if(!cell) return;
+    obGrid.querySelectorAll('.d.sel').forEach(c=>c.classList.remove('sel'));
+    cell.classList.add('sel');
+  });
+  document.getElementById('emBkSlots').addEventListener('click', (e)=>{
+    const slot = e.target.closest('.bk-slot');
+    const cell = obGrid.querySelector('.d.sel');
+    if(!slot || !cell) return;
+    const m = slot.querySelector('span').textContent.match(/^(\d{1,2}):(\d{2})(am|pm)$/i);
+    let h = parseInt(m[1],10);
+    if(m[3].toLowerCase()==='pm' && h!==12) h += 12;
+    if(m[3].toLowerCase()==='am' && h===12) h = 0;
+    const [y,mo,d] = cell.dataset.date.split('-');
+    const text = 'נקבעה לך פגישה ביום '+cell.dataset.wd+', בתאריך '+d+'.'+mo+'.'+y.slice(2)+' בשעה '+String(h).padStart(2,'0')+':'+m[2]+'.\nמחכים לפגוש אותך,\nהמצפן סוכנות לביטוח';
+    show(10);
+    scrollBottom();
+    const t = typing();
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      b.textContent = text;
+      const tm = document.createElement('div');
+      tm.className = 'wa-time';
+      tm.textContent = now();
+      b.appendChild(tm);
+      waBody.appendChild(b);
+      document.getElementById('emContinueWrap').hidden = false;
+      scrollBottom();
+    }, 900);
+  });
+  const liveSteps = [
+    ['תהליך קליטת עובד','#1e90e0','המעסיק מילא טופס קליטה ונפתח תהליך לעובד'],
+    ['נשלחה בקשה להעלאת ת.ז','#f07b1d','נשלחה לעובד בקשה להעלות צילום תעודת זהות'],
+    ['התקבלו צילומי ת.ז, נשלח לינק אישור נספחים','#f5b400','העובד העלה את תעודת הזהות ונשלחו לו הנספחים'],
+    ['נחתם אישור נספחים, נשלח תיאום פגישה','#2563eb','העובד חתם על הנספחים ונשלח לו קישור לתיאום'],
+    ['תואמה פגישה','#00c97a','העובד קבע את פגישת ההיכרות']
+  ];
+  let liveTimer = null;
+  function stopLive(){ if(liveTimer){ clearInterval(liveTimer); liveTimer=null; } }
+  function startLive(){
+    stopLive();
+    const el = document.getElementById('emLiveStatus');
+    const cap = document.getElementById('emLiveCap');
+    const dots = document.querySelectorAll('#emLiveSteps i');
+    let i = 0;
+    const paint = ()=>{
+      el.classList.remove('sr-flip'); void el.offsetWidth; el.classList.add('sr-flip');
+      el.textContent = liveSteps[i][0];
+      el.style.background = liveSteps[i][1];
+      cap.textContent = liveSteps[i][2];
+      dots.forEach((d,k)=>d.classList.toggle('on', k<=i));
+    };
+    paint();
+    liveTimer = setInterval(()=>{ i = (i+1) % liveSteps.length; paint(); }, 2200);
+  }
+  document.getElementById('emContinueBtn').addEventListener('click', ()=>{ show(11); startLive(); });
+
+  document.getElementById('openEmModal').addEventListener('click', ()=>{ reset(); ov.hidden=false; });
+  document.getElementById('emClose').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
