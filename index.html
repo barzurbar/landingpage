@@ -3477,7 +3477,7 @@ window.addEventListener('scroll',()=>{
     submit.disabled=true;
     meetBtn.disabled=true;
     submit.textContent='✓ הטופס נשלח';
-    hint.innerHTML='✓ נוצר ליד ותהליך קליטת עובד בשורנס, והאוטומציה הופעלה.<br>בהמשך התהליך יישלח לעובד קישור לתיאום פגישה '+meetType.phrase+', לפי סוג הפגישה שנבחר בטופס.';
+    hint.innerHTML='✓ נוצר ליד ותהליך קליטת עובד בשורנס, והאוטומציה הופעלה.<br>בהמשך התהליך יישלח לעובד קישור לתיאום פגישה '+meetType.phrase+'.';
     later(()=>{ waWrap.hidden=false; }, 500);
   });
   document.getElementById('emToWa').addEventListener('click', ()=>{
