@@ -1478,6 +1478,9 @@ button.em-in:disabled{cursor:default}
             <li>שליחת ברכת יום הולדת אוטומטית בוואטסאפ</li>
             <li>יצירת קשר אישי ושמירה על קשר עם הלקוחות</li>
           </ul>
+          <button class="demo-cta" id="openBdModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
 
         <div class="srv-card">
@@ -3883,6 +3886,57 @@ window.addEventListener('scroll',()=>{
   document.getElementById('scClose').addEventListener('click', close);
   document.getElementById('scFinish').addEventListener('click', close);
   document.getElementById('scFinish2').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="bdOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="bdTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="bdTitle"><span>// ברכה ליום הולדת — הודעת WhatsApp</span></div>
+      <button class="modal-close" id="bdClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="ob-txt">ביום ההולדת של הלקוח, האוטומציה מזהה אותו בשורנס ושולחת לו ברכה אישית ב־WhatsApp:</p>
+      <div class="wa-frame">
+        <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+        <div class="wa-body" id="bdWaBody"></div>
+      </div>
+      <div class="wa-continue-wrap" id="bdFinishWrap" hidden>
+        <button class="wa-continue-btn demo-finish" id="bdFinish" type="button">✓ סיום הדגמה</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('bdOverlay');
+  const wa = document.getElementById('bdWaBody');
+  const wrap = document.getElementById('bdFinishWrap');
+  let timer = null;
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function open(){
+    clearTimeout(timer);
+    wrap.hidden = true;
+    wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div><div class="wa-typing pop"><span class="dt"></span><span class="dt"></span><span class="dt"></span></div>';
+    ov.hidden = false;
+    timer = setTimeout(()=>{
+      wa.querySelector('.wa-typing').remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      b.textContent = 'רצינו לאחל לך מכל הלב יום הולדת שמח! 🥳🎉\nתודה על האמון והבחירה בנו לאורך הדרך. מאחלים לך שנה מלאה בבריאות, הצלחה, שגשוג, הגשמת מטרות והרבה רגעים טובים.\nשתהיה לך שנה נפלאה ומלאה בבשורות טובות!\nמזל טוב! 🎂\nבברכה,\nהמצפן סוכנות לביטוח';
+      const tm = document.createElement('div');
+      tm.className = 'wa-time';
+      tm.textContent = now();
+      b.appendChild(tm);
+      wa.appendChild(b);
+      wrap.hidden = false;
+    }, 1100);
+  }
+  function close(){ ov.hidden = true; clearTimeout(timer); }
+  document.getElementById('openBdModal').addEventListener('click', open);
+  document.getElementById('bdClose').addEventListener('click', close);
+  document.getElementById('bdFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
