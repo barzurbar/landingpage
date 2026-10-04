@@ -1317,6 +1317,32 @@ button.em-in:disabled{cursor:default}
 .em-drop-ic{font-size:1.3rem}
 .em-drop u{color:#1e5bb8}
 
+/* lead info bot demo */
+.lb-out{background:#dcf8c6;border-radius:8px;padding:8px 12px;font-size:.83rem;color:#1a1a1a;margin:0 auto 10px 0;width:fit-content;max-width:75%;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.lb-out .wa-time{margin-top:2px}
+.lb-q .wa-btn{justify-content:center;text-align:center}
+.lb-q .wa-btn:disabled{color:#9aa5b1;cursor:default}
+.lb-q{margin-top:-6px;margin-bottom:12px}
+.lb-lead{background:#fff;border-radius:10px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;color:#1f2d3d;overflow:hidden}
+.lb-lead-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #e3e8ee}
+.lb-av{width:42px;height:42px;border-radius:50%;background:#2f7fd8;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+.lb-name{font-weight:800;font-size:1rem}
+.lb-meta{font-size:.76rem;color:#6b7785;display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:2px}
+.lb-meta span{direction:ltr;unicode-bidi:isolate}
+.lb-badge{margin-right:auto;background:#1e90e0;color:#fff;border-radius:4px;padding:4px 8px;font-size:.74rem;font-weight:700;white-space:nowrap}
+.lb-tabs{display:flex;gap:16px;padding:0 16px;border-bottom:1px solid #e3e8ee;font-size:.8rem;color:#6b7785}
+.lb-tabs span{padding:9px 0}
+.lb-tabs .on{color:#2f7fd8;font-weight:700;border-bottom:2px solid #2f7fd8}
+.lb-act{margin:12px;border:1px solid #d5e4f5;border-radius:8px;background:#f7fbff}
+.lb-act-head{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid #e3e8ee;font-size:.82rem;font-weight:700}
+.lb-act-ic{width:24px;height:24px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0}
+.lb-act-time{margin-right:auto;font-weight:400;color:#6b7785;font-size:.74rem;white-space:nowrap}
+.lb-act-body{padding:8px 12px 10px;font-size:.8rem}
+.lb-qa{display:grid;grid-template-columns:1fr auto;gap:10px;padding:6px 0;border-bottom:1px dashed #e3e8ee}
+.lb-qa:last-child{border-bottom:none}
+.lb-qa span{color:#5b6b80}
+.lb-qa b{text-align:left}
+@media (max-width:480px){.lb-qa{grid-template-columns:1fr;gap:2px}.lb-qa b{text-align:right}}
 </style>
 </head>
 <body>
@@ -1485,6 +1511,9 @@ button.em-in:disabled{cursor:default}
             <li>זיהוי חששות ונקודות חשובות לקראת הפרישה</li>
             <li>העברת המידע לנציג להמשך טיפול</li>
           </ul>
+          <button class="demo-cta" id="openLbModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
 
         <div class="srv-card">
@@ -4048,6 +4077,188 @@ window.addEventListener('scroll',()=>{
   document.getElementById('openBdModal').addEventListener('click', open);
   document.getElementById('bdClose').addEventListener('click', close);
   document.getElementById('bdFinish').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="lbOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="lbTitle">
+        <span id="lbStepLabel">// שלב 1 — טופס השארת פרטים</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-lb-dot="1"></i><i data-lb-dot="2"></i><i data-lb-dot="3"></i></span>
+      </div>
+      <button class="modal-close" id="lbClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="lbBody">
+
+      <!-- LB STEP 1: lead form -->
+      <div class="step active" data-lb-step="1">
+        <p class="ob-txt">הליד משאיר פרטים בטופס (מקמפיין, מהאתר או מדף נחיתה).<br>נוצר ליד חדש בשורנס, והבוט שולח לו מיד הודעת WhatsApp עם כמה שאלות קצרות.</p>
+        <div class="em-form">
+          <div class="em-form-head">
+            <div class="em-logo">🧭</div>
+            <div class="em-form-title">השאירו פרטים ונחזור אליכם</div>
+            <div class="em-form-brand">המצפן סוכנות לביטוח</div>
+          </div>
+          <div class="em-form-body">
+            <div class="em-fld"><label>שם מלא <i>*</i></label><div class="em-in">דניאל ישראלי</div></div>
+            <div class="em-fld"><label>טלפון <i>*</i></label><div class="em-in em-ltr">052-123-4567</div></div>
+            <div class="em-fld"><label>אימייל <i>*</i></label><div class="em-in em-ltr">daniel.israeli@gmail.com</div></div>
+            <button class="em-submit ob-pulse" id="lbSubmit" type="button">שליחה</button>
+          </div>
+        </div>
+        <p class="ob-hint-txt" id="lbHint">לחצו על "שליחה"</p>
+        <div id="lbWaWrap" hidden>
+          <button class="wa-cta" id="lbToWa" type="button">▶ פתח סימולציית WhatsApp</button>
+        </div>
+      </div>
+
+      <!-- LB STEP 2: WhatsApp bot -->
+      <div class="step" data-lb-step="2">
+        <div class="wa-frame">
+          <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+          <div class="wa-body" id="lbWaBody"></div>
+        </div>
+        <div class="wa-continue-wrap" id="lbContinueWrap" hidden>
+          <button class="wa-continue-btn" id="lbContinueBtn" type="button">המשך לשלב הבא ›</button>
+        </div>
+      </div>
+
+      <!-- LB STEP 3: Surense lead activity -->
+      <div class="step" data-lb-step="3">
+        <p class="ob-txt">כל התשובות של הליד עולות אוטומטית לשורנס כפעילות תחת הליד.<br>כך הנציג רואה את כל המידע עוד לפני השיחה הראשונה, ומגיע אליה מוכן.</p>
+        <div class="sr-glow">
+          <div class="lb-lead">
+            <div class="lb-lead-head">
+              <div class="lb-av">ד"י</div>
+              <div style="min-width:0">
+                <div class="lb-name">דניאל ישראלי</div>
+                <div class="lb-meta"><span>052-123-4567</span><span>daniel.israeli@gmail.com</span></div>
+              </div>
+              <div class="lb-badge">ליד חדש</div>
+            </div>
+            <div class="lb-tabs"><span>פרטים</span><span class="on">פעילויות</span><span>מסמכים</span><span>תהליכים</span></div>
+            <div class="lb-act">
+              <div class="lb-act-head"><span class="lb-act-ic">✓</span>שאלון בוט קבלת מידע (WhatsApp)<span class="lb-act-time" id="lbActTime"></span></div>
+              <div class="lb-act-body" id="lbActBody"></div>
+            </div>
+          </div>
+        </div>
+        <div class="wa-continue-wrap"><button class="wa-continue-btn demo-finish" id="lbFinish" type="button">✓ סיום הדגמה</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('lbOverlay');
+  const body = document.getElementById('lbBody');
+  const wa = document.getElementById('lbWaBody');
+  const submit = document.getElementById('lbSubmit');
+  const hint = document.getElementById('lbHint');
+  const waWrap = document.getElementById('lbWaWrap');
+  const contWrap = document.getElementById('lbContinueWrap');
+  const stepLabel = document.getElementById('lbStepLabel');
+  const labels = {1:'// שלב 1 — טופס השארת פרטים',2:'// שלב 2 — בוט WhatsApp',3:'// שלב 3 — פעילות תחת הליד בשורנס'};
+  const QS = [
+    {k:'מצב משפחתי', q:'מה המצב המשפחתי שלך?', a:['רווק/ה','נשוי/אה + ילדים','גרוש/ה / אלמן/ה'], d:1},
+    {k:'גיל', q:'באיזה טווח גילאים אתה?', a:['עד 35','בין 35 ל־50','50 ומעלה'], d:1},
+    {k:'הכנסה חודשית נטו (משק בית)', q:'מה ההכנסה החודשית נטו של משק הבית?', a:['עד 15 אלף ₪','בין 15 ל־30 אלף ₪','מעל 30 אלף ₪'], d:1},
+    {k:'חיסכון פנסיוני', q:'יש לך היום חיסכון פנסיוני פעיל?', a:['כן, מפקיד באופן קבוע','יש, אבל לא מפקיד','אין לי'], d:0},
+    {k:'מה הכי חשוב לבדוק', q:'במה הכי חשוב לך שנעזור?', a:['דמי ניהול ותשואות','תכנון לקראת פרישה','ביטוחים כפולים / מיותרים'], d:1}
+  ];
+  let timers = [], answers = [];
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    ov.querySelectorAll('[data-lb-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.lbStep)===n));
+    ov.querySelectorAll('[data-lb-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.lbDot)<=n));
+    stepLabel.textContent = labels[n];
+    body.scrollTop = 0;
+  }
+  function scrollBottom(){ body.scrollTop = body.scrollHeight; }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function bot(text, opts, def, onPick){
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    wa.appendChild(t); scrollBottom();
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      b.textContent = text;
+      const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now();
+      b.appendChild(tm); wa.appendChild(b);
+      if(opts){
+        const w = document.createElement('div');
+        w.className = 'wa-btns-wrap pop lb-q';
+        opts.forEach((o,i)=>{
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'wa-btn' + (i===def ? ' ob-pulse' : '');
+          btn.textContent = o;
+          btn.addEventListener('click', ()=>{
+            w.querySelectorAll('button').forEach(x=>{ x.disabled = true; x.classList.remove('ob-pulse'); });
+            const out = document.createElement('div');
+            out.className = 'lb-out pop';
+            out.textContent = o;
+            const tm2 = document.createElement('div'); tm2.className = 'wa-time'; tm2.textContent = now() + ' ✓✓';
+            out.appendChild(tm2); wa.appendChild(out); scrollBottom();
+            later(()=>onPick(o), 400);
+          });
+          w.appendChild(btn);
+        });
+        wa.appendChild(w);
+      }
+      scrollBottom();
+    }, 850);
+  }
+  function ask(i){
+    if(i>=QS.length){ finish(); return; }
+    const q = QS[i];
+    bot((i+1)+'/'+QS.length+'  '+q.q, q.a, q.d, (a)=>{ answers[i]=a; ask(i+1); });
+  }
+  function finish(){
+    bot('תודה רבה דניאל! 🙏\nקיבלנו את כל הפרטים.\n\nנציג מטעמנו יעבור על המידע ויחזור אליך בהקדם עם בדיקה ראשונית מותאמת אישית.\n\nהמצפן סוכנות לביטוח');
+    later(()=>{ contWrap.hidden = false; scrollBottom(); }, 1000);
+  }
+  function fillActivity(){
+    const ab = document.getElementById('lbActBody');
+    ab.innerHTML = '';
+    QS.forEach((q,i)=>{
+      const r = document.createElement('div'); r.className = 'lb-qa';
+      const k = document.createElement('span'); k.textContent = q.k;
+      const v = document.createElement('b'); v.textContent = answers[i] || '';
+      r.appendChild(k); r.appendChild(v); ab.appendChild(r);
+    });
+    const d = new Date();
+    document.getElementById('lbActTime').textContent = String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+' '+now();
+  }
+  function reset(){
+    timers.forEach(clearTimeout); timers = []; answers = [];
+    submit.disabled = false; submit.textContent = 'שליחה'; submit.classList.add('ob-pulse');
+    hint.textContent = 'לחצו על "שליחה"';
+    waWrap.hidden = true; contWrap.hidden = true;
+    wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    show(1);
+  }
+  function open(){ reset(); ov.hidden = false; }
+  function close(){ ov.hidden = true; timers.forEach(clearTimeout); timers = []; }
+  submit.addEventListener('click', ()=>{
+    submit.classList.remove('ob-pulse'); submit.disabled = true; submit.textContent = '✓ הפרטים נשלחו';
+    hint.innerHTML = '✓ נוצר ליד חדש בשורנס, והבוט שולח לדניאל הודעת WhatsApp.';
+    later(()=>{ waWrap.hidden = false; }, 500);
+  });
+  document.getElementById('lbToWa').addEventListener('click', ()=>{
+    show(2);
+    bot('היי דניאל 👋\nתודה שפנית להמצפן סוכנות לביטוח!\n\nכדי שנוכל להכין לך בדיקה אישית, נשמח שתענה על 5 שאלות קצרות (פחות מדקה ⏱️).', ['יאללה, מתחילים!'], 0, ()=>ask(0));
+  });
+  document.getElementById('lbContinueBtn').addEventListener('click', ()=>{ fillActivity(); show(3); });
+  document.getElementById('openLbModal').addEventListener('click', open);
+  document.getElementById('lbClose').addEventListener('click', close);
+  document.getElementById('lbFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
