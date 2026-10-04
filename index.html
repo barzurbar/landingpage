@@ -3792,7 +3792,7 @@ window.addEventListener('scroll',()=>{
           <div class="wa-body" id="scWaBody1"></div>
         </div>
         <div class="wa-continue-wrap" id="scNextWrap" hidden>
-          <button class="wa-continue-btn" id="scNext" type="button">המשך לדוגמה הבאה ›</button>
+          <button class="wa-continue-btn" id="scNext" type="button">המשך לדוגמא נוספת ›</button>
         </div>
       </div>
 
@@ -3989,7 +3989,7 @@ window.addEventListener('scroll',()=>{
     document.getElementById('scDocTypeTxt').textContent = 'תביעה';
     docType.classList.add('set');
     docType.disabled = true;
-    hint2.textContent = '✓ המסמך סומן כ"תביעה". האוטומציה תזהה אותו לפי הסוג ותצרף אותו להודעה. עכשיו לחצו על ✕ למעלה כדי לחזור לרשימת התהליכים';
+    hint2.textContent = '';
     later(()=>{ backX.disabled = false; backX.classList.add('ob-pulse'); document.getElementById('scXHand').hidden = false; }, 400);
   });
   document.getElementById('scBackList').addEventListener('click', ()=>{
