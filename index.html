@@ -1082,6 +1082,60 @@ footer{
 }
 .wa-continue-btn:hover{background:rgba(0,229,255,.08);box-shadow:var(--glow)}
 .demo-finish{margin-top:6px}
+/* status-change messages demo */
+.sc-cta{margin-top:4px}
+.sc-file{display:flex;align-items:center;gap:10px;width:100%;background:#f0f2f5;border:none;border-radius:8px;padding:10px;margin-bottom:8px;cursor:pointer;font-family:'Heebo',sans-serif;text-align:right;color:#1a1a1a}
+.sc-file-ic{flex-shrink:0;width:36px;height:44px;border-radius:4px;background:#e5484d;color:#fff;font-size:.68rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+.sc-file-meta{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.4}
+.sc-file-meta b{font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-file-meta small{font-size:.7rem;color:#667781}
+.sc-file-dl{flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid #8696a0;color:#8696a0;display:flex;align-items:center;justify-content:center;font-size:.8rem}
+.sc-doc{position:relative;background:#fff;color:#1f2d3d;border-radius:6px;box-shadow:0 8px 28px rgba(0,0,0,.35);padding:22px 20px;font-family:'Heebo',sans-serif;font-size:.84rem;line-height:1.7;overflow:hidden}
+.sc-doc p{margin-bottom:8px}
+.sc-doc-head{display:flex;align-items:center;gap:10px;border-bottom:2px solid #1e5bb8;padding-bottom:12px;margin-bottom:16px;color:#0b2a7a}
+.sc-doc-head small{display:block;font-size:.7rem;color:#5b6b80;font-weight:400}
+.sc-doc-date{margin-right:auto;font-size:.75rem;color:#5b6b80}
+.sc-doc-title{text-align:center;font-size:1.05rem;font-weight:800;margin-bottom:14px;text-decoration:underline}
+.sc-doc-table{border:1px solid #e3e8ee;border-radius:6px;margin:12px 0}
+.sc-doc-table>div{display:flex;justify-content:space-between;gap:10px;padding:7px 12px}
+.sc-doc-table>div+div{border-top:1px solid #eef1f4}
+.sc-doc-table span{color:#5b6b80}
+.sc-doc-note{font-size:.76rem;color:#5b6b80}
+.sc-doc-stamp{position:absolute;left:18px;bottom:22px;transform:rotate(-14deg);border:3px solid #00a86b;color:#00a86b;border-radius:8px;padding:4px 12px;font-weight:800;font-size:1rem;opacity:.85}
+.sc-doc-btns{gap:10px;flex-wrap:wrap}
+.sc-row{border-radius:6px;margin:4px 6px;transition:background .2s}
+.sc-row.ob-pulse{cursor:pointer;background:#eef6ff}
+.sc-row.ob-pulse:hover{background:#e2efff}
+.sc-row-client{position:relative}
+.sc-row.ob-pulse .sc-row-client{padding-left:24px}
+.sc-row-client .ob-pointer{left:0}
+.sc-proc{background:#fff;color:#1f2d3d;border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;font-size:.8rem;overflow:hidden}
+.sc-proc[hidden],.ob-crm[hidden]{display:none}
+.sc-proc-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid #eef1f4}
+.sc-proc-id{font-weight:800;font-size:.95rem}
+.sc-proc-type{border:1px solid #2f7fd8;color:#2f7fd8;border-radius:6px;padding:3px 10px;font-weight:600}
+.sc-proc-by{font-size:.72rem;color:#6b7785}
+.sc-proc-meta{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px;padding:12px 14px;border-bottom:1px solid #eef1f4}
+.sc-proc-meta small{display:block;color:#6b7785;font-size:.72rem;margin-bottom:4px}
+.sc-proc-st{display:block;background:#1e90e0;color:#fff;border-radius:6px;padding:6px 10px;font-weight:700}
+.sc-proc-owner{display:flex;align-items:center;gap:6px}
+.sc-proc-owner i{width:24px;height:24px;border-radius:50%;background:#ec4fa8;color:#fff;font-style:normal;font-size:.62rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sc-proc-due{color:#e5484d;font-weight:700}
+.sc-proc-tabs{display:flex;gap:18px;padding:10px 14px 0;border-bottom:1px solid #eef1f4;color:#5b6b80}
+.sc-proc-tabs span{padding-bottom:8px}
+.sc-proc-tabs .on{color:#1f2d3d;font-weight:700;border-bottom:2px solid #1f2d3d}
+.sc-proc-tabs i{font-style:normal;background:#f05a28;color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:.68rem;margin-right:4px}
+.sc-proc-docs{padding:12px 14px 14px}
+.sc-doc-row{display:grid;grid-template-columns:1.5fr 1fr .7fr;gap:8px;align-items:center;padding:8px 6px;border:1px solid #e3e8ee;border-top:none}
+.sc-doc-row.head{background:#f6f8fa;color:#6b7785;font-size:.74rem;border-top:1px solid #e3e8ee;border-radius:6px 6px 0 0}
+.sc-doc-name{color:#2f7fd8;overflow-wrap:anywhere}
+.sc-type-cell{position:relative}
+.sc-type{width:100%;min-height:30px;border:1px solid #2f7fd8;background:#cfe3fb;border-radius:3px;cursor:pointer;font-family:'Heebo',sans-serif;font-size:.8rem;font-weight:700;color:#1f2d3d;position:relative}
+.sc-type.set{background:#fff;border-color:#d5dbe3;cursor:default}
+.sc-proc .ob-menu{margin:6px 0 0}
+@media (max-width:480px){.sc-proc-meta{grid-template-columns:1fr 1fr}.sc-proc-meta>div:first-child{grid-column:1/-1}}
+
+
 /* payment page (client onboarding demo) */
 .pay-frame{background:#fff;border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.35);overflow:hidden;font-family:'Heebo',sans-serif;color:#1f2d3d;display:grid;grid-template-columns:1fr 1.25fr}
 .pay-side{padding:22px 18px;border-left:1px solid #eef0f3;background:#fafbfc}
@@ -1456,6 +1510,9 @@ button.em-in:disabled{cursor:default}
             <li>שליחת ברכת יום הולדת אוטומטית בוואטסאפ</li>
             <li>יצירת קשר אישי ושמירה על קשר עם הלקוחות</li>
           </ul>
+          <button class="demo-cta" id="openBdModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
 
         <div class="srv-card">
@@ -1481,6 +1538,9 @@ button.em-in:disabled{cursor:default}
             <li>שליחת הודעה מותאמת בהתאם לסוג התהליך והסטטוס</li>
             <li>עדכון הלקוח בזמן אמת לאורך התהליך</li>
           </ul>
+          <button class="demo-cta" id="openScModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
       </div>
     </div>
@@ -3630,6 +3690,364 @@ window.addEventListener('scroll',()=>{
   document.getElementById('openEmModal').addEventListener('click', ()=>{ reset(); ov.hidden=false; });
   document.getElementById('emClose').addEventListener('click', close);
   document.getElementById('emFinish').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="scOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="scTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="scTitle">
+        <span id="scStepLabel">// דוגמה 1 — שינוי סטטוס בשורנס</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-sc-dot="1"></i><i data-sc-dot="2"></i><i data-sc-dot="3"></i><i data-sc-dot="4"></i><i data-sc-dot="5"></i></span>
+      </div>
+      <button class="modal-close" id="scClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="scBody">
+
+      <!-- SC STEP 1: pension transfer status change -->
+      <div class="step active" data-sc-step="1">
+        <p class="ob-txt">האוטומציה מזהה כל שינוי סטטוס בשורנס, של תהליך, ליד או לקוח, ושולחת ללקוח הודעת WhatsApp שמותאמת לסטטוס החדש.<br><b>דוגמה 1:</b> שינוי סטטוס של תהליך ניוד פנסיה, כשחסרים מסמכים מהלקוח.</p>
+        <div class="ob-crm">
+          <div class="ob-row head"><span>סוג תהליך</span><span>לקוח</span><span>סטטוס ↓</span></div>
+          <div class="ob-row">
+            <span class="ob-type">ניוד פנסיה פעילה</span>
+            <span class="ob-client">דניאל ישראלי</span>
+            <span class="ob-status-cell">
+              <button class="ob-status ob-pulse" id="scStatus1" type="button" style="background:#1e90e0"><span class="sc-st-txt">בטיפול</span><span class="ob-pointer" aria-hidden="true">👉</span></button>
+            </span>
+          </div>
+          <div class="ob-menu" id="scMenu1" hidden>
+            <div class="ob-search"><span>חיפוש</span><span>⚙</span></div>
+            <div class="ob-group">פתוח</div>
+            <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#1e90e0"></span>בטיפול<span class="ob-check">✓</span></button>
+            <button class="ob-opt ob-pulse" id="scPick1" type="button"><span class="ob-sq" style="background:#f07b1d"></span>ממתין להשלמת מסמכים מהלקוח<span class="ob-pointer" aria-hidden="true">👉</span></button>
+            <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#9b00f0"></span>הועבר לגוף המוסדי</button>
+            <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#00c97a"></span>הניוד הושלם</button>
+          </div>
+        </div>
+        <p class="ob-hint-txt" id="scHint1">לחצו על הסטטוס "בטיפול"</p>
+        <div class="sc-cta" id="scWaWrap1" hidden>
+          <button class="wa-cta" id="scToWa1" type="button">▶ פתח סימולציית WhatsApp</button>
+        </div>
+      </div>
+
+      <!-- SC STEP 2: WhatsApp (pension) -->
+      <div class="step" data-sc-step="2">
+        <div class="wa-frame">
+          <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+          <div class="wa-body" id="scWaBody1"></div>
+        </div>
+        <div class="wa-continue-wrap" id="scNextWrap" hidden>
+          <button class="wa-continue-btn" id="scNext" type="button">המשך לדוגמה הבאה ›</button>
+        </div>
+      </div>
+
+      <!-- SC STEP 3: claim status change -->
+      <div class="step" data-sc-step="3">
+        <p class="ob-txt"><b>דוגמה 2:</b> תביעה שאושרה, עם קובץ מצורף להודעה.<br>אתם בוחרים איזה קובץ יישלח ללקוח: מסמנים בתהליך את סוג המסמך כ"תביעה". האוטומציה מזהה את הקובץ לפי סוג המסמך, ומצרפת להודעה רק אותו. אחר כך משנים את הסטטוס ל"תביעה אושרה", והלקוח מקבל את ההודעה עם הקובץ.</p>
+        <div class="ob-crm" id="scList2">
+          <div class="ob-row head"><span>סוג תהליך</span><span>לקוח</span><span>סטטוס ↓</span></div>
+          <div class="ob-row sc-row ob-pulse" id="scOpenProc" role="button" tabindex="0" aria-label="פתיחת התהליך">
+            <span class="ob-type">תביעה</span>
+            <span class="ob-client sc-row-client">דניאל ישראלי<span class="ob-pointer" aria-hidden="true">👉</span></span>
+            <span class="ob-status-cell">
+              <button class="ob-status" id="scStatus2" type="button" style="background:#1e90e0" disabled><span class="sc-st-txt">בטיפול</span><span class="ob-pointer" aria-hidden="true" hidden>👉</span></button>
+            </span>
+          </div>
+          <div class="ob-menu" id="scMenu2" hidden>
+            <div class="ob-search"><span>חיפוש</span><span>⚙</span></div>
+            <div class="ob-group">פתוח</div>
+            <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#1e90e0"></span>בטיפול<span class="ob-check">✓</span></button>
+            <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#f07b1d"></span>הועבר לחברת הביטוח</button>
+            <button class="ob-opt ob-pulse" id="scPick2" type="button"><span class="ob-sq" style="background:#00c97a"></span>תביעה אושרה<span class="ob-pointer" aria-hidden="true">👉</span></button>
+            <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#e5484d"></span>תביעה נדחתה</button>
+          </div>
+        </div>
+        <div class="sc-proc" id="scProc" hidden>
+          <div class="sc-proc-top">
+            <span class="sc-proc-id">תהליך 7536</span>
+            <span class="sc-proc-type">תביעה ⌄</span>
+            <span class="sc-proc-by">נוצר ע"י המצפן בתאריך 21/09/2026</span>
+          </div>
+          <div class="sc-proc-meta">
+            <div><small>סטטוס</small><span class="sc-proc-st">בטיפול ⌄</span></div>
+            <div><small>מטפל/ת</small><span class="sc-proc-owner"><i>נכ</i>נועה כהן</span></div>
+            <div><small>תאריך טיפול נדרש</small><span class="sc-proc-due">06/10/2026</span></div>
+          </div>
+          <div class="sc-proc-tabs"><span>שדות מידע</span><span>משימות</span><span class="on">מסמכים <i>1</i></span></div>
+          <div class="sc-proc-docs">
+            <div class="sc-doc-row head"><span>שם מסמך</span><span>סוג</span><span>יוצר</span></div>
+            <div class="sc-doc-row">
+              <span class="sc-doc-name">אישור תשלום תביעה.pdf</span>
+              <span class="sc-type-cell"><button class="sc-type ob-pulse" id="scDocType" type="button"><span id="scDocTypeTxt"></span><span class="ob-pointer" aria-hidden="true">👉</span></button></span>
+              <span>המצפן</span>
+            </div>
+            <div class="ob-menu" id="scTypeMenu" hidden>
+              <div class="ob-search"><span>חיפוש</span><span>⚙</span></div>
+              <button class="ob-opt" type="button" disabled>לא מוגדר</button>
+              <button class="ob-opt" type="button" disabled>אחר</button>
+              <button class="ob-opt" type="button" disabled>דוח טרום טיפול</button>
+              <button class="ob-opt ob-pulse" id="scTypePick" type="button">תביעה<span class="ob-pointer" aria-hidden="true">👉</span></button>
+            </div>
+          </div>
+        </div>
+        <p class="ob-hint-txt" id="scHint2">לחצו על התהליך כדי להיכנס אליו</p>
+        <div class="sc-cta" id="scBackWrap" hidden>
+          <button class="wa-continue-btn ob-pulse" id="scBackList" type="button">‹ חזרה לרשימת התהליכים</button>
+        </div>
+        <div class="sc-cta" id="scWaWrap2" hidden>
+          <button class="wa-cta" id="scToWa2" type="button">▶ פתח סימולציית WhatsApp</button>
+        </div>
+      </div>
+
+      <!-- SC STEP 4: WhatsApp (claim) -->
+      <div class="step" data-sc-step="4">
+        <div class="wa-frame">
+          <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+          <div class="wa-body" id="scWaBody2"></div>
+        </div>
+        <p class="ob-hint-txt" id="scFileHint" hidden>אפשר ללחוץ על הקובץ כדי לפתוח אותו</p>
+        <div class="wa-continue-wrap" id="scFinishWrap" hidden>
+          <button class="wa-continue-btn demo-finish" id="scFinish" type="button">✓ סיום הדגמה</button>
+        </div>
+      </div>
+
+      <!-- SC STEP 5: claim payment confirmation document -->
+      <div class="step" data-sc-step="5">
+        <div class="sc-doc">
+          <div class="sc-doc-head">
+            <div class="em-logo sm">🧭</div>
+            <div><b>המצפן סוכנות לביטוח</b><small>פיננסים | ביטוח | פנסיה</small></div>
+            <span class="sc-doc-date">04.10.2026</span>
+          </div>
+          <h4 class="sc-doc-title">אישור על ביצוע תשלום תביעה</h4>
+          <p>לכבוד: <b>דניאל ישראלי</b>, ת.ז 20222222</p>
+          <p>הרינו לאשר כי התביעה שהגשת אושרה, וכספי התביעה הועברו לחשבון הבנק שלך כמפורט להלן:</p>
+          <div class="sc-doc-table">
+            <div><span>מספר תביעה</span><b>2026-48713</b></div>
+            <div><span>סוג תביעה</span><b>ביטוח בריאות – ניתוח פרטי</b></div>
+            <div><span>סכום ששולם</span><b>12,450 ₪</b></div>
+            <div><span>תאריך העברה</span><b>02.10.2026</b></div>
+            <div><span>חשבון מוטב</span><b>בנק 12 · סניף 600 · ****1234</b></div>
+          </div>
+          <p class="sc-doc-note">הכספים צפויים להופיע בחשבון תוך 1–3 ימי עסקים, בהתאם לבנק.</p>
+          <p class="sc-doc-sign">בברכה,<br><b>המצפן סוכנות לביטוח</b></p>
+          <span class="sc-doc-stamp">שולם ✓</span>
+        </div>
+        <div class="wa-continue-wrap sc-doc-btns">
+          <button class="wa-continue-btn" id="scDocBack" type="button">‹ חזרה לוואטסאפ</button>
+          <button class="wa-continue-btn demo-finish" id="scFinish2" type="button">✓ סיום הדגמה</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('scOverlay');
+  const body = document.getElementById('scBody');
+  const stepLabel = document.getElementById('scStepLabel');
+  const labels = {1:'// דוגמה 1 — שינוי סטטוס בשורנס',2:'// דוגמה 1 — הודעת WhatsApp',3:'// דוגמה 2 — שינוי סטטוס בשורנס',4:'// דוגמה 2 — הודעת WhatsApp',5:'// דוגמה 2 — הקובץ שהתקבל'};
+  let timers = [];
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    ov.querySelectorAll('[data-sc-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.scStep)===n));
+    ov.querySelectorAll('[data-sc-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.scDot)<=n));
+    stepLabel.textContent = labels[n];
+    body.scrollTop = 0;
+  }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function sendBubble(wa, html, file, done){
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    wa.appendChild(t);
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      if(file){
+        const f = document.createElement('button');
+        f.type = 'button';
+        f.className = 'sc-file ob-pulse';
+        f.id = 'scFile';
+        f.innerHTML = '<span class="sc-file-ic">PDF</span><span class="sc-file-meta"><b>אישור תשלום תביעה.pdf</b><small>עמוד 1 · 84KB · PDF</small></span><span class="sc-file-dl">⬇</span>';
+        f.addEventListener('click', ()=>{ f.classList.remove('ob-pulse'); show(5); });
+        b.appendChild(f);
+      }
+      const txt = document.createElement('div');
+      txt.innerHTML = html;
+      b.appendChild(txt);
+      const tm = document.createElement('div');
+      tm.className = 'wa-time';
+      tm.textContent = now();
+      b.appendChild(tm);
+      wa.appendChild(b);
+      if(done) done();
+    }, 1000);
+  }
+  function wireStatus(n, newTxt, color){
+    const st = document.getElementById('scStatus'+n);
+    const menu = document.getElementById('scMenu'+n);
+    const hint = document.getElementById('scHint'+n);
+    st.addEventListener('click', ()=>{
+      menu.hidden = false;
+      st.classList.remove('ob-pulse');
+      st.querySelector('.ob-pointer').hidden = true;
+      hint.textContent = 'בחרו בסטטוס "'+newTxt+'"';
+    });
+    document.getElementById('scPick'+n).addEventListener('click', ()=>{
+      menu.hidden = true;
+      st.querySelector('.sc-st-txt').textContent = newTxt;
+      st.style.background = color;
+      st.disabled = true;
+      hint.textContent = '✓ הסטטוס עודכן, האוטומציה שולחת ללקוח הודעת WhatsApp';
+      later(()=>{ document.getElementById('scWaWrap'+n).hidden = false; }, 500);
+    });
+  }
+  wireStatus(1, 'ממתין להשלמת מסמכים מהלקוח', '#f07b1d');
+  wireStatus(2, 'תביעה אושרה', '#00c97a');
+
+  // example 2: open the process, set the document type, then go back
+  const list2 = document.getElementById('scList2');
+  const proc = document.getElementById('scProc');
+  const openProc = document.getElementById('scOpenProc');
+  const docType = document.getElementById('scDocType');
+  const typeMenu = document.getElementById('scTypeMenu');
+  const hint2 = document.getElementById('scHint2');
+  const backWrap = document.getElementById('scBackWrap');
+  const st2 = document.getElementById('scStatus2');
+  function openProcPage(){
+    if(!openProc.classList.contains('ob-pulse')) return;
+    list2.hidden = true; proc.hidden = false;
+    hint2.textContent = 'כדי לבחור איזה קובץ יישלח ללקוח, לחצו על עמודת "סוג" של המסמך';
+    body.scrollTop = 0;
+  }
+  openProc.addEventListener('click', openProcPage);
+  openProc.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openProcPage(); } });
+  docType.addEventListener('click', ()=>{
+    typeMenu.hidden = false;
+    docType.classList.remove('ob-pulse');
+    docType.querySelector('.ob-pointer').hidden = true;
+    hint2.textContent = 'בחרו בסוג המסמך "תביעה"';
+  });
+  document.getElementById('scTypePick').addEventListener('click', ()=>{
+    typeMenu.hidden = true;
+    document.getElementById('scDocTypeTxt').textContent = 'תביעה';
+    docType.classList.add('set');
+    docType.disabled = true;
+    hint2.textContent = '✓ המסמך סומן כ"תביעה". האוטומציה תזהה אותו לפי הסוג ותצרף אותו להודעה. עכשיו חוזרים לרשימת התהליכים';
+    later(()=>{ backWrap.hidden = false; }, 400);
+  });
+  document.getElementById('scBackList').addEventListener('click', ()=>{
+    proc.hidden = true; list2.hidden = false; backWrap.hidden = true;
+    openProc.classList.remove('ob-pulse'); openProc.removeAttribute('tabindex');
+    openProc.querySelector('.ob-pointer').hidden = true;
+    st2.disabled = false; st2.classList.add('ob-pulse');
+    st2.querySelector('.ob-pointer').hidden = false;
+    hint2.textContent = 'לחצו על הסטטוס "בטיפול"';
+    body.scrollTop = 0;
+  });
+
+  const wa1 = document.getElementById('scWaBody1');
+  const wa2 = document.getElementById('scWaBody2');
+  document.getElementById('scToWa1').addEventListener('click', ()=>{
+    show(2);
+    sendBubble(wa1, 'היי דניאל,\n\nבמהלך הטיפול בתהליך ניוד הפנסיה, זוהו מסמכים או פרטים שעדיין חסרים לצורך המשך הטיפול.\nלהשלמת הטיפול נשמח ליצירת קשר מול צוות השירות שלנו לצורך השלמת הפרטים והמשך קידום הבקשה.\n\n📞 <span dir="ltr">0521234567</span>\n\nתודה,\nהמצפן סוכנות לביטוח', false,
+      ()=>{ document.getElementById('scNextWrap').hidden = false; });
+  });
+  document.getElementById('scNext').addEventListener('click', ()=>show(3));
+  document.getElementById('scToWa2').addEventListener('click', ()=>{
+    show(4);
+    sendBubble(wa2, 'היי דניאל,\n\nמצורף קובץ אישור על ביצוע התשלום עבור התביעה שלך.\nשמחנו לעמוד לשירותך וללוות אותך לאורך התהליך 😊\n\nנ.ב. כשבוע לאחר שהסכום יופיע בחשבון הבנק שלך, יישלח אליך סקר קצר לבדיקת שביעות הרצון מהשירות שקיבלת. נשמח לשמוע את דעתך 🙏\n\nבברכה,\n<b>המצפן סוכנות לביטוח</b>', true,
+      ()=>{ document.getElementById('scFileHint').hidden = false; document.getElementById('scFinishWrap').hidden = false; });
+  });
+  document.getElementById('scDocBack').addEventListener('click', ()=>show(4));
+
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    [1,2].forEach(n=>{
+      const st = document.getElementById('scStatus'+n);
+      st.querySelector('.sc-st-txt').textContent = 'בטיפול';
+      st.style.background = '#1e90e0';
+      st.disabled = false;
+      st.classList.add('ob-pulse');
+      st.querySelector('.ob-pointer').hidden = false;
+      document.getElementById('scMenu'+n).hidden = true;
+      document.getElementById('scHint'+n).textContent = 'לחצו על הסטטוס "בטיפול"';
+      document.getElementById('scWaWrap'+n).hidden = true;
+    });
+    // example 2 starts from the process list
+    st2.disabled = true; st2.classList.remove('ob-pulse'); st2.querySelector('.ob-pointer').hidden = true;
+    hint2.textContent = 'לחצו על התהליך כדי להיכנס אליו';
+    list2.hidden = false; proc.hidden = true; backWrap.hidden = true; typeMenu.hidden = true;
+    openProc.setAttribute('tabindex','0'); openProc.classList.add('ob-pulse'); openProc.querySelector('.ob-pointer').hidden = false;
+    docType.disabled = false; docType.classList.add('ob-pulse'); docType.classList.remove('set'); docType.querySelector('.ob-pointer').hidden = false;
+    document.getElementById('scDocTypeTxt').textContent = '';
+    wa1.innerHTML = wa2.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    document.getElementById('scNextWrap').hidden = true;
+    document.getElementById('scFinishWrap').hidden = true;
+    document.getElementById('scFileHint').hidden = true;
+    show(1);
+  }
+  function close(){ ov.hidden = true; timers.forEach(clearTimeout); timers = []; }
+  document.getElementById('openScModal').addEventListener('click', ()=>{ reset(); ov.hidden = false; });
+  document.getElementById('scClose').addEventListener('click', close);
+  document.getElementById('scFinish').addEventListener('click', close);
+  document.getElementById('scFinish2').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="bdOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="bdTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="bdTitle"><span>// ברכה ליום הולדת — הודעת WhatsApp</span></div>
+      <button class="modal-close" id="bdClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="ob-txt">ביום ההולדת של הלקוח, האוטומציה מזהה אותו בשורנס ושולחת לו ברכה אישית ב־WhatsApp:</p>
+      <div class="wa-frame">
+        <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+        <div class="wa-body" id="bdWaBody"></div>
+      </div>
+      <div class="wa-continue-wrap" id="bdFinishWrap" hidden>
+        <button class="wa-continue-btn demo-finish" id="bdFinish" type="button">✓ סיום הדגמה</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('bdOverlay');
+  const wa = document.getElementById('bdWaBody');
+  const wrap = document.getElementById('bdFinishWrap');
+  let timer = null;
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function open(){
+    clearTimeout(timer);
+    wrap.hidden = true;
+    wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div><div class="wa-typing pop"><span class="dt"></span><span class="dt"></span><span class="dt"></span></div>';
+    ov.hidden = false;
+    timer = setTimeout(()=>{
+      wa.querySelector('.wa-typing').remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      b.textContent = 'מזל טוב דניאל! 🥳🎉\nרצינו לאחל לך מכל הלב יום הולדת שמח.\nתודה על האמון והבחירה בנו לאורך הדרך. מאחלים לך שנה מלאה בבריאות, הצלחה, שגשוג, הגשמת מטרות והרבה רגעים טובים.\nשתהיה לך שנה נפלאה ומלאה בבשורות טובות! 🎂\n\nבברכה,\nהמצפן סוכנות לביטוח';
+      const tm = document.createElement('div');
+      tm.className = 'wa-time';
+      tm.textContent = now();
+      b.appendChild(tm);
+      wa.appendChild(b);
+      wrap.hidden = false;
+    }, 1100);
+  }
+  function close(){ ov.hidden = true; clearTimeout(timer); }
+  document.getElementById('openBdModal').addEventListener('click', open);
+  document.getElementById('bdClose').addEventListener('click', close);
+  document.getElementById('bdFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
