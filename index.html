@@ -1103,6 +1103,35 @@ footer{
 .sc-doc-note{font-size:.76rem;color:#5b6b80}
 .sc-doc-stamp{position:absolute;left:18px;bottom:22px;transform:rotate(-14deg);border:3px solid #00a86b;color:#00a86b;border-radius:8px;padding:4px 12px;font-weight:800;font-size:1rem;opacity:.85}
 .sc-doc-btns{gap:10px;flex-wrap:wrap}
+.sc-open{cursor:pointer;background:#fff;font-family:'Heebo',sans-serif;font-size:.82rem;position:relative}
+.sc-open:disabled{cursor:default}
+.sc-open.ob-pulse{padding-left:26px}
+.sc-proc{background:#fff;color:#1f2d3d;border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;font-size:.8rem;overflow:hidden}
+.sc-proc[hidden],.ob-crm[hidden]{display:none}
+.sc-proc-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid #eef1f4}
+.sc-proc-id{font-weight:800;font-size:.95rem}
+.sc-proc-type{border:1px solid #2f7fd8;color:#2f7fd8;border-radius:6px;padding:3px 10px;font-weight:600}
+.sc-proc-by{font-size:.72rem;color:#6b7785}
+.sc-proc-meta{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px;padding:12px 14px;border-bottom:1px solid #eef1f4}
+.sc-proc-meta small{display:block;color:#6b7785;font-size:.72rem;margin-bottom:4px}
+.sc-proc-st{display:block;background:#1e90e0;color:#fff;border-radius:6px;padding:6px 10px;font-weight:700}
+.sc-proc-owner{display:flex;align-items:center;gap:6px}
+.sc-proc-owner i{width:24px;height:24px;border-radius:50%;background:#ec4fa8;color:#fff;font-style:normal;font-size:.62rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sc-proc-due{color:#e5484d;font-weight:700}
+.sc-proc-tabs{display:flex;gap:18px;padding:10px 14px 0;border-bottom:1px solid #eef1f4;color:#5b6b80}
+.sc-proc-tabs span{padding-bottom:8px}
+.sc-proc-tabs .on{color:#1f2d3d;font-weight:700;border-bottom:2px solid #1f2d3d}
+.sc-proc-tabs i{font-style:normal;background:#f05a28;color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:.68rem;margin-right:4px}
+.sc-proc-docs{padding:12px 14px 14px}
+.sc-doc-row{display:grid;grid-template-columns:1.5fr 1fr .7fr;gap:8px;align-items:center;padding:8px 6px;border:1px solid #e3e8ee;border-top:none}
+.sc-doc-row.head{background:#f6f8fa;color:#6b7785;font-size:.74rem;border-top:1px solid #e3e8ee;border-radius:6px 6px 0 0}
+.sc-doc-name{color:#2f7fd8;overflow-wrap:anywhere}
+.sc-type-cell{position:relative}
+.sc-type{width:100%;min-height:30px;border:1px solid #2f7fd8;background:#cfe3fb;border-radius:3px;cursor:pointer;font-family:'Heebo',sans-serif;font-size:.8rem;font-weight:700;color:#1f2d3d;position:relative}
+.sc-type.set{background:#fff;border-color:#d5dbe3;cursor:default}
+.sc-proc .ob-menu{margin:6px 0 0}
+@media (max-width:480px){.sc-proc-meta{grid-template-columns:1fr 1fr}.sc-proc-meta>div:first-child{grid-column:1/-1}}
+
 
 /* payment page (client onboarding demo) */
 .pay-frame{background:#fff;border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.35);overflow:hidden;font-family:'Heebo',sans-serif;color:#1f2d3d;display:grid;grid-template-columns:1fr 1.25fr}
@@ -3713,14 +3742,14 @@ window.addEventListener('scroll',()=>{
 
       <!-- SC STEP 3: claim status change -->
       <div class="step" data-sc-step="3">
-        <p class="ob-txt"><b>דוגמה 2:</b> תביעה שאושרה. ברגע שמשנים את הסטטוס בשורנס, הלקוח מקבל הודעה עם אישור על ביצוע התשלום.</p>
-        <div class="ob-crm">
+        <p class="ob-txt"><b>דוגמה 2:</b> תביעה שאושרה. קודם מסווגים בתהליך את קובץ אישור התשלום כמסמך מסוג "תביעה", ואז משנים את הסטטוס ל"תביעה אושרה". הלקוח מקבל הודעה עם הקובץ מצורף.</p>
+        <div class="ob-crm" id="scList2">
           <div class="ob-row head"><span>סוג תהליך</span><span>לקוח</span><span>סטטוס ↓</span></div>
           <div class="ob-row">
-            <span class="ob-type">תביעה</span>
+            <button class="ob-type sc-open ob-pulse" id="scOpenProc" type="button">תביעה<span class="ob-pointer" aria-hidden="true">👉</span></button>
             <span class="ob-client">דניאל ישראלי</span>
             <span class="ob-status-cell">
-              <button class="ob-status ob-pulse" id="scStatus2" type="button" style="background:#1e90e0"><span class="sc-st-txt">בטיפול</span><span class="ob-pointer" aria-hidden="true">👉</span></button>
+              <button class="ob-status" id="scStatus2" type="button" style="background:#1e90e0" disabled><span class="sc-st-txt">בטיפול</span><span class="ob-pointer" aria-hidden="true" hidden>👉</span></button>
             </span>
           </div>
           <div class="ob-menu" id="scMenu2" hidden>
@@ -3732,7 +3761,38 @@ window.addEventListener('scroll',()=>{
             <button class="ob-opt" type="button" disabled><span class="ob-sq" style="background:#e5484d"></span>תביעה נדחתה</button>
           </div>
         </div>
-        <p class="ob-hint-txt" id="scHint2">לחצו על הסטטוס "בטיפול"</p>
+        <div class="sc-proc" id="scProc" hidden>
+          <div class="sc-proc-top">
+            <span class="sc-proc-id">תהליך 7536</span>
+            <span class="sc-proc-type">תביעה ⌄</span>
+            <span class="sc-proc-by">נוצר ע"י המצפן בתאריך 21/09/2026</span>
+          </div>
+          <div class="sc-proc-meta">
+            <div><small>סטטוס</small><span class="sc-proc-st">בטיפול ⌄</span></div>
+            <div><small>מטפל/ת</small><span class="sc-proc-owner"><i>נכ</i>נועה כהן</span></div>
+            <div><small>תאריך טיפול נדרש</small><span class="sc-proc-due">06/10/2026</span></div>
+          </div>
+          <div class="sc-proc-tabs"><span>שדות מידע</span><span>משימות</span><span class="on">מסמכים <i>1</i></span></div>
+          <div class="sc-proc-docs">
+            <div class="sc-doc-row head"><span>שם מסמך</span><span>סוג</span><span>יוצר</span></div>
+            <div class="sc-doc-row">
+              <span class="sc-doc-name">אישור תשלום תביעה.pdf</span>
+              <span class="sc-type-cell"><button class="sc-type ob-pulse" id="scDocType" type="button"><span id="scDocTypeTxt"></span><span class="ob-pointer" aria-hidden="true">👉</span></button></span>
+              <span>המצפן</span>
+            </div>
+            <div class="ob-menu" id="scTypeMenu" hidden>
+              <div class="ob-search"><span>חיפוש</span><span>⚙</span></div>
+              <button class="ob-opt" type="button" disabled>לא מוגדר</button>
+              <button class="ob-opt" type="button" disabled>אחר</button>
+              <button class="ob-opt" type="button" disabled>דוח טרום טיפול</button>
+              <button class="ob-opt ob-pulse" id="scTypePick" type="button">תביעה<span class="ob-pointer" aria-hidden="true">👉</span></button>
+            </div>
+          </div>
+        </div>
+        <p class="ob-hint-txt" id="scHint2">לחצו על התהליך כדי להיכנס אליו</p>
+        <div class="sc-cta" id="scBackWrap" hidden>
+          <button class="wa-continue-btn ob-pulse" id="scBackList" type="button">‹ חזרה לרשימת התהליכים</button>
+        </div>
         <div class="sc-cta" id="scWaWrap2" hidden>
           <button class="wa-cta" id="scToWa2" type="button">▶ פתח סימולציית WhatsApp</button>
         </div>
@@ -3847,6 +3907,44 @@ window.addEventListener('scroll',()=>{
   wireStatus(1, 'ממתין להשלמת מסמכים מהלקוח', '#f07b1d');
   wireStatus(2, 'תביעה אושרה', '#00c97a');
 
+  // example 2: open the process, set the document type, then go back
+  const list2 = document.getElementById('scList2');
+  const proc = document.getElementById('scProc');
+  const openProc = document.getElementById('scOpenProc');
+  const docType = document.getElementById('scDocType');
+  const typeMenu = document.getElementById('scTypeMenu');
+  const hint2 = document.getElementById('scHint2');
+  const backWrap = document.getElementById('scBackWrap');
+  const st2 = document.getElementById('scStatus2');
+  openProc.addEventListener('click', ()=>{
+    list2.hidden = true; proc.hidden = false;
+    hint2.textContent = 'לחצו על עמודת "סוג" של המסמך';
+    body.scrollTop = 0;
+  });
+  docType.addEventListener('click', ()=>{
+    typeMenu.hidden = false;
+    docType.classList.remove('ob-pulse');
+    docType.querySelector('.ob-pointer').hidden = true;
+    hint2.textContent = 'בחרו בסוג המסמך "תביעה"';
+  });
+  document.getElementById('scTypePick').addEventListener('click', ()=>{
+    typeMenu.hidden = true;
+    document.getElementById('scDocTypeTxt').textContent = 'תביעה';
+    docType.classList.add('set');
+    docType.disabled = true;
+    hint2.textContent = '✓ המסמך סווג כ"תביעה". עכשיו חוזרים לרשימת התהליכים';
+    later(()=>{ backWrap.hidden = false; }, 400);
+  });
+  document.getElementById('scBackList').addEventListener('click', ()=>{
+    proc.hidden = true; list2.hidden = false; backWrap.hidden = true;
+    openProc.classList.remove('ob-pulse'); openProc.disabled = true;
+    openProc.querySelector('.ob-pointer').hidden = true;
+    st2.disabled = false; st2.classList.add('ob-pulse');
+    st2.querySelector('.ob-pointer').hidden = false;
+    hint2.textContent = 'לחצו על הסטטוס "בטיפול"';
+    body.scrollTop = 0;
+  });
+
   const wa1 = document.getElementById('scWaBody1');
   const wa2 = document.getElementById('scWaBody2');
   document.getElementById('scToWa1').addEventListener('click', ()=>{
@@ -3875,6 +3973,13 @@ window.addEventListener('scroll',()=>{
       document.getElementById('scHint'+n).textContent = 'לחצו על הסטטוס "בטיפול"';
       document.getElementById('scWaWrap'+n).hidden = true;
     });
+    // example 2 starts from the process list
+    st2.disabled = true; st2.classList.remove('ob-pulse'); st2.querySelector('.ob-pointer').hidden = true;
+    hint2.textContent = 'לחצו על התהליך כדי להיכנס אליו';
+    list2.hidden = false; proc.hidden = true; backWrap.hidden = true; typeMenu.hidden = true;
+    openProc.disabled = false; openProc.classList.add('ob-pulse'); openProc.querySelector('.ob-pointer').hidden = false;
+    docType.disabled = false; docType.classList.add('ob-pulse'); docType.classList.remove('set'); docType.querySelector('.ob-pointer').hidden = false;
+    document.getElementById('scDocTypeTxt').textContent = '';
     wa1.innerHTML = wa2.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
     document.getElementById('scNextWrap').hidden = true;
     document.getElementById('scFinishWrap').hidden = true;
