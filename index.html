@@ -4298,7 +4298,7 @@ window.addEventListener('scroll',()=>{
       <!-- MR STEP 1: tomorrow's meeting in Surense -->
       <div class="step active" data-mr-step="1">
         <p class="ob-txt">יום לפני הפגישה, האוטומציה מזהה בשורנס את הפגישות שנקבעו למחר, ושולחת לכל לקוח תזכורת ב־WhatsApp.</p>
-        <div class="sr-glow">
+        <div>
           <div class="sr-table sr-meet mr-tbl">
             <div class="sr-row head"><span>נושא</span><span>לקוח</span><span>מועד</span><span>סטטוס</span></div>
             <div class="sr-row"><span class="sr-subj">פגישה שנתית</span><span class="sr-client">ישראלי דניאל</span><span id="mrWhen1">05/10/2026 10:00</span><span class="sr-status" id="mrSt1" style="background:#1e90e0">מתוכננת</span></div>
@@ -4417,10 +4417,10 @@ window.addEventListener('scroll',()=>{
       [['yes','✅ מאשר הגעה'],['no','🔄 מבקש לדחות']].forEach(([k,label])=>{
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = 'wa-btn' + (k!==lastPath ? ' ob-pulse' : '');
+        btn.className = 'wa-btn';
         btn.textContent = label;
         btn.addEventListener('click', ()=>{
-          w.querySelectorAll('button').forEach(x=>{ x.disabled = true; x.classList.remove('ob-pulse'); });
+          w.querySelectorAll('button').forEach(x=>{ x.disabled = true; });
           path = k;
           out(label);
           later(k==='yes' ? confirmed : postpone, 400);
