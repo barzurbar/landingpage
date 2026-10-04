@@ -4217,10 +4217,10 @@ window.addEventListener('scroll',()=>{
         opts.forEach((o,i)=>{
           const btn = document.createElement('button');
           btn.type = 'button';
-          btn.className = 'wa-btn' + (i===def ? ' ob-pulse' : '');
+          btn.className = 'wa-btn';
           btn.textContent = o;
           btn.addEventListener('click', ()=>{
-            w.querySelectorAll('button').forEach(x=>{ x.disabled = true; x.classList.remove('ob-pulse'); });
+            w.querySelectorAll('button').forEach(x=>{ x.disabled = true; });
             const out = document.createElement('div');
             out.className = 'lb-out pop';
             out.textContent = o;
