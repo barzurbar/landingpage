@@ -4350,7 +4350,7 @@ window.addEventListener('scroll',()=>{
       <!-- MR STEP 4: Surense updated -->
       <div class="step" data-mr-step="4">
         <p class="ob-txt" id="mrEndTxt"></p>
-        <div class="sr-glow">
+        <div>
           <div class="sr-table sr-meet mr-tbl">
             <div class="sr-row head"><span>נושא</span><span>לקוח</span><span>מועד</span><span>סטטוס</span></div>
             <div class="sr-row"><span class="sr-subj">פגישה שנתית</span><span class="sr-client">ישראלי דניאל</span><span id="mrEndWhen">05/10/2026 10:00</span><span class="sr-status" id="mrEndStatus" style="background:#1e90e0">מתוכננת</span></div>
@@ -4472,16 +4472,16 @@ window.addEventListener('scroll',()=>{
   document.getElementById('mrContinueBtn').addEventListener('click', ()=>{
     const st = document.getElementById('mrEndStatus');
     const when = document.getElementById('mrEndWhen');
+    st.textContent = 'מתוכננת'; st.style.background = '#1e90e0'; st.classList.remove('sr-flip');
+    when.textContent = '05/10/2026 10:00'; when.classList.remove('sr-flip');
     if(path==='yes'){
-      st.textContent = 'אושרה הגעה'; st.style.background = '#1fc77e';
-      when.textContent = '05/10/2026 10:00';
-      document.getElementById('mrEndTxt').textContent = 'הלקוח אישר הגעה, והסטטוס של הפגישה בשורנס מתעדכן אוטומטית ל"אושרה הגעה".';
+      document.getElementById('mrEndTxt').textContent = 'הלקוח אישר הגעה, והסטטוס של הפגישה בשורנס מתעדכן אוטומטית מ"מתוכננת" ל"אושרה הגעה".';
       document.getElementById('mrAgain').textContent = '↺ לראות מה קורה כשהלקוח מבקש לדחות';
+      later(()=>{ st.textContent = 'אושרה הגעה'; st.style.background = '#1fc77e'; st.classList.add('sr-flip'); }, 1200);
     } else {
-      st.textContent = 'נקבע מועד חדש'; st.style.background = '#8b5cf6';
-      when.textContent = newWhen.txt;
-      document.getElementById('mrEndTxt').textContent = 'הלקוח ביקש לדחות ובחר מועד חדש. הפגישה בשורנס מתעדכנת אוטומטית למועד החדש, עם הסטטוס "נקבע מועד חדש".';
+      document.getElementById('mrEndTxt').textContent = 'הלקוח ביקש לדחות ובחר מועד חדש. הפגישה בשורנס מתעדכנת אוטומטית למועד החדש, והסטטוס נשאר "מתוכננת".';
       document.getElementById('mrAgain').textContent = '↺ לראות מה קורה כשהלקוח מאשר הגעה';
+      later(()=>{ when.textContent = newWhen.txt; when.classList.add('sr-flip'); }, 1200);
     }
     lastPath = path;
     show(4);
