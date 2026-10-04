@@ -1081,6 +1081,7 @@ footer{
   cursor:pointer;transition:all .2s;
 }
 .wa-continue-btn:hover{background:rgba(0,229,255,.08);box-shadow:var(--glow)}
+.demo-finish{margin-top:6px}
 
 @media (max-width:420px){
   .modal{max-width:100%}
@@ -1233,7 +1234,7 @@ button.em-in:disabled{cursor:default}
 .em-opt{display:block;width:100%;text-align:right;background:none;border:none;padding:10px 12px;font-family:'Heebo',sans-serif;font-size:.88rem;color:#1f2d3d;cursor:pointer;border-radius:0}
 .em-opt+.em-opt{border-top:1px solid #eef1f4}
 .em-opt:hover{background:#f2f6fa}
-#emMeetBadge{white-space:nowrap;overflow-wrap:normal;word-break:keep-all;padding-left:6px;padding-right:6px}
+#emMeetBadge{overflow-wrap:normal;word-break:keep-all;padding-left:4px;padding-right:4px}
 .em-submit{display:block;width:100%;margin-top:18px;border:none;border-radius:8px;padding:12px;background:#1e5bb8;color:#fff;font-family:'Heebo',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer}
 .em-submit:disabled{background:#9db4d6;cursor:default}
 .em-up-hero{position:relative;height:96px;background:linear-gradient(180deg,#e9f2ff,#fff);overflow:hidden}
@@ -2431,6 +2432,7 @@ window.addEventListener('scroll',()=>{
             <div class="sr-row"><span class="sr-subj">פגישה תקופתית</span><span class="sr-client">ישראלי דניאל</span><span class="sr-status" style="background:#ec4fa8">פגישה מקוונת</span><span class="sr-status" style="background:#1e90e0">מתוכננת</span></div>
           </div>
         </div>
+        <div class="wa-continue-wrap"><button class="wa-continue-btn demo-finish" id="pmFinish" type="button">✓ סיום הדגמה</button></div>
       </div>
 
       <div class="step-nav">
@@ -2713,6 +2715,7 @@ window.addEventListener('scroll',()=>{
   closeBtn.addEventListener('click', ()=>{ overlay.hidden=true; stopPmLive(); pmApproveStop(); });
   overlay.addEventListener('click', (e)=>{ if(e.target===overlay){ overlay.hidden=true; stopPmLive(); pmApproveStop(); } });
   toStep2.addEventListener('click', ()=>goto(2));
+  document.getElementById('pmFinish').addEventListener('click', ()=>{ overlay.hidden=true; stopPmLive(); pmApproveStop(); });
   navBack.addEventListener('click', back);
   navRestart.addEventListener('click', restart);
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') overlay.hidden=true; });
@@ -2875,6 +2878,7 @@ window.addEventListener('scroll',()=>{
             <div class="sr-row"><span class="sr-subj">פגישה ראשונה</span><span class="sr-client">ישראלי דניאל</span><span class="sr-status" style="background:#ec4fa8">פגישה מקוונת</span><span class="sr-status" style="background:#1e90e0">מתוכננת</span></div>
           </div>
         </div>
+        <div class="wa-continue-wrap"><button class="wa-continue-btn demo-finish" id="obFinish" type="button">✓ סיום הדגמה</button></div>
       </div>
 
       <!-- OB STEP 6: power of attorney (copied from the periodic-meetings demo) -->
@@ -3140,6 +3144,7 @@ window.addEventListener('scroll',()=>{
 
   document.getElementById('openObModal').addEventListener('click', ()=>{ reset(); ov.hidden=false; });
   document.getElementById('obClose').addEventListener('click', close);
+  document.getElementById('obFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
@@ -3276,6 +3281,7 @@ window.addEventListener('scroll',()=>{
             <div class="sr-row"><span class="sr-subj">פגישת היכרות</span><span class="sr-client">ישראלי דניאל</span><span class="sr-status" id="emMeetBadge" style="background:#ec4fa8">פגישה מקוונת</span><span class="sr-status" style="background:#1e90e0">מתוכננת</span></div>
           </div>
         </div>
+        <div class="wa-continue-wrap"><button class="wa-continue-btn demo-finish" id="emFinish" type="button">✓ סיום הדגמה</button></div>
       </div>
 
       <!-- EM STEP 5: power of attorney (copied from the periodic-meetings demo) -->
@@ -3573,6 +3579,7 @@ window.addEventListener('scroll',()=>{
 
   document.getElementById('openEmModal').addEventListener('click', ()=>{ reset(); ov.hidden=false; });
   document.getElementById('emClose').addEventListener('click', close);
+  document.getElementById('emFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
