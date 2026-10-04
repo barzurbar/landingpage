@@ -1324,20 +1324,28 @@ button.em-in:disabled{cursor:default}
 .lb-q .wa-btn:disabled{color:#9aa5b1;cursor:default}
 .lb-q{margin-top:-6px;margin-bottom:12px}
 .lb-lead{background:#fff;border-radius:10px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;color:#1f2d3d;overflow:hidden}
-.lb-lead-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #e3e8ee}
-.lb-av{width:42px;height:42px;border-radius:50%;background:#2f7fd8;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
-.lb-name{font-weight:800;font-size:1rem}
-.lb-meta{font-size:.76rem;color:#6b7785;display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:2px}
-.lb-meta span{direction:ltr;unicode-bidi:isolate}
-.lb-badge{margin-right:auto;background:#1e90e0;color:#fff;border-radius:4px;padding:4px 8px;font-size:.74rem;font-weight:700;white-space:nowrap}
-.lb-tabs{display:flex;gap:16px;padding:0 16px;border-bottom:1px solid #e3e8ee;font-size:.8rem;color:#6b7785}
-.lb-tabs span{padding:9px 0}
-.lb-tabs .on{color:#2f7fd8;font-weight:700;border-bottom:2px solid #2f7fd8}
-.lb-act{margin:12px;border:1px solid #d5e4f5;border-radius:8px;background:#f7fbff}
-.lb-act-head{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid #e3e8ee;font-size:.82rem;font-weight:700}
-.lb-act-ic{width:24px;height:24px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0}
-.lb-act-time{margin-right:auto;font-weight:400;color:#6b7785;font-size:.74rem;white-space:nowrap}
-.lb-act-body{padding:8px 12px 10px;font-size:.8rem}
+.lb-top{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;padding:10px 14px;border-bottom:1px solid #e3e8ee}
+.lb-lid{font-weight:800;font-size:1rem}
+.lb-pill{background:#8b2fd9;color:#fff;border-radius:6px;padding:4px 10px;font-size:.76rem;font-weight:700;white-space:nowrap}
+.lb-by{font-size:.7rem;color:#5b6b80;margin-right:auto}
+.lb-info{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;padding:12px 14px;border-bottom:1px solid #e3e8ee;align-items:end}
+.lb-info small{display:block;font-size:.72rem;color:#5b6b80;margin-bottom:4px}
+.lb-status{background:#1fc77e;color:#fff;border-radius:6px;padding:7px 10px;font-size:.8rem;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+.lb-handler{display:flex;align-items:center;gap:6px;font-size:.82rem}
+.lb-av{width:26px;height:26px;border-radius:50%;background:#2f7fd8;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;flex-shrink:0}
+.lb-name{grid-column:1/-1;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:800;font-size:1.05rem;color:#1e6fd9}
+.lb-name span{font-size:.74rem;font-weight:400;color:#5b6b80;direction:ltr;unicode-bidi:isolate}
+.lb-tabs{display:flex;gap:22px;padding:0 14px;border-bottom:1px solid #e3e8ee;font-size:.84rem;color:#5b6b80}
+.lb-tabs span{padding:10px 0}
+.lb-tabs .on{color:#1f2d3d;font-weight:700;border-bottom:2px solid #1e6fd9}
+.lb-feed{background:#f3f5f8;padding:10px}
+.lb-act{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.lb-act-head{display:flex;align-items:center;gap:8px;padding:10px 12px 4px;font-size:.84rem;font-weight:700}
+.lb-act-ic{width:24px;height:24px;border-radius:6px;background:#e8f9ef;color:#1fa463;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
+.lb-act-time{margin-right:auto;font-weight:400;color:#6b7785;font-size:.72rem;white-space:nowrap}
+.lb-act-title{padding:4px 12px 2px;font-size:.84rem;font-weight:800}
+.lb-act-body{padding:4px 12px 8px;font-size:.8rem}
+.lb-act-foot{display:flex;gap:10px;padding:8px 12px;border-top:1px solid #eef1f4;color:#8a94a6;font-size:.9rem}
 .lb-qa{display:grid;grid-template-columns:1fr auto;gap:10px;padding:6px 0;border-bottom:1px dashed #e3e8ee}
 .lb-qa:last-child{border-bottom:none}
 .lb-qa span{color:#5b6b80}
@@ -4127,21 +4135,23 @@ window.addEventListener('scroll',()=>{
 
       <!-- LB STEP 3: Surense lead activity -->
       <div class="step" data-lb-step="3">
-        <p class="ob-txt">כל התשובות של הליד עולות אוטומטית לשורנס כפעילות תחת הליד.<br>כך הנציג רואה את כל המידע עוד לפני השיחה הראשונה, ומגיע אליה מוכן.</p>
+        <p class="ob-txt">כל התשובות של הליד עולות אוטומטית לשורנס, ונשמרות בטאב "פעילות" תחת הליד.<br>כך הנציג רואה את כל המידע עוד לפני השיחה הראשונה, ומגיע אליה מוכן.</p>
         <div class="sr-glow">
           <div class="lb-lead">
-            <div class="lb-lead-head">
-              <div class="lb-av">ד"י</div>
-              <div style="min-width:0">
-                <div class="lb-name">דניאל ישראלי</div>
-                <div class="lb-meta"><span>052-123-4567</span><span>daniel.israeli@gmail.com</span></div>
-              </div>
-              <div class="lb-badge">ליד חדש</div>
+            <div class="lb-top"><span class="lb-lid">ליד 515</span><span class="lb-pill">בוט קבלת מידע ליד</span><span class="lb-by" id="lbBy"></span></div>
+            <div class="lb-info">
+              <div class="lb-name">👤 דניאל ישראלי <span>052-123-4567 · daniel.israeli@gmail.com</span></div>
+              <div><small>סטטוס</small><div class="lb-status">ליד חדש <span>⌄</span></div></div>
+              <div><small>מטפל/ת</small><div class="lb-handler"><span class="lb-av">👩‍💼</span>נציג מכירות</div></div>
             </div>
-            <div class="lb-tabs"><span>פרטים</span><span class="on">פעילויות</span><span>מסמכים</span><span>תהליכים</span></div>
-            <div class="lb-act">
-              <div class="lb-act-head"><span class="lb-act-ic">✓</span>שאלון בוט קבלת מידע (WhatsApp)<span class="lb-act-time" id="lbActTime"></span></div>
-              <div class="lb-act-body" id="lbActBody"></div>
+            <div class="lb-tabs"><span class="on">פעילות</span><span>לוג</span></div>
+            <div class="lb-feed">
+              <div class="lb-act">
+                <div class="lb-act-head"><span class="lb-av">🤖</span>בוט WhatsApp<span class="lb-act-ic">💬</span><span class="lb-act-time" id="lbActTime"></span></div>
+                <div class="lb-act-title">שאלון קבלת מידע – דניאל ישראלי</div>
+                <div class="lb-act-body" id="lbActBody"></div>
+                <div class="lb-act-foot"><span>👍</span><span>☺</span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -4234,7 +4244,9 @@ window.addEventListener('scroll',()=>{
       r.appendChild(k); r.appendChild(v); ab.appendChild(r);
     });
     const d = new Date();
-    document.getElementById('lbActTime').textContent = String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+' '+now();
+    const ds = String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+    document.getElementById('lbActTime').textContent = ds+' '+now();
+    document.getElementById('lbBy').textContent = 'נוצר ע"י טופס לידים בתאריך '+ds;
   }
   function reset(){
     timers.forEach(clearTimeout); timers = []; answers = [];
