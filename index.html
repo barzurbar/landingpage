@@ -1351,6 +1351,12 @@ button.em-in:disabled{cursor:default}
 .lb-qa span{color:#5b6b80}
 .lb-qa b{text-align:left}
 @media (max-width:480px){.lb-qa{grid-template-columns:1fr;gap:2px}.lb-qa b{text-align:right}}
+/* meeting reminder demo */
+.mr-link{color:#027eb5;text-decoration:underline;cursor:pointer;direction:ltr;unicode-bidi:isolate;display:inline-block;border-radius:4px;padding:0 2px}
+.mr-again{background:none;border:1px solid rgba(0,229,255,.4);color:var(--cyan);border-radius:6px;padding:9px 16px;font-family:'Heebo',sans-serif;font-size:.85rem;cursor:pointer;margin-top:8px}
+.mr-end-btns{flex-direction:column;align-items:center;gap:4px}
+.mr-again:hover{background:rgba(0,229,255,.08)}
+.sr-meet.mr-tbl .sr-row{grid-template-columns:1fr 1fr 1.1fr 1fr}
 </style>
 </head>
 <body>
@@ -1556,13 +1562,16 @@ button.em-in:disabled{cursor:default}
           <div class="blc"></div><div class="pulse-line"></div>
           <div class="srv-icon">⏰</div>
           <h3 class="srv-title">תזכורת הגעה לפגישה</h3>
-          <p class="srv-desc">אוטומציה שמתזכרת ללקוחות יום לפני מועד הפגישה ומאפשרת להם לאשר הגעה או לבקש לדחות.</p>
+          <p class="srv-desc">אוטומציה שמתזכרת ללקוחות יום לפני מועד הפגישה בשורנס ומאפשרת להם לאשר הגעה או לבקש לדחות.</p>
           <ul class="srv-list">
             <li>שליחת תזכורת WhatsApp יום לפני הפגישה</li>
             <li>הצגת מועד הפגישה ואפשרות "מאשר הגעה" או "מבקש לדחות"</li>
             <li>עדכון הפגישה ב-Surense בהתאם לתשובת הלקוח</li>
             <li>אפשרות לתאם מועד חדש במקרה של דחייה</li>
           </ul>
+          <button class="demo-cta" id="openMrModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
 
         <div class="srv-card">
@@ -4271,6 +4280,227 @@ window.addEventListener('scroll',()=>{
   document.getElementById('openLbModal').addEventListener('click', open);
   document.getElementById('lbClose').addEventListener('click', close);
   document.getElementById('lbFinish').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="mrOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mrTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="mrTitle">
+        <span id="mrStepLabel">// שלב 1 — זיהוי פגישה של מחר בשורנס</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-mr-dot="1"></i><i data-mr-dot="2"></i><i data-mr-dot="3"></i><i data-mr-dot="4"></i></span>
+      </div>
+      <button class="modal-close" id="mrClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="mrBody">
+
+      <!-- MR STEP 1: tomorrow's meeting in Surense -->
+      <div class="step active" data-mr-step="1">
+        <p class="ob-txt">יום לפני הפגישה, האוטומציה מזהה בשורנס את הפגישות שנקבעו למחר, ושולחת לכל לקוח תזכורת ב־WhatsApp.</p>
+        <div class="sr-glow">
+          <div class="sr-table sr-meet mr-tbl">
+            <div class="sr-row head"><span>נושא</span><span>לקוח</span><span>מועד</span><span>סטטוס</span></div>
+            <div class="sr-row"><span class="sr-subj">פגישה שנתית</span><span class="sr-client">ישראלי דניאל</span><span id="mrWhen1">05/10/2026 10:00</span><span class="sr-status" id="mrSt1" style="background:#1e90e0">מתוכננת</span></div>
+          </div>
+        </div>
+        <div style="margin-top:20px"><button class="wa-cta" id="mrToWa" type="button">▶ פתח סימולציית WhatsApp</button></div>
+      </div>
+
+      <!-- MR STEP 2: WhatsApp reminder -->
+      <div class="step" data-mr-step="2">
+        <p class="ob-hint-txt" id="mrHint" style="margin-top:0"></p>
+        <div class="wa-frame">
+          <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+          <div class="wa-body" id="mrWaBody"></div>
+        </div>
+        <div class="wa-continue-wrap" id="mrContinueWrap" hidden>
+          <button class="wa-continue-btn" id="mrContinueBtn" type="button">המשך לשלב הבא ›</button>
+        </div>
+      </div>
+
+      <!-- MR STEP 3: booking a new time -->
+      <div class="step" data-mr-step="3">
+        <p class="step-txt" style="margin-bottom:12px">הלקוח מועבר לחלון בחירת מועד חדש, לפי הזמינות ביומן של הסוכנות:</p>
+        <div class="bk-frame">
+          <div class="bk-head">
+            <div class="bk-org"><b>המצפן סוכנות לביטוח</b></div>
+            <div class="bk-logo">🧭</div>
+          </div>
+          <div class="bk-titlebox">
+            <h4>פגישה שנתית</h4>
+            <div class="bk-meta"><span>⏱ 30 דק'</span><span>🤝 במשרדי הסוכנות</span><span>🌍 Asia/Jerusalem</span></div>
+          </div>
+          <div class="bk-cal-nav"><span>‹</span><span>אוקטובר 2026</span><span>›</span></div>
+          <div class="bk-grid" id="mrBkGrid">
+            <div class="wd">שבת</div><div class="wd">יום ו</div><div class="wd">יום ה</div><div class="wd">יום ד</div><div class="wd">יום ג</div><div class="wd">יום ב</div><div class="wd">יום א</div>
+            <div class="d mute">10</div><div class="d mute">9</div><div class="d pick" data-date="2026-10-08" data-wd="חמישי">8</div><div class="d pick" data-date="2026-10-07" data-wd="רביעי">7</div><div class="d pick" data-date="2026-10-06" data-wd="שלישי">6</div><div class="d mute">5</div><div class="d mute">4</div>
+            <div class="d mute">17</div><div class="d mute">16</div><div class="d pick" data-date="2026-10-15" data-wd="חמישי">15</div><div class="d pick" data-date="2026-10-14" data-wd="רביעי">14</div><div class="d pick" data-date="2026-10-13" data-wd="שלישי">13</div><div class="d pick sel" data-date="2026-10-12" data-wd="שני">12</div><div class="d pick" data-date="2026-10-11" data-wd="ראשון">11</div>
+          </div>
+          <div class="bk-slots" id="mrBkSlots">
+            <div class="bk-slot"><span>9:00am</span><i></i></div>
+            <div class="bk-slot ob-pulse"><span>10:30am</span><i></i></div>
+            <div class="bk-slot"><span>12:00pm</span><i></i></div>
+            <div class="bk-slot"><span>2:30pm</span><i></i></div>
+          </div>
+        </div>
+        <p class="ob-hint-txt">בחרו יום ושעה</p>
+      </div>
+
+      <!-- MR STEP 4: Surense updated -->
+      <div class="step" data-mr-step="4">
+        <p class="ob-txt" id="mrEndTxt"></p>
+        <div class="sr-glow">
+          <div class="sr-table sr-meet mr-tbl">
+            <div class="sr-row head"><span>נושא</span><span>לקוח</span><span>מועד</span><span>סטטוס</span></div>
+            <div class="sr-row"><span class="sr-subj">פגישה שנתית</span><span class="sr-client">ישראלי דניאל</span><span id="mrEndWhen">05/10/2026 10:00</span><span class="sr-status" id="mrEndStatus" style="background:#1e90e0">מתוכננת</span></div>
+          </div>
+        </div>
+        <div class="wa-continue-wrap mr-end-btns">
+          <button class="wa-continue-btn demo-finish" id="mrFinish" type="button">✓ סיום הדגמה</button>
+          <button class="mr-again" id="mrAgain" type="button"></button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('mrOverlay');
+  const body = document.getElementById('mrBody');
+  const wa = document.getElementById('mrWaBody');
+  const hint = document.getElementById('mrHint');
+  const contWrap = document.getElementById('mrContinueWrap');
+  const stepLabel = document.getElementById('mrStepLabel');
+  const grid = document.getElementById('mrBkGrid');
+  const defSel = grid.querySelector('.d.sel');
+  const labels = {1:'// שלב 1 — זיהוי פגישה של מחר בשורנס',2:'// שלב 2 — תזכורת ב־WhatsApp',3:'// שלב 3 — תיאום מועד חדש',4:'// שלב 4 — עדכון הפגישה בשורנס'};
+  const LINK = 'https://cal.com/mazpen/meeting';
+  let timers = [], path = null, newWhen = null, lastPath = null;
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    ov.querySelectorAll('[data-mr-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.mrStep)===n));
+    ov.querySelectorAll('[data-mr-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.mrDot)<=n));
+    stepLabel.textContent = labels[n];
+    body.scrollTop = 0;
+  }
+  function scrollBottom(){ body.scrollTop = body.scrollHeight; }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function bot(build, after){
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    wa.appendChild(t); scrollBottom();
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      build(b);
+      const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now();
+      b.appendChild(tm); wa.appendChild(b);
+      if(after) after(b);
+      scrollBottom();
+    }, 850);
+  }
+  function out(text){
+    const o = document.createElement('div');
+    o.className = 'lb-out pop';
+    o.textContent = text;
+    const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now() + ' ✓✓';
+    o.appendChild(tm); wa.appendChild(o); scrollBottom();
+  }
+  function reminder(){
+    bot(b=>{ b.textContent = 'היי דניאל 👋\nרצינו להזכיר שמחר, יום שני 05.10.26 בשעה 10:00, נקבעה לך פגישה שנתית במשרדי המצפן סוכנות לביטוח.\n\nנשמח שתאשר את הגעתך:'; }, ()=>{
+      const w = document.createElement('div');
+      w.className = 'wa-btns-wrap pop lb-q';
+      [['yes','✅ מאשר הגעה'],['no','🔄 מבקש לדחות']].forEach(([k,label])=>{
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'wa-btn' + (k!==lastPath ? ' ob-pulse' : '');
+        btn.textContent = label;
+        btn.addEventListener('click', ()=>{
+          w.querySelectorAll('button').forEach(x=>{ x.disabled = true; x.classList.remove('ob-pulse'); });
+          path = k;
+          out(label);
+          later(k==='yes' ? confirmed : postpone, 400);
+        });
+        w.appendChild(btn);
+      });
+      wa.appendChild(w);
+      hint.textContent = 'בחרו את התשובה של הלקוח';
+    });
+  }
+  function confirmed(){
+    hint.textContent = '';
+    bot(b=>{ b.textContent = 'תודה דניאל, ההגעה אושרה ✅\nנתראה מחר ב־10:00.\n\nהמצפן סוכנות לביטוח'; }, ()=>{ contWrap.hidden = false; });
+  }
+  function postpone(){
+    hint.textContent = 'לחצו על הלינק לתיאום מועד חדש';
+    bot(b=>{
+      b.appendChild(document.createTextNode('אין בעיה דניאל 🙂\nלתיאום פגישה במועד אחר יש ללחוץ על הלינק:\n'));
+      const a = document.createElement('span');
+      a.className = 'mr-link ob-pulse';
+      a.id = 'mrLink';
+      a.textContent = LINK;
+      a.addEventListener('click', ()=>{ a.classList.remove('ob-pulse'); show(3); }, {once:true});
+      b.appendChild(a);
+      b.appendChild(document.createTextNode('\n\nהמצפן סוכנות לביטוח'));
+    });
+  }
+  grid.addEventListener('click', (e)=>{
+    const cell = e.target.closest('.d.pick');
+    if(!cell) return;
+    grid.querySelectorAll('.d.sel').forEach(c=>c.classList.remove('sel'));
+    cell.classList.add('sel');
+  });
+  document.getElementById('mrBkSlots').addEventListener('click', (e)=>{
+    const slot = e.target.closest('.bk-slot');
+    const cell = grid.querySelector('.d.sel');
+    if(!slot || !cell) return;
+    const m = slot.querySelector('span').textContent.match(/^(\d{1,2}):(\d{2})(am|pm)$/i);
+    let h = parseInt(m[1],10);
+    if(m[3].toLowerCase()==='pm' && h!==12) h += 12;
+    const [y,mo,d] = cell.dataset.date.split('-');
+    const hm = String(h).padStart(2,'0')+':'+m[2];
+    newWhen = {txt: d+'/'+mo+'/'+y+' '+hm, wd: cell.dataset.wd, short: d+'.'+mo+'.'+y.slice(2), hm};
+    show(2);
+    hint.textContent = '';
+    scrollBottom();
+    bot(b=>{ b.textContent = 'הפגישה נקבעה מחדש ליום '+newWhen.wd+', '+newWhen.short+' בשעה '+newWhen.hm+' 📅\nמחכים לפגוש אותך,\nהמצפן סוכנות לביטוח'; }, ()=>{ contWrap.hidden = false; });
+  });
+  document.getElementById('mrContinueBtn').addEventListener('click', ()=>{
+    const st = document.getElementById('mrEndStatus');
+    const when = document.getElementById('mrEndWhen');
+    if(path==='yes'){
+      st.textContent = 'אושרה הגעה'; st.style.background = '#1fc77e';
+      when.textContent = '05/10/2026 10:00';
+      document.getElementById('mrEndTxt').textContent = 'הלקוח אישר הגעה, והסטטוס של הפגישה בשורנס מתעדכן אוטומטית ל"אושרה הגעה".';
+      document.getElementById('mrAgain').textContent = '↺ לראות מה קורה כשהלקוח מבקש לדחות';
+    } else {
+      st.textContent = 'נקבע מועד חדש'; st.style.background = '#8b5cf6';
+      when.textContent = newWhen.txt;
+      document.getElementById('mrEndTxt').textContent = 'הלקוח ביקש לדחות ובחר מועד חדש. הפגישה בשורנס מתעדכנת אוטומטית למועד החדש, עם הסטטוס "נקבע מועד חדש".';
+      document.getElementById('mrAgain').textContent = '↺ לראות מה קורה כשהלקוח מאשר הגעה';
+    }
+    lastPath = path;
+    show(4);
+  });
+  function reset(){
+    timers.forEach(clearTimeout); timers = []; path = null; newWhen = null;
+    contWrap.hidden = true; hint.textContent = '';
+    wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    grid.querySelectorAll('.d.sel').forEach(c=>c.classList.remove('sel'));
+    defSel.classList.add('sel');
+    show(1);
+  }
+  function open(){ lastPath = null; reset(); ov.hidden = false; }
+  function close(){ ov.hidden = true; timers.forEach(clearTimeout); timers = []; }
+  document.getElementById('mrToWa').addEventListener('click', ()=>{ show(2); reminder(); });
+  document.getElementById('mrAgain').addEventListener('click', ()=>{ reset(); show(2); reminder(); });
+  document.getElementById('openMrModal').addEventListener('click', open);
+  document.getElementById('mrClose').addEventListener('click', close);
+  document.getElementById('mrFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
