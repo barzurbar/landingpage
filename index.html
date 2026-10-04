@@ -1103,9 +1103,12 @@ footer{
 .sc-doc-note{font-size:.76rem;color:#5b6b80}
 .sc-doc-stamp{position:absolute;left:18px;bottom:22px;transform:rotate(-14deg);border:3px solid #00a86b;color:#00a86b;border-radius:8px;padding:4px 12px;font-weight:800;font-size:1rem;opacity:.85}
 .sc-doc-btns{gap:10px;flex-wrap:wrap}
-.sc-open{cursor:pointer;background:#fff;font-family:'Heebo',sans-serif;font-size:.82rem;position:relative}
-.sc-open:disabled{cursor:default}
-.sc-open.ob-pulse{padding-left:26px}
+.sc-row{border-radius:6px;margin:4px 6px;transition:background .2s}
+.sc-row.ob-pulse{cursor:pointer;background:#eef6ff}
+.sc-row.ob-pulse:hover{background:#e2efff}
+.sc-row-client{position:relative}
+.sc-row.ob-pulse .sc-row-client{padding-left:24px}
+.sc-row-client .ob-pointer{left:0}
 .sc-proc{background:#fff;color:#1f2d3d;border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;font-size:.8rem;overflow:hidden}
 .sc-proc[hidden],.ob-crm[hidden]{display:none}
 .sc-proc-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid #eef1f4}
@@ -3745,9 +3748,9 @@ window.addEventListener('scroll',()=>{
         <p class="ob-txt"><b>דוגמה 2:</b> תביעה שאושרה, עם קובץ מצורף להודעה.<br>אתם בוחרים איזה קובץ יישלח ללקוח: מסמנים בתהליך את סוג המסמך כ"תביעה". האוטומציה מזהה את הקובץ לפי סוג המסמך, ומצרפת להודעה רק אותו. אחר כך משנים את הסטטוס ל"תביעה אושרה", והלקוח מקבל את ההודעה עם הקובץ.</p>
         <div class="ob-crm" id="scList2">
           <div class="ob-row head"><span>סוג תהליך</span><span>לקוח</span><span>סטטוס ↓</span></div>
-          <div class="ob-row">
-            <button class="ob-type sc-open ob-pulse" id="scOpenProc" type="button">תביעה<span class="ob-pointer" aria-hidden="true">👉</span></button>
-            <span class="ob-client">דניאל ישראלי</span>
+          <div class="ob-row sc-row ob-pulse" id="scOpenProc" role="button" tabindex="0" aria-label="פתיחת התהליך">
+            <span class="ob-type">תביעה</span>
+            <span class="ob-client sc-row-client">דניאל ישראלי<span class="ob-pointer" aria-hidden="true">👉</span></span>
             <span class="ob-status-cell">
               <button class="ob-status" id="scStatus2" type="button" style="background:#1e90e0" disabled><span class="sc-st-txt">בטיפול</span><span class="ob-pointer" aria-hidden="true" hidden>👉</span></button>
             </span>
@@ -3916,11 +3919,14 @@ window.addEventListener('scroll',()=>{
   const hint2 = document.getElementById('scHint2');
   const backWrap = document.getElementById('scBackWrap');
   const st2 = document.getElementById('scStatus2');
-  openProc.addEventListener('click', ()=>{
+  function openProcPage(){
+    if(!openProc.classList.contains('ob-pulse')) return;
     list2.hidden = true; proc.hidden = false;
     hint2.textContent = 'כדי לבחור איזה קובץ יישלח ללקוח, לחצו על עמודת "סוג" של המסמך';
     body.scrollTop = 0;
-  });
+  }
+  openProc.addEventListener('click', openProcPage);
+  openProc.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openProcPage(); } });
   docType.addEventListener('click', ()=>{
     typeMenu.hidden = false;
     docType.classList.remove('ob-pulse');
@@ -3937,7 +3943,7 @@ window.addEventListener('scroll',()=>{
   });
   document.getElementById('scBackList').addEventListener('click', ()=>{
     proc.hidden = true; list2.hidden = false; backWrap.hidden = true;
-    openProc.classList.remove('ob-pulse'); openProc.disabled = true;
+    openProc.classList.remove('ob-pulse'); openProc.removeAttribute('tabindex');
     openProc.querySelector('.ob-pointer').hidden = true;
     st2.disabled = false; st2.classList.add('ob-pulse');
     st2.querySelector('.ob-pointer').hidden = false;
@@ -3977,7 +3983,7 @@ window.addEventListener('scroll',()=>{
     st2.disabled = true; st2.classList.remove('ob-pulse'); st2.querySelector('.ob-pointer').hidden = true;
     hint2.textContent = 'לחצו על התהליך כדי להיכנס אליו';
     list2.hidden = false; proc.hidden = true; backWrap.hidden = true; typeMenu.hidden = true;
-    openProc.disabled = false; openProc.classList.add('ob-pulse'); openProc.querySelector('.ob-pointer').hidden = false;
+    openProc.setAttribute('tabindex','0'); openProc.classList.add('ob-pulse'); openProc.querySelector('.ob-pointer').hidden = false;
     docType.disabled = false; docType.classList.add('ob-pulse'); docType.classList.remove('set'); docType.querySelector('.ob-pointer').hidden = false;
     document.getElementById('scDocTypeTxt').textContent = '';
     wa1.innerHTML = wa2.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
