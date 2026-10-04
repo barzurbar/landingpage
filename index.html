@@ -3672,7 +3672,7 @@ window.addEventListener('scroll',()=>{
 
       <!-- SC STEP 1: pension transfer status change -->
       <div class="step active" data-sc-step="1">
-        <p class="ob-txt">האוטומציה מזהה שינוי סטטוס של תהליך בשורנס, ושולחת ללקוח הודעת WhatsApp שמותאמת לסוג התהליך ולסטטוס החדש.<br><b>דוגמה 1:</b> תהליך ניוד פנסיה שבו חסרים מסמכים מהלקוח.</p>
+        <p class="ob-txt">האוטומציה מזהה כל שינוי סטטוס בשורנס, של תהליך, ליד או לקוח, ושולחת ללקוח הודעת WhatsApp שמותאמת לסטטוס החדש.<br><b>דוגמה 1:</b> שינוי סטטוס של תהליך ניוד פנסיה, כשחסרים מסמכים מהלקוח.</p>
         <div class="ob-crm">
           <div class="ob-row head"><span>סוג תהליך</span><span>לקוח</span><span>סטטוס ↓</span></div>
           <div class="ob-row">
@@ -3848,7 +3848,7 @@ window.addEventListener('scroll',()=>{
   const wa2 = document.getElementById('scWaBody2');
   document.getElementById('scToWa1').addEventListener('click', ()=>{
     show(2);
-    sendBubble(wa1, 'היי דניאל,\n\nבמהלך הטיפול בתהליך ניוד הפנסיה, זוהו מסמכים או פרטים שעדיין חסרים לצורך המשך הטיפול.\nלהשלמת הטיפול נשמח ליצירת קשר מול צוות השירות שלנו לצורך השלמת הפרטים והמשך קידום הבקשה.\n\n📞 <span dir="ltr">02-0000000</span>\n\nתודה,\nהמצפן סוכנות לביטוח', false,
+    sendBubble(wa1, 'היי דניאל,\n\nבמהלך הטיפול בתהליך ניוד הפנסיה, זוהו מסמכים או פרטים שעדיין חסרים לצורך המשך הטיפול.\nלהשלמת הטיפול נשמח ליצירת קשר מול צוות השירות שלנו לצורך השלמת הפרטים והמשך קידום הבקשה.\n\n📞 <span dir="ltr">0521234567</span>\n\nתודה,\nהמצפן סוכנות לביטוח', false,
       ()=>{ document.getElementById('scNextWrap').hidden = false; });
   });
   document.getElementById('scNext').addEventListener('click', ()=>show(3));
