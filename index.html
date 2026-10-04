@@ -1115,6 +1115,9 @@ footer{
 .sc-proc-id{font-weight:800;font-size:.95rem}
 .sc-proc-x{background:none;border:none;font-size:1.05rem;line-height:1;color:#1f2d3d;padding:4px 6px;cursor:pointer;border-radius:4px}
 .sc-proc-x:disabled{cursor:default}
+.sc-x-hand{font-size:1.1rem;margin-right:-6px;animation:scHand 1s ease-in-out infinite;pointer-events:none}
+.sc-x-hand[hidden]{display:none}
+@keyframes scHand{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
 .sc-proc-x:not(:disabled):hover{background:#eef3f8}
 .sc-proc-type{border:1px solid #2f7fd8;color:#2f7fd8;border-radius:6px;padding:3px 10px;font-weight:600}
 .sc-proc-by{font-size:.72rem;color:#6b7785}
@@ -3816,7 +3819,7 @@ window.addEventListener('scroll',()=>{
         </div>
         <div class="sc-proc" id="scProc" hidden>
           <div class="sc-proc-top">
-            <button class="sc-proc-x" id="scBackList" type="button" aria-label="סגירת התהליך" disabled>✕</button>
+            <button class="sc-proc-x" id="scBackList" type="button" aria-label="סגירת התהליך" disabled>✕</button><span class="sc-x-hand" id="scXHand" aria-hidden="true" hidden>👉</span>
             <span class="sc-proc-id">תהליך 7536</span>
             <span class="sc-proc-type">תביעה ⌄</span>
             <span class="sc-proc-by">נוצר ע"י המצפן בתאריך 21/09/2026</span>
@@ -3836,10 +3839,10 @@ window.addEventListener('scroll',()=>{
             </div>
             <div class="ob-menu" id="scTypeMenu" hidden>
               <div class="ob-search"><span>חיפוש</span><span>⚙</span></div>
+              <button class="ob-opt ob-pulse" id="scTypePick" type="button">תביעה<span class="ob-pointer" aria-hidden="true">👉</span></button>
               <button class="ob-opt" type="button" disabled>לא מוגדר</button>
               <button class="ob-opt" type="button" disabled>אחר</button>
               <button class="ob-opt" type="button" disabled>דוח טרום טיפול</button>
-              <button class="ob-opt ob-pulse" id="scTypePick" type="button">תביעה<span class="ob-pointer" aria-hidden="true">👉</span></button>
             </div>
           </div>
         </div>
@@ -3987,10 +3990,10 @@ window.addEventListener('scroll',()=>{
     docType.classList.add('set');
     docType.disabled = true;
     hint2.textContent = '✓ המסמך סומן כ"תביעה". האוטומציה תזהה אותו לפי הסוג ותצרף אותו להודעה. עכשיו לחצו על ✕ למעלה כדי לחזור לרשימת התהליכים';
-    later(()=>{ backX.disabled = false; backX.classList.add('ob-pulse'); }, 400);
+    later(()=>{ backX.disabled = false; backX.classList.add('ob-pulse'); document.getElementById('scXHand').hidden = false; }, 400);
   });
   document.getElementById('scBackList').addEventListener('click', ()=>{
-    proc.hidden = true; list2.hidden = false; backX.disabled = true; backX.classList.remove('ob-pulse');
+    proc.hidden = true; list2.hidden = false; backX.disabled = true; backX.classList.remove('ob-pulse'); document.getElementById('scXHand').hidden = true;
     openProc.classList.remove('ob-pulse'); openProc.removeAttribute('tabindex');
     openProc.querySelector('.ob-pointer').hidden = true;
     st2.disabled = false; st2.classList.add('ob-pulse');
@@ -4030,7 +4033,7 @@ window.addEventListener('scroll',()=>{
     // example 2 starts from the process list
     st2.disabled = true; st2.classList.remove('ob-pulse'); st2.querySelector('.ob-pointer').hidden = true;
     hint2.textContent = 'לחצו על התהליך כדי להיכנס אליו';
-    list2.hidden = false; proc.hidden = true; backX.disabled = true; backX.classList.remove('ob-pulse'); typeMenu.hidden = true;
+    list2.hidden = false; proc.hidden = true; backX.disabled = true; backX.classList.remove('ob-pulse'); document.getElementById('scXHand').hidden = true; typeMenu.hidden = true;
     openProc.setAttribute('tabindex','0'); openProc.classList.add('ob-pulse'); openProc.querySelector('.ob-pointer').hidden = false;
     docType.disabled = false; docType.classList.add('ob-pulse'); docType.classList.remove('set'); docType.querySelector('.ob-pointer').hidden = false;
     document.getElementById('scDocTypeTxt').textContent = '';
