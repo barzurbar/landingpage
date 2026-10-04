@@ -3742,7 +3742,7 @@ window.addEventListener('scroll',()=>{
 
       <!-- SC STEP 3: claim status change -->
       <div class="step" data-sc-step="3">
-        <p class="ob-txt"><b>דוגמה 2:</b> תביעה שאושרה. קודם מסווגים בתהליך את קובץ אישור התשלום כמסמך מסוג "תביעה", ואז משנים את הסטטוס ל"תביעה אושרה". הלקוח מקבל הודעה עם הקובץ מצורף.</p>
+        <p class="ob-txt"><b>דוגמה 2:</b> תביעה שאושרה, עם קובץ מצורף להודעה.<br>אתם בוחרים איזה קובץ יישלח ללקוח: מסמנים בתהליך את סוג המסמך כ"תביעה", ורק הוא יצורף להודעה. אחר כך משנים את הסטטוס ל"תביעה אושרה", והלקוח מקבל את ההודעה עם הקובץ.</p>
         <div class="ob-crm" id="scList2">
           <div class="ob-row head"><span>סוג תהליך</span><span>לקוח</span><span>סטטוס ↓</span></div>
           <div class="ob-row">
@@ -3918,7 +3918,7 @@ window.addEventListener('scroll',()=>{
   const st2 = document.getElementById('scStatus2');
   openProc.addEventListener('click', ()=>{
     list2.hidden = true; proc.hidden = false;
-    hint2.textContent = 'לחצו על עמודת "סוג" של המסמך';
+    hint2.textContent = 'כדי לבחור איזה קובץ יישלח ללקוח, לחצו על עמודת "סוג" של המסמך';
     body.scrollTop = 0;
   });
   docType.addEventListener('click', ()=>{
@@ -3932,7 +3932,7 @@ window.addEventListener('scroll',()=>{
     document.getElementById('scDocTypeTxt').textContent = 'תביעה';
     docType.classList.add('set');
     docType.disabled = true;
-    hint2.textContent = '✓ המסמך סווג כ"תביעה". עכשיו חוזרים לרשימת התהליכים';
+    hint2.textContent = '✓ המסמך סומן כ"תביעה", ולכן הוא הקובץ שיישלח ללקוח. עכשיו חוזרים לרשימת התהליכים';
     later(()=>{ backWrap.hidden = false; }, 400);
   });
   document.getElementById('scBackList').addEventListener('click', ()=>{
