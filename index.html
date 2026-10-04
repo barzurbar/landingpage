@@ -1113,6 +1113,12 @@ footer{
 .sc-proc[hidden],.ob-crm[hidden]{display:none}
 .sc-proc-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid #eef1f4}
 .sc-proc-id{font-weight:800;font-size:.95rem}
+.sc-proc-x{background:none;border:none;font-size:1.05rem;line-height:1;color:#1f2d3d;padding:4px 6px;cursor:pointer;border-radius:4px}
+.sc-proc-x:disabled{cursor:default}
+.sc-x-hand{font-size:1.1rem;margin-right:-6px;animation:scHand 1s ease-in-out infinite;pointer-events:none}
+.sc-x-hand[hidden]{display:none}
+@keyframes scHand{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+.sc-proc-x:not(:disabled):hover{background:#eef3f8}
 .sc-proc-type{border:1px solid #2f7fd8;color:#2f7fd8;border-radius:6px;padding:3px 10px;font-weight:600}
 .sc-proc-by{font-size:.72rem;color:#6b7785}
 .sc-proc-meta{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px;padding:12px 14px;border-bottom:1px solid #eef1f4}
@@ -3786,7 +3792,7 @@ window.addEventListener('scroll',()=>{
           <div class="wa-body" id="scWaBody1"></div>
         </div>
         <div class="wa-continue-wrap" id="scNextWrap" hidden>
-          <button class="wa-continue-btn" id="scNext" type="button">המשך לדוגמה הבאה ›</button>
+          <button class="wa-continue-btn" id="scNext" type="button">המשך לדוגמא נוספת ›</button>
         </div>
       </div>
 
@@ -3813,6 +3819,7 @@ window.addEventListener('scroll',()=>{
         </div>
         <div class="sc-proc" id="scProc" hidden>
           <div class="sc-proc-top">
+            <button class="sc-proc-x" id="scBackList" type="button" aria-label="סגירת התהליך" disabled>✕</button><span class="sc-x-hand" id="scXHand" aria-hidden="true" hidden>👉</span>
             <span class="sc-proc-id">תהליך 7536</span>
             <span class="sc-proc-type">תביעה ⌄</span>
             <span class="sc-proc-by">נוצר ע"י המצפן בתאריך 21/09/2026</span>
@@ -3832,17 +3839,14 @@ window.addEventListener('scroll',()=>{
             </div>
             <div class="ob-menu" id="scTypeMenu" hidden>
               <div class="ob-search"><span>חיפוש</span><span>⚙</span></div>
+              <button class="ob-opt ob-pulse" id="scTypePick" type="button">תביעה<span class="ob-pointer" aria-hidden="true">👉</span></button>
               <button class="ob-opt" type="button" disabled>לא מוגדר</button>
               <button class="ob-opt" type="button" disabled>אחר</button>
               <button class="ob-opt" type="button" disabled>דוח טרום טיפול</button>
-              <button class="ob-opt ob-pulse" id="scTypePick" type="button">תביעה<span class="ob-pointer" aria-hidden="true">👉</span></button>
             </div>
           </div>
         </div>
         <p class="ob-hint-txt" id="scHint2">לחצו על התהליך כדי להיכנס אליו</p>
-        <div class="sc-cta" id="scBackWrap" hidden>
-          <button class="wa-continue-btn ob-pulse" id="scBackList" type="button">‹ חזרה לרשימת התהליכים</button>
-        </div>
         <div class="sc-cta" id="scWaWrap2" hidden>
           <button class="wa-cta" id="scToWa2" type="button">▶ פתח סימולציית WhatsApp</button>
         </div>
@@ -3964,7 +3968,7 @@ window.addEventListener('scroll',()=>{
   const docType = document.getElementById('scDocType');
   const typeMenu = document.getElementById('scTypeMenu');
   const hint2 = document.getElementById('scHint2');
-  const backWrap = document.getElementById('scBackWrap');
+  const backX = document.getElementById('scBackList');
   const st2 = document.getElementById('scStatus2');
   function openProcPage(){
     if(!openProc.classList.contains('ob-pulse')) return;
@@ -3985,11 +3989,11 @@ window.addEventListener('scroll',()=>{
     document.getElementById('scDocTypeTxt').textContent = 'תביעה';
     docType.classList.add('set');
     docType.disabled = true;
-    hint2.textContent = '✓ המסמך סומן כ"תביעה". האוטומציה תזהה אותו לפי הסוג ותצרף אותו להודעה. עכשיו חוזרים לרשימת התהליכים';
-    later(()=>{ backWrap.hidden = false; }, 400);
+    hint2.textContent = '';
+    later(()=>{ backX.disabled = false; backX.classList.add('ob-pulse'); document.getElementById('scXHand').hidden = false; }, 400);
   });
   document.getElementById('scBackList').addEventListener('click', ()=>{
-    proc.hidden = true; list2.hidden = false; backWrap.hidden = true;
+    proc.hidden = true; list2.hidden = false; backX.disabled = true; backX.classList.remove('ob-pulse'); document.getElementById('scXHand').hidden = true;
     openProc.classList.remove('ob-pulse'); openProc.removeAttribute('tabindex');
     openProc.querySelector('.ob-pointer').hidden = true;
     st2.disabled = false; st2.classList.add('ob-pulse');
@@ -4029,7 +4033,7 @@ window.addEventListener('scroll',()=>{
     // example 2 starts from the process list
     st2.disabled = true; st2.classList.remove('ob-pulse'); st2.querySelector('.ob-pointer').hidden = true;
     hint2.textContent = 'לחצו על התהליך כדי להיכנס אליו';
-    list2.hidden = false; proc.hidden = true; backWrap.hidden = true; typeMenu.hidden = true;
+    list2.hidden = false; proc.hidden = true; backX.disabled = true; backX.classList.remove('ob-pulse'); document.getElementById('scXHand').hidden = true; typeMenu.hidden = true;
     openProc.setAttribute('tabindex','0'); openProc.classList.add('ob-pulse'); openProc.querySelector('.ob-pointer').hidden = false;
     docType.disabled = false; docType.classList.add('ob-pulse'); docType.classList.remove('set'); docType.querySelector('.ob-pointer').hidden = false;
     document.getElementById('scDocTypeTxt').textContent = '';
@@ -4217,10 +4221,10 @@ window.addEventListener('scroll',()=>{
         opts.forEach((o,i)=>{
           const btn = document.createElement('button');
           btn.type = 'button';
-          btn.className = 'wa-btn' + (i===def ? ' ob-pulse' : '');
+          btn.className = 'wa-btn';
           btn.textContent = o;
           btn.addEventListener('click', ()=>{
-            w.querySelectorAll('button').forEach(x=>{ x.disabled = true; x.classList.remove('ob-pulse'); });
+            w.querySelectorAll('button').forEach(x=>{ x.disabled = true; });
             const out = document.createElement('div');
             out.className = 'lb-out pop';
             out.textContent = o;
