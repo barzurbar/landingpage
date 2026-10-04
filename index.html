@@ -1082,6 +1082,22 @@ footer{
 }
 .wa-continue-btn:hover{background:rgba(0,229,255,.08);box-shadow:var(--glow)}
 .demo-finish{margin-top:6px}
+/* payment page (client onboarding demo) */
+.pay-frame{background:#fff;border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.35);overflow:hidden;font-family:'Heebo',sans-serif;color:#1f2d3d;display:grid;grid-template-columns:1fr 1.25fr}
+.pay-side{padding:22px 18px;border-left:1px solid #eef0f3;background:#fafbfc}
+.pay-logo{width:56px;height:56px;border-radius:50%;border:1px solid #e3e8ee;background:#fff;display:flex;align-items:center;justify-content:center;font-size:1.7rem}
+.pay-org{font-weight:700;font-size:.9rem;margin-top:8px}
+.pay-prod{font-size:1.05rem;font-weight:800;margin:18px 0 10px;line-height:1.4}
+.pay-sum{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.pay-sum span{color:#6b7785;font-size:.82rem}
+.pay-sum b{font-size:1.35rem;font-weight:600}
+.pay-desc{font-size:.78rem;color:#5b6b80;margin-top:14px;line-height:1.6}
+.pay-form{padding:18px 18px 16px}
+.pay-hi{font-size:.98rem;font-weight:800;text-align:center;margin-bottom:4px}
+.pay-card{margin-right:auto;margin-left:0}
+.pay-note{font-size:.72rem;color:#6b7785;text-align:center;margin-top:8px}
+@media (max-width:560px){.pay-frame{grid-template-columns:1fr}.pay-side{border-left:none;border-bottom:1px solid #eef0f3}}
+
 
 @media (max-width:420px){
   .modal{max-width:100%}
@@ -2729,7 +2745,7 @@ window.addEventListener('scroll',()=>{
     <div class="modal-head">
       <div class="modal-head-title" id="obTitle">
         <span id="obStepLabel">// שלב 1 — שינוי סטטוס בשורנס</span>
-        <span class="step-dots" aria-hidden="true"><i class="on" data-ob-dot="1"></i><i data-ob-dot="2"></i><i data-ob-dot="3"></i><i data-ob-dot="4"></i><i data-ob-dot="5"></i><i data-ob-dot="6"></i><i data-ob-dot="7"></i><i data-ob-dot="8"></i><i data-ob-dot="9"></i><i data-ob-dot="10"></i><i data-ob-dot="11"></i><i data-ob-dot="12"></i></span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-ob-dot="1"></i><i data-ob-dot="2"></i><i data-ob-dot="3"></i><i data-ob-dot="4"></i><i data-ob-dot="5"></i><i data-ob-dot="6"></i><i data-ob-dot="7"></i><i data-ob-dot="8"></i><i data-ob-dot="9"></i><i data-ob-dot="10"></i><i data-ob-dot="11"></i><i data-ob-dot="12"></i><i data-ob-dot="13"></i><i data-ob-dot="14"></i></span>
       </div>
       <button class="modal-close" id="obClose" aria-label="סגור" type="button">✕</button>
     </div>
@@ -2828,8 +2844,35 @@ window.addEventListener('scroll',()=>{
         </div>
       </div>
 
+      <!-- OB STEP 6: secure payment page -->
+      <div class="step" data-ob-step="6">
+        <p class="step-txt" style="margin-bottom:12px">הלקוח מועבר לדף תשלום מאובטח, עם הפרטים שלו כבר ממולאים:</p>
+        <div class="pay-frame">
+          <div class="pay-side">
+            <div class="pay-logo">🧭</div>
+            <div class="pay-org">המצפן סוכנות לביטוח</div>
+            <h4 class="pay-prod">ייעוץ ובדיקת תיק ביטוח וחיסכון</h4>
+            <div class="pay-sum"><span>סכום לתשלום</span><b>1,770.00₪</b></div>
+            <p class="pay-desc">שכר טרחה לפי ההסכם (1,500 ₪ + מע"מ), הכולל בדיקת תיק, פגישה והמלצות.</p>
+          </div>
+          <div class="pay-form">
+            <h5 class="pay-hi">היי, כמה פרטים ונשלים את הרכישה</h5>
+            <div class="em-fld"><label>השם המלא <i>*</i></label><div class="em-in">דניאל ישראלי</div></div>
+            <div class="em-fld"><label>מייל <i>*</i></label><div class="em-in em-ltr">danielisraeli@gmail.com</div></div>
+            <div class="em-fld"><label>ת.ז</label><div class="em-in em-ltr">20222222</div></div>
+            <div class="em-fld"><label>מספר כרטיס אשראי <i>*</i></label><div class="em-in em-ltr"><span class="pay-card">💳</span>•••• •••• •••• 4580</div></div>
+            <div class="em-row2">
+              <div class="em-fld"><label>תוקף <i>*</i></label><div class="em-in em-ltr">12/28</div></div>
+              <div class="em-fld"><label>CVV <i>*</i></label><div class="em-in em-ltr">•••</div></div>
+            </div>
+            <button class="em-submit ob-pulse" id="obPay" type="button">🔒 לתשלום 1,770 ₪</button>
+            <p class="pay-note">דף תשלום מאובטח · הדגמה בלבד, לא מתבצע חיוב</p>
+          </div>
+        </div>
+      </div>
+
       <!-- OB STEP 10: meeting booking (copied from the periodic-meetings demo) -->
-      <div class="step" data-ob-step="10">
+      <div class="step" data-ob-step="12">
         <p class="step-txt" style="margin-bottom:12px">הלקוח מועבר לחלון בחירת מועד, עם היומן והזמינות האמיתיים של הסוכנות:</p>
         <div class="bk-frame">
           <div class="bk-head">
@@ -2863,13 +2906,13 @@ window.addEventListener('scroll',()=>{
 
 
       <!-- OB STEP 12: automatic status updates in Surense -->
-      <div class="step" data-ob-step="12">
+      <div class="step" data-ob-step="14">
         <p class="step-txt">בכל שלב הסטטוס של התהליך בשורנס משתנה אוטומטית, בהתאם למצב התהליך מול הלקוח:</p>
         <div class="sr-table">
           <div class="sr-row head"><span>☰ סוג תהליך</span><span>סטטוס</span><span>לקוח</span></div>
           <div class="sr-row"><span class="sr-type">קליטת לקוח</span><span class="sr-status sr-live" id="obLiveStatus" style="background:#1e90e0">תהליך קליטת לקוח</span><span class="sr-client">ישראלי דניאל</span></div>
         </div>
-        <div class="sr-steps" id="obLiveSteps" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+        <div class="sr-steps" id="obLiveSteps" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
         <div class="shot-cap" id="obLiveCap">הלקוח נכנס לתהליך קליטה</div>
         <p class="step-txt">ובמקביל, נוצרת אוטומטית פגישה חדשה בלוח הפגישות של שורנס:</p>
         <div class="sr-glow">
@@ -2882,7 +2925,7 @@ window.addEventListener('scroll',()=>{
       </div>
 
       <!-- OB STEP 6: power of attorney (copied from the periodic-meetings demo) -->
-      <div class="step" data-ob-step="6">
+      <div class="step" data-ob-step="8">
         <div class="poa-frame">
           <div class="poa-logo">🧭</div>
           <div class="poa-brand">המצפן סוכנות לביטוח</div>
@@ -2893,7 +2936,7 @@ window.addEventListener('scroll',()=>{
       </div>
 
       <!-- OB STEP 7: details -->
-      <div class="step" data-ob-step="7">
+      <div class="step" data-ob-step="9">
         <p class="step-txt" style="margin-bottom:12px">ולבסוף, אימות ועדכון הפרטים האישיים של הלקוח:</p>
         <div class="frm-frame">
           <div class="frm-heading">כמה פרטים עליך</div>
@@ -2944,7 +2987,7 @@ window.addEventListener('scroll',()=>{
       </div>
 
       <!-- OB STEP 8: insurance POA signature -->
-      <div class="step" data-ob-step="8">
+      <div class="step" data-ob-step="10">
         <p class="step-txt" style="margin-bottom:12px">ולבסוף, חתימה על ייפוי כוח לחברות הביטוח (עם חתימה שכבר מולאה מראש):</p>
         <div class="sig-frame">
           <div class="sig-heading">כדי לבדוק את הביטוחים שלך...</div>
@@ -2979,12 +3022,12 @@ window.addEventListener('scroll',()=>{
   const waWrap = document.getElementById('obWaWrap');
   const waBody = document.getElementById('obWaBody');
   const stepLabel = document.getElementById('obStepLabel');
-  const labels = {1:'// שלב 1 — שינוי סטטוס בשורנס',2:'// שלב 2 — הודעת WhatsApp',3:'// שלב 3 — הסכם שכר טרחה',4:'// שלב 4 — חתימה על ההסכם',5:'// שלב 5 — אישור החתימה',6:'// שלב 6 — חתימה על ייפוי כוח',7:'// שלב 7 — אימות פרטים',8:'// שלב 8 — חתימה על ייפוי כוח לביטוחים',9:'// שלב 9 — תיאום פגישה',10:'// שלב 10 — קביעת מועד',11:'// שלב 11 — אישור הפגישה',12:'// שלב 12 — עדכון סטטוס בשורנס'};
+  const labels = {1:'// שלב 1 — שינוי סטטוס בשורנס',2:'// שלב 2 — הודעת WhatsApp',3:'// שלב 3 — הסכם שכר טרחה',4:'// שלב 4 — חתימה על ההסכם',5:'// שלב 5 — אישור החתימה',6:'// שלב 6 — תשלום מאובטח',7:'// שלב 7 — אישור התשלום',8:'// שלב 8 — חתימה על ייפוי כוח',9:'// שלב 9 — אימות פרטים',10:'// שלב 10 — חתימה על ייפוי כוח לביטוחים',11:'// שלב 11 — תיאום פגישה',12:'// שלב 12 — קביעת מועד',13:'// שלב 13 — אישור הפגישה',14:'// שלב 14 — עדכון סטטוס בשורנס'};
   let timers = [];
 
   function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
   function show(n){
-    const view = (n===5 || n===9 || n===11) ? 2 : n;
+    const view = (n===5 || n===7 || n===11 || n===13) ? 2 : n;
     document.querySelectorAll('[data-ob-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.obStep)===view));
     document.querySelectorAll('[data-ob-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.obDot)<=n));
     stepLabel.textContent = labels[n];
@@ -3067,17 +3110,23 @@ window.addEventListener('scroll',()=>{
   document.getElementById('obConfirmSig').addEventListener('click', ()=>{
     show(5);
     scrollBottom();
-    sendMsg('קיבלנו את החתימה שלך על ההסכם – תודה רבה!🙏\n\nהשלב הבא הוא חתימה על נספחי הרשאות, שיאפשרו לנו לפנות בשמך לגופים הרלוונטיים ולקבל מידע חיוני לצורך התהליך.\n\n✍לחתימה על ההרשאות – יש ללחוץ על הכפתור מטה👇\n\nלכל שאלה – אנחנו כאן,\nהמצפן סוכנות לביטוח',
-      'לחתימה על נספחים', ()=>show(6));
+    sendMsg('קיבלנו את החתימה שלך על ההסכם – תודה רבה!🙏\n\nהשלב הבא הוא תשלום שכר הטרחה לפי ההסכם, דרך דף תשלום מאובטח.\n\n💳לתשלום – יש ללחוץ על הכפתור מטה👇\n\nלכל שאלה – אנחנו כאן,\nהמצפן סוכנות לביטוח',
+      'לתשלום מאובטח', ()=>show(6));
+  });
+  document.getElementById('obPay').addEventListener('click', ()=>{
+    show(7);
+    scrollBottom();
+    sendMsg('התשלום התקבל בהצלחה – תודה!✅\nהקבלה תישלח אליך למייל.\n\nהשלב הבא הוא חתימה על נספחי הרשאות, שיאפשרו לנו לפנות בשמך לגופים הרלוונטיים ולקבל מידע חיוני לצורך התהליך.\n\n✍לחתימה על ההרשאות – יש ללחוץ על הכפתור מטה👇\n\nלכל שאלה – אנחנו כאן,\nהמצפן סוכנות לביטוח',
+      'לחתימה על נספחים', ()=>show(8));
   });
 
-  document.getElementById('obPoaContinue').addEventListener('click', ()=>show(7));
-  document.getElementById('obFrmContinue').addEventListener('click', ()=>show(8));
+  document.getElementById('obPoaContinue').addEventListener('click', ()=>show(9));
+  document.getElementById('obFrmContinue').addEventListener('click', ()=>show(10));
   document.getElementById('obSigContinue').addEventListener('click', ()=>{
-    show(9);
+    show(11);
     scrollBottom();
     sendMsg('קיבלנו את החתימה על הנספחים – תודה!🙌\nכעת נשמח לתאם את הפגישה הראשונה שלך ולהתחיל את התהליך בצורה מסודרת.\n\n📅לקביעת מועד לפגישה – יש ללחוץ על הכפתור מטה👇\n\nמחכים לפגוש אותך,\nהמצפן סוכנות לביטוח',
-      'לחץ לתיאום פגישה', ()=>show(10));
+      'לחץ לתיאום פגישה', ()=>show(12));
   });
 
   const obGrid = document.getElementById('obBkGrid');
@@ -3098,7 +3147,7 @@ window.addEventListener('scroll',()=>{
     if(m[3].toLowerCase()==='am' && h===12) h = 0;
     const [y,mo,d] = cell.dataset.date.split('-');
     const text = 'נקבעה לך פגישה ביום '+cell.dataset.wd+', בתאריך '+d+'.'+mo+'.'+y.slice(2)+' בשעה '+String(h).padStart(2,'0')+':'+m[2]+'.\nמחכים לפגוש אותך,\nהמצפן סוכנות לביטוח';
-    show(11);
+    show(13);
     scrollBottom();
     const t = typing();
     later(()=>{
@@ -3118,7 +3167,8 @@ window.addEventListener('scroll',()=>{
   const liveSteps = [
     ['תהליך קליטת לקוח','#1e90e0','הלקוח נכנס לתהליך קליטה'],
     ['נשלח הסכם שכ"ט','#f07b1d','נשלח ללקוח הסכם שכר טרחה לחתימה'],
-    ['נחתם חוזה שכ"ט, נשלח לינק אישור נספחים','#f5b400','הלקוח חתם על ההסכם ונשלחו לו הנספחים'],
+    ['נחתם חוזה שכ"ט, נשלח לינק לתשלום','#f5b400','הלקוח חתם על ההסכם ונשלח לו דף תשלום מאובטח'],
+    ['התקבל תשלום, נשלח לינק אישור נספחים','#14b8a6','הלקוח שילם ונשלחו לו הנספחים לחתימה'],
     ['נחתם אישור נספחים, נשלח תיאום פגישה','#2563eb','הלקוח חתם על הנספחים ונשלח לו קישור לתיאום'],
     ['תואמה פגישה','#00c97a','הלקוח קבע את הפגישה הראשונה']
   ];
@@ -3140,7 +3190,7 @@ window.addEventListener('scroll',()=>{
     paint();
     liveTimer = setInterval(()=>{ i = (i+1) % liveSteps.length; paint(); }, 2200);
   }
-  document.getElementById('obContinueBtn').addEventListener('click', ()=>{ show(12); startLive(); });
+  document.getElementById('obContinueBtn').addEventListener('click', ()=>{ show(14); startLive(); });
 
   document.getElementById('openObModal').addEventListener('click', ()=>{ reset(); ov.hidden=false; });
   document.getElementById('obClose').addEventListener('click', close);
