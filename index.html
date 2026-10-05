@@ -791,7 +791,17 @@ footer{
 }
 .demo-cta:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,180,255,.5)}
 .demo-cta:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
-.demo-cta .dot{
+.sim-note-wrap{text-align:center;margin:-34px 0 44px}
+.sim-note{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:11px 24px;border-radius:30px;
+  border:1px solid rgba(0,255,157,.5);
+  background:rgba(0,255,157,.08);
+  color:#fff;font-weight:700;font-size:1.05rem;
+  box-shadow:0 0 18px rgba(0,255,157,.25);
+}
+@media(max-width:560px){.sim-note{font-size:.95rem;padding:10px 18px}}
+.sim-note .dot,.demo-cta .dot{
   width:7px;height:7px;border-radius:50%;background:var(--green);
   box-shadow:0 0 10px rgba(0,255,157,.8);
   animation:pulse 1.6s ease-in-out infinite;
@@ -1484,6 +1494,7 @@ button.em-in:disabled{cursor:default}
   <div class="s-divider"></div>
   <h2 class="s-title">האוטומציות שלנו ל-Surense</h2>
   <p class="s-sub">פתרונות אוטומציה מתקדמים שיחסכו לך זמן ויגדילו את העסק שלך</p>
+  <div class="sim-note-wrap"><div class="sim-note"><span class="dot"></span>לכל אוטומציה תוכלו לראות סימולציה בפעולה.</div></div>
 
   <div class="tabs-nav reveal">
     <button class="tab-btn active" data-tab="tab-sales" type="button"><span class="tb-dot"></span>מכירות וקליטת לקוח</button>
