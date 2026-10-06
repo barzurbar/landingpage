@@ -359,11 +359,7 @@ section{position:relative;z-index:2}
   position:relative;overflow:hidden;
   backdrop-filter:blur(10px);
   transition:transform .3s,box-shadow .3s,border-color .3s;
-  display:flex;flex-direction:column;
 }
-/* demo buttons sit at the bottom of every card, aligned across a row */
-.srv-card .demo-cta{margin-top:auto}
-.srv-card .srv-list{margin-bottom:16px}
 /* PCB corner decorations */
 .srv-card::before{
   content:'';position:absolute;
@@ -447,9 +443,7 @@ section{position:relative;z-index:2}
 .srv-tap-hint{display:none;text-align:center;font-size:.85rem;color:var(--cyan);margin:-28px 0 18px}
 /* Mobile: service cards collapse to their title, tap to expand */
 @media(max-width:700px){
-  .srv-card{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 16px}
-  .srv-card .demo-cta{margin-top:0}
-  .srv-card .srv-list{margin-bottom:0}
+  .srv-card{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 16px}
   .srv-card:hover{transform:none}
   .srv-card .srv-icon{width:42px;height:42px;font-size:1.3rem;margin:0;flex-shrink:0;cursor:pointer}
   .srv-card .srv-title{flex:1;min-width:0;margin:0;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:1.02rem}
