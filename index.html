@@ -107,14 +107,39 @@ section{position:relative;z-index:2}
 }
 .hero-inner{max-width:880px}
 
-/* Animated gear + circuit */
-.gear-wrap{
+/* Hero brand mark: slowly rotating ring + flickering Z */
+.hero-mark{
   position:relative;
   width:200px;height:200px;
-  margin:0 auto 40px;
+  margin:0 auto 36px;
 }
-.gear-wrap canvas{
-  position:absolute;top:0;left:0;
+.hero-mark img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  pointer-events:none;user-select:none;
+}
+.hm-ring{
+  animation:spin-slow 32s linear infinite;
+  filter:drop-shadow(0 0 1px rgba(255,255,255,.55)) drop-shadow(0 0 10px rgba(0,229,255,.35));
+}
+.hm-z{
+  transform-origin:50% 72%;
+  animation:z-flame 2.6s ease-in-out infinite, z-glow 3.4s ease-in-out infinite;
+}
+@keyframes z-flame{
+  0%,100%{transform:scale(1,1) skewX(0deg)}
+  18%{transform:scale(1.008,1.022) skewX(-.9deg)}
+  37%{transform:scale(.996,1.006) skewX(.6deg)}
+  55%{transform:scale(1.01,1.028) skewX(-.4deg)}
+  74%{transform:scale(1,1.01) skewX(.9deg)}
+}
+@keyframes z-glow{
+  0%,100%{filter:drop-shadow(0 0 6px rgba(255,90,140,.35)) brightness(1)}
+  30%{filter:drop-shadow(0 -2px 9px rgba(255,140,60,.45)) brightness(1.06)}
+  60%{filter:drop-shadow(0 0 7px rgba(150,80,255,.4)) brightness(1.02)}
+}
+@media (prefers-reduced-motion:reduce){
+  .hm-ring,.hm-z{animation:none}
 }
 
 /* ── HERO LOGO ── */
@@ -1446,7 +1471,10 @@ button.em-in:disabled{cursor:default}
 <!-- HERO -->
 <section id="hero">
   <div class="hero-inner">
-    <canvas id="gear-canvas" width="200" height="200" style="display:block;margin:0 auto 36px"></canvas>
+    <div class="hero-mark" aria-hidden="true">
+      <img class="hm-ring" src="assets/logo-ring.png" alt="">
+      <img class="hm-z" src="assets/logo-z.png" alt="">
+    </div>
 
     <!-- LOGO -->
     <div class="hero-logo">
@@ -2297,116 +2325,6 @@ async function handleSubmit(e){
   resize();
   window.addEventListener('resize', ()=>{ cancelAnimationFrame(frameId); resize(); draw(); });
   draw();
-})();
-
-/* ══════════════════════════════════════════
-   HERO GEAR + CIRCUIT CANVAS
-══════════════════════════════════════════ */
-(function(){
-  const c = document.getElementById('gear-canvas');
-  if(!c) return;
-  const ctx = c.getContext('2d');
-  const cx = 100, cy = 100, R = 44, teeth = 10;
-  let angle = 0;
-
-  const circuitLines = [
-    {ox:R+4, oy:0,  dx:30, dy:0,  branch:[{bx:0,by:-16}]},
-    {ox:0,   oy:R+4,dx:0,  dy:30, branch:[{bx:14,by:0}]},
-    {ox:-R-4,oy:0,  dx:-28,dy:0,  branch:[{bx:0,by:12}]},
-    {ox:0,   oy:-R-4,dx:0,dy:-26,branch:[{bx:-12,by:0}]},
-    {ox:(R+4)*.7,oy:(R+4)*.7,dx:20,dy:20,branch:[]},
-  ];
-
-  function drawGear(ctx, x, y, r, teethN, ia){
-    const toothH = r*0.22, toothW = (2*Math.PI/teethN)*0.4;
-    ctx.beginPath();
-    for(let i=0;i<teethN;i++){
-      const a = ia + (i/teethN)*Math.PI*2;
-      const a1=a-toothW/2, a2=a-toothW*0.15, a3=a+toothW*0.15, a4=a+toothW/2;
-      ctx.lineTo(Math.cos(a1)*(r)+x, Math.sin(a1)*(r)+y);
-      ctx.lineTo(Math.cos(a2)*(r+toothH)+x, Math.sin(a2)*(r+toothH)+y);
-      ctx.lineTo(Math.cos(a3)*(r+toothH)+x, Math.sin(a3)*(r+toothH)+y);
-      ctx.lineTo(Math.cos(a4)*(r)+x, Math.sin(a4)*(r)+y);
-    }
-    ctx.closePath();
-  }
-
-  let pulseT = 0;
-  function frame(){
-    ctx.clearRect(0,0,200,200);
-    angle += 0.006;
-    pulseT += 0.04;
-
-    // Gear body
-    ctx.save();
-    drawGear(ctx, cx, cy, R, teeth, angle);
-    const g = ctx.createLinearGradient(cx-R, cy-R, cx+R, cy+R);
-    g.addColorStop(0,'#0055aa');
-    g.addColorStop(1,'#00aacc');
-    ctx.fillStyle = g;
-    ctx.shadowColor = '#00e5ff';
-    ctx.shadowBlur = 18;
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(0,229,255,0.7)';
-    ctx.lineWidth = 1.2;
-    ctx.stroke();
-    ctx.restore();
-
-    // Inner circle
-    ctx.beginPath();
-    ctx.arc(cx, cy, R*0.42, 0, Math.PI*2);
-    ctx.fillStyle = '#040d14';
-    ctx.fill();
-    ctx.strokeStyle = '#00ff9d';
-    ctx.lineWidth = 1.5;
-    ctx.shadowColor = '#00ff9d';
-    ctx.shadowBlur = 10;
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-
-    // Center dot
-    ctx.beginPath();
-    ctx.arc(cx, cy, R*0.14, 0, Math.PI*2);
-    ctx.fillStyle = '#00e5ff';
-    ctx.shadowColor = '#00e5ff';
-    ctx.shadowBlur = 12;
-    ctx.fill();
-    ctx.shadowBlur = 0;
-
-    // Circuit lines
-    circuitLines.forEach(l=>{
-      const ex = cx + l.ox + l.dx, ey = cy + l.oy + l.dy;
-      ctx.strokeStyle = 'rgba(0,229,255,0.5)';
-      ctx.lineWidth = 1.2;
-      ctx.beginPath();
-      ctx.moveTo(cx + l.ox, cy + l.oy);
-      ctx.lineTo(ex, ey);
-      ctx.stroke();
-
-      l.branch.forEach(b=>{
-        ctx.beginPath();
-        ctx.moveTo(ex, ey);
-        ctx.lineTo(ex+b.bx, ey+b.by);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(ex+b.bx, ey+b.by, 2.5, 0, Math.PI*2);
-        ctx.fillStyle = '#00ff9d';
-        ctx.shadowColor = '#00ff9d';
-        ctx.shadowBlur = 8;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      });
-
-      ctx.beginPath();
-      ctx.arc(ex, ey, 2.2, 0, Math.PI*2);
-      const bright = 0.5 + 0.5*Math.sin(pulseT + l.ox);
-      ctx.fillStyle = `rgba(0,229,255,${bright})`;
-      ctx.fill();
-    });
-
-    requestAnimationFrame(frame);
-  }
-  frame();
 })();
 
 /* ══════════════════════════════════════════
