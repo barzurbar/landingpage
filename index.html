@@ -1441,6 +1441,18 @@ button.em-in:disabled{cursor:default}
 .mr-end-btns{flex-direction:column;align-items:center;gap:4px}
 .mr-again:hover{background:rgba(0,229,255,.08)}
 .sr-meet.mr-tbl .sr-row{grid-template-columns:1fr 1fr 1.1fr 1fr}
+/* new client from production demo */
+.np-link{color:#027eb5;text-decoration:underline;direction:ltr;unicode-bidi:isolate}
+.np-list{background:#fff;border-radius:12px 12px 8px 8px;box-shadow:0 -2px 12px rgba(0,0,0,.12);margin:4px 0 12px;overflow:hidden;font-family:'Heebo',sans-serif}
+.np-list-head{text-align:center;font-weight:700;font-size:.85rem;padding:10px;border-bottom:1px solid #eee;color:#1a1a1a}
+.np-list-sub{font-size:.72rem;color:#667;padding:8px 14px 2px}
+.np-opt{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:none;border-top:1px solid #f1f1f1;padding:11px 14px;font-family:'Heebo',sans-serif;font-size:.84rem;color:#1a1a1a;cursor:pointer;text-align:right}
+.np-opt:first-of-type{border-top:none}
+.np-opt:hover{background:#f6f8f7}
+.np-opt i{width:16px;height:16px;border-radius:50%;border:2px solid #8a94a6;flex-shrink:0}
+.np-opt:disabled{cursor:default}
+.np-opt.sel i{border-color:#00a884;background:radial-gradient(circle,#00a884 45%,transparent 50%)}
+.np-tbl .sr-row{grid-template-columns:1.2fr 1fr 1fr 1fr}
 </style>
 </head>
 <body>
@@ -1630,6 +1642,9 @@ button.em-in:disabled{cursor:default}
             <li>מתן פרטי התקשרות בוואטסאפ ובמייל</li>
             <li>יצירת חוויית קליטה מסודרת ומקצועית ללקוח החדש</li>
           </ul>
+          <button class="demo-cta" id="openNpModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
 
         <div class="srv-card">
@@ -4522,6 +4537,168 @@ window.addEventListener('scroll',()=>{
   document.getElementById('openMrModal').addEventListener('click', open);
   document.getElementById('mrClose').addEventListener('click', close);
   document.getElementById('mrFinish').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="npOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="npTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="npTitle">
+        <span id="npStepLabel">// שלב 1 — זיהוי לקוח חדש בשורנס</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-np-dot="1"></i><i data-np-dot="2"></i><i data-np-dot="3"></i></span>
+      </div>
+      <button class="modal-close" id="npClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="npBody">
+
+      <!-- NP STEP 1: intro -->
+      <div class="step active" data-np-step="1">
+        <p class="ob-txt">כל בוקר האוטומציה מחפשת בשורנס לקוחות חדשים שנכנסו עם מוצר (פרודוקציה), ושולחת לכל אחד מהם הודעת WhatsApp אישית לקבלת פנים.</p>
+        <button class="wa-cta" id="npToWa" type="button">▶ פתח סימולציית WhatsApp</button>
+      </div>
+
+      <!-- NP STEP 2: WhatsApp -->
+      <div class="step" data-np-step="2">
+        <p class="ob-hint-txt" id="npHint" style="margin-top:0"></p>
+        <div class="wa-frame">
+          <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+          <div class="wa-body" id="npWaBody"></div>
+        </div>
+        <div class="wa-continue-wrap" id="npContinueWrap" hidden>
+          <button class="wa-continue-btn" id="npContinueBtn" type="button">לשלב הבא ›</button>
+        </div>
+      </div>
+
+      <!-- NP STEP 3: lead created in Surense -->
+      <div class="step" data-np-step="3">
+        <p class="ob-txt" id="npLeadTxt"></p>
+        <div class="sr-glow">
+          <div class="sr-table sr-meet np-tbl">
+            <div class="sr-row head"><span>סוג ליד</span><span>לקוח</span><span>סטטוס</span><span>תאריך טיפול</span></div>
+            <div class="sr-row"><span class="sr-type" id="npLeadType"></span><span class="sr-client">ישראלי דניאל</span><span class="sr-status" style="background:#1e90e0">ליד חדש</span><span id="npLeadDate"></span></div>
+          </div>
+        </div>
+        <p class="ob-txt" style="margin-top:18px">📊 בנוסף, האוטומציה שולחת לדניאל דוח שוטף כל חודש (או בכל תדירות שהסוכנות תבחר), שמרכז את כל המוצרים שלו בסוכנות.</p>
+        <div class="wa-continue-wrap"><button class="wa-continue-btn demo-finish" id="npFinish" type="button">✓ סיום הדגמה</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('npOverlay');
+  const body = document.getElementById('npBody');
+  const wa = document.getElementById('npWaBody');
+  const hint = document.getElementById('npHint');
+  const contWrap = document.getElementById('npContinueWrap');
+  const stepLabel = document.getElementById('npStepLabel');
+  const labels = {1:'// שלב 1 — זיהוי לקוח חדש בשורנס',2:'// שלב 2 — הודעת WhatsApp ללקוח',3:'// שלב 3 — ליד חדש בשורנס'};
+  const SERVICES = ['פתרונות להשקעות וכסף','טיפול וליווי בתביעות','ייעוץ משכנתאות','בדיקת זכאות להחזר מס','ביטוחי נסיעות לחו"ל'];
+  let timers = [], choice = null;
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    ov.querySelectorAll('[data-np-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.npStep)===n));
+    ov.querySelectorAll('[data-np-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.npDot)<=n));
+    stepLabel.textContent = labels[n];
+    body.scrollTop = 0;
+  }
+  function scrollBottom(){ body.scrollTop = body.scrollHeight; }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function bot(build, after){
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    wa.appendChild(t); scrollBottom();
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      build(b);
+      const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now();
+      b.appendChild(tm); wa.appendChild(b);
+      if(after) after(b);
+      scrollBottom();
+    }, 900);
+  }
+  function out(text){
+    const o = document.createElement('div');
+    o.className = 'lb-out pop';
+    o.textContent = text;
+    const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now() + ' ✓✓';
+    o.appendChild(tm); wa.appendChild(o); scrollBottom();
+  }
+  function btnRow(label, onClick){
+    const w = document.createElement('div');
+    w.className = 'wa-btns-wrap pop lb-q';
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'wa-btn'; btn.textContent = label;
+    btn.addEventListener('click', ()=>{ btn.disabled = true; onClick(); }, {once:true});
+    w.appendChild(btn); wa.appendChild(w);
+    return btn;
+  }
+  function welcome(){
+    bot(b=>{
+      b.appendChild(document.createTextNode('היי דניאל,\nברוך הבא למצפן סוכנות לביטוח\nתודה על האמון והבחירה בנו.\n\nכחלק מהליווי השוטף, אחת לחודש תקבל מאיתנו דוח המרכז את כלל המוצרים המנוהלים דרכנו.\nלכל שאלה או צורך בבדיקה - אנחנו כאן עבורך.\n\nאם תרצה להכיר אותנו קצת יותר, ניתן לבקר באתר האינטרנט שלנו:\n'));
+      const a = document.createElement('span'); a.className = 'np-link'; a.textContent = 'https://mazpen.com/';
+      b.appendChild(a);
+      b.appendChild(document.createTextNode('\n\nבנוסף, עומדים לרשותך גם פתרונות משלימים בתחומי הביטוח, הפיננסים וההשקעות.\nלצפייה בשירותים 👇'));
+    }, ()=>{
+      btnRow('הצג שירותים נוספים', ()=>{ hint.textContent = ''; out('הצג שירותים נוספים'); later(services, 400); });
+      hint.textContent = 'לחצו על "הצג שירותים נוספים"';
+    });
+  }
+  function services(){
+    bot(b=>{ b.textContent = 'אלה השירותים הנוספים הזמינים עבורך,\nבחר את השירות הרלוונטי עבורך ונציג מטעמנו יחזור אליך'; }, ()=>{
+      btnRow('☰ לחץ כאן', openList);
+      hint.textContent = 'לחצו על "לחץ כאן" כדי לפתוח את רשימת השירותים';
+    });
+  }
+  function openList(){
+    const l = document.createElement('div');
+    l.className = 'np-list pop';
+    l.innerHTML = '<div class="np-list-head">לחץ כאן</div><div class="np-list-sub">שירותי הסוכנות</div>';
+    SERVICES.forEach(sv=>{
+      const o = document.createElement('button');
+      o.type = 'button'; o.className = 'np-opt';
+      const t = document.createElement('span'); t.textContent = sv;
+      o.appendChild(t); o.appendChild(document.createElement('i'));
+      o.addEventListener('click', ()=>{
+        l.querySelectorAll('.np-opt').forEach(x=>x.disabled = true);
+        o.classList.add('sel');
+        choice = sv;
+        hint.textContent = '';
+        later(()=>{
+          l.remove(); out(sv);
+          later(()=>bot(b=>{ b.textContent = 'תודה, נציג מטעמנו ייצור איתך קשר בקרוב 🙏\n\nהמצפן סוכנות לביטוח'; }, ()=>{ contWrap.hidden = false; }), 400);
+        }, 450);
+      });
+      l.appendChild(o);
+    });
+    wa.appendChild(l);
+    hint.textContent = 'בחרו את השירות שמעניין את הלקוח';
+    scrollBottom();
+  }
+  function reset(){
+    timers.forEach(clearTimeout); timers = []; choice = null;
+    contWrap.hidden = true; hint.textContent = '';
+    wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    show(1);
+  }
+  function open(){ reset(); ov.hidden = false; }
+  function close(){ ov.hidden = true; timers.forEach(clearTimeout); timers = []; }
+  document.getElementById('npToWa').addEventListener('click', ()=>{ show(2); welcome(); });
+  document.getElementById('npContinueBtn').addEventListener('click', ()=>{
+    const d = new Date();
+    document.getElementById('npLeadType').textContent = choice;
+    document.getElementById('npLeadDate').textContent = String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+    document.getElementById('npLeadTxt').textContent = 'ברגע שדניאל בחר שירות, נוצר אוטומטית ליד חדש בשורנס מסוג "'+choice+'", עם תאריך טיפול להיום, כדי שנציג יחזור אליו.';
+    show(3);
+  });
+  document.getElementById('openNpModal').addEventListener('click', open);
+  document.getElementById('npClose').addEventListener('click', close);
+  document.getElementById('npFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
