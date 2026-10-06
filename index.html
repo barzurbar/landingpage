@@ -113,7 +113,7 @@ section{position:relative;z-index:2}
   width:200px;height:200px;
   margin:0 auto 36px;
 }
-.hero-mark img{
+.hero-mark img,.hm-ring,.hm-paint{
   position:absolute;inset:0;
   width:100%;height:100%;
   pointer-events:none;user-select:none;
@@ -121,6 +121,22 @@ section{position:relative;z-index:2}
 .hm-ring{
   animation:spin-slow 32s linear infinite;
   filter:drop-shadow(0 0 1px rgba(255,255,255,.55)) drop-shadow(0 0 10px rgba(0,229,255,.35));
+}
+/* the ring's colours, cut out by a mask and refilled with paint that flows along it */
+.hm-paint{
+  overflow:hidden;
+  -webkit-mask:url(assets/logo-ring-paint.png) center/100% 100% no-repeat;
+          mask:url(assets/logo-ring-paint.png) center/100% 100% no-repeat;
+}
+.hm-flow,.hm-flow2{
+  position:absolute;inset:-25%;
+  background:conic-gradient(#ff8a00,#ff2d6f,#e91ec4,#8b2cff,#2f6bff,#00d4ff,#18e0c0,#ffb300,#ff8a00);
+  animation:spin-slow 7s linear infinite reverse;
+}
+.hm-flow2{
+  background:conic-gradient(from 90deg,transparent,#ff2d6f 12%,transparent 25%,transparent 50%,#00d4ff 62%,transparent 75%);
+  mix-blend-mode:screen;opacity:.75;filter:blur(6px);
+  animation:spin-slow 11s linear infinite;
 }
 .hm-z{
   transform-origin:50% 72%;
@@ -139,7 +155,7 @@ section{position:relative;z-index:2}
   60%{filter:drop-shadow(0 0 7px rgba(150,80,255,.4)) brightness(1.02)}
 }
 @media (prefers-reduced-motion:reduce){
-  .hm-ring,.hm-z{animation:none}
+  .hm-ring,.hm-z,.hm-flow,.hm-flow2{animation:none}
 }
 
 /* ── HERO LOGO ── */
@@ -1472,7 +1488,10 @@ button.em-in:disabled{cursor:default}
 <section id="hero">
   <div class="hero-inner">
     <div class="hero-mark" aria-hidden="true">
-      <img class="hm-ring" src="assets/logo-ring.png" alt="">
+      <div class="hm-ring">
+        <img src="assets/logo-ring-dark.png" alt="">
+        <div class="hm-paint"><div class="hm-flow"></div><div class="hm-flow2"></div></div>
+      </div>
       <img class="hm-z" src="assets/logo-z.png" alt="">
     </div>
 
