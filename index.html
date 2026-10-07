@@ -5912,7 +5912,7 @@ window.addEventListener('scroll',()=>{
 
       <!-- TV STEP 2: Surense process -->
       <div class="step" data-tv-step="2">
-        <p class="ob-txt">האוטומציה פותחת בשורנס תהליך "ביטוח נסיעות לחו"ל" תחת הלקוח, וממלאת בו את הנתונים מהפוליסה.</p>
+        <p class="ob-txt">האוטומציה פותחת בשורנס תהליך "ביטוח נסיעות לחו"ל" תחת הלקוח, ממלאת בו את הנתונים מהפוליסה ויוצרת פעילות תחת התהליך עם פרטי הפוליסה.</p>
         <div class="sr-glow">
           <div class="lb-lead">
             <div class="lb-top"><span class="lb-lid">תהליך 2207</span><span class="lb-pill">ביטוח נסיעות לחו"ל</span></div>
@@ -5927,6 +5927,16 @@ window.addEventListener('scroll',()=>{
               <div class="tv-fld"><span>יצרן חדש</span><div class="tv-in empty" data-v="פספורטכארד"></div></div>
               <div class="tv-fld"><span>תאריך תחילת ביטוח</span><div class="tv-in empty" id="tvStart"></div></div>
               <div class="tv-fld"><span>תאריך תום ביטוח</span><div class="tv-in empty" id="tvEnd"></div></div>
+            </div>
+            <div id="tvActWrap" hidden>
+              <div class="lb-tabs"><span class="on">פעילות</span><span>לוג</span></div>
+              <div class="lb-feed">
+                <div class="lb-act pop">
+                  <div class="lb-act-head"><span class="lb-av">🤖</span>אוטומציה<span class="lb-act-ic">✈️</span><span class="lb-act-time" id="tvActTime"></span></div>
+                  <div class="lb-act-title">פוליסת ביטוח נסיעות לחו"ל נקלטה</div>
+                  <div class="lb-act-body" id="tvActBody"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -6009,7 +6019,13 @@ window.addEventListener('scroll',()=>{
       f.classList.remove('empty'); f.classList.add('fill');
       if(f.id){ f.innerHTML = '<span>' + (f.id==='tvStart' ? dayFmt(14) : dayFmt(21)) + '</span><span class="tv-cal">📅</span>'; }
       else f.textContent = f.dataset.v;
-      if(i === flds.length-1) later(()=>{ document.getElementById('tvWaWrap').hidden = false; body.scrollTop = body.scrollHeight; }, 400);
+      if(i === flds.length-1) later(()=>{
+        const rows = [['חברה','פספורטכארד'],['תאריך תחילת ביטוח',dayFmt(14)],['תאריך תום ביטוח',dayFmt(21)],['עלות הפוליסה','<span style="direction:ltr;unicode-bidi:isolate">₪184.60</span>']];
+        document.getElementById('tvActBody').innerHTML = rows.map(r=>'<div class="lb-qa"><span>' + r[0] + '</span><b>' + r[1] + '</b></div>').join('');
+        document.getElementById('tvActTime').textContent = 'היום, ' + now();
+        document.getElementById('tvActWrap').hidden = false; body.scrollTop = body.scrollHeight;
+        later(()=>{ document.getElementById('tvWaWrap').hidden = false; body.scrollTop = body.scrollHeight; }, 600);
+      }, 500);
     }, 500 + i*450));
   });
   document.getElementById('tvToWa').addEventListener('click', ()=>{
@@ -6036,6 +6052,7 @@ window.addEventListener('scroll',()=>{
     document.getElementById('tvWaWrap').hidden = true;
     document.getElementById('tvEndWrap').hidden = true;
     ov.querySelectorAll('.tv-in').forEach(f=>{ f.className = 'tv-in empty'; f.textContent = ''; });
+    document.getElementById('tvActWrap').hidden = true;
     wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
     show(1);
   }
