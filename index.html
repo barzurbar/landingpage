@@ -1463,6 +1463,8 @@ button.em-in:disabled{cursor:default}
 .dc-form .em-form-body{padding-top:6px}
 .dc-files .em-drop{flex-direction:row;justify-content:center;padding:10px;font-size:.8rem}
 .dc-files[hidden]{display:none}
+.em-menu .em-opt.ob-pulse{background:#eaf6ff;font-weight:700;animation:emOptPulse 1.3s ease-in-out infinite}
+@keyframes emOptPulse{0%,100%{box-shadow:inset 0 0 0 2px rgba(0,229,255,.95)}50%{box-shadow:inset 0 0 0 2px rgba(0,229,255,.2)}}
 .dc-done{text-align:center;padding:26px 16px 30px;font-size:.95rem;color:#1f2d3d}
 .dc-done b{display:block;font-size:1.15rem;margin-bottom:6px;color:#0a7a4a}
 </style>
@@ -4775,7 +4777,7 @@ window.addEventListener('scroll',()=>{
             <div class="em-fld"><label>במה אתה צריך שנעזור לך? <i>*</i></label>
               <button class="em-in em-sel em-pick ob-pulse" id="dcNeed" type="button"><span id="dcNeedTxt" class="em-ph">בחרו אפשרות</span><span class="em-caret">⌄</span></button>
               <div class="em-menu" id="dcNeedMenu" hidden>
-                <button class="em-opt" type="button" data-v="תביעות">תביעות</button>
+                <button class="em-opt ob-pulse" type="button" data-v="תביעות">תביעות</button>
                 <button class="em-opt" type="button" data-v="הלוואות">הלוואות</button>
                 <button class="em-opt" type="button" data-v="פדיון">פדיון</button>
                 <button class="em-opt" type="button" data-v="פיצויים">פיצויים</button>
@@ -4787,7 +4789,7 @@ window.addEventListener('scroll',()=>{
                 <button class="em-opt" type="button">ייעוץ</button>
                 <button class="em-opt" type="button">בדיקות</button>
                 <button class="em-opt" type="button">רפואה משלימה</button>
-                <button class="em-opt" type="button">ניתוח</button>
+                <button class="em-opt ob-pulse" type="button">ניתוח</button>
                 <button class="em-opt" type="button">תרופות</button>
                 <button class="em-opt" type="button">מחלות קשות</button>
               </div>
@@ -4842,10 +4844,17 @@ window.addEventListener('scroll',()=>{
       const l = document.createElement('label'); l.textContent = name; f.appendChild(l);
       const d = document.createElement('button'); d.type = 'button'; d.className = 'em-drop';
       d.innerHTML = '<span class="em-drop-ic">📁</span><span class="em-drop-txt">גרור ושחרר קובץ או <u>עיון</u></span>';
-      d.addEventListener('click', ()=>{ d.classList.add('done'); d.disabled = true; d.querySelector('.em-drop-ic').textContent = '✅'; d.querySelector('.em-drop-txt').textContent = name.replace(/[ /]+/g,'-') + '.pdf'; }, {once:true});
+      d.addEventListener('click', ()=>{
+        d.classList.remove('ob-pulse'); d.classList.add('done'); d.disabled = true;
+        d.querySelector('.em-drop-ic').textContent = '✅'; d.querySelector('.em-drop-txt').textContent = name.replace(/[ /]+/g,'-') + '.pdf';
+        const next = files.querySelector('.em-drop:not(.done)');
+        if(next) next.classList.add('ob-pulse');
+        else { submit.disabled = false; submit.classList.add('ob-pulse'); hint3.textContent = 'כל המסמכים הועלו. לחצו על "שליחה"'; }
+      }, {once:true});
       f.appendChild(d); files.appendChild(f);
     });
     files.hidden = !(DOCS[t]);
+    const first = files.querySelector('.em-drop'); if(first) first.classList.add('ob-pulse');
   }
   let timers = [];
   function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
@@ -4882,7 +4891,7 @@ window.addEventListener('scroll',()=>{
       b.appendChild(document.createTextNode('היי דניאל,\nלהשלמת המסמכים יש להיכנס ללינק הבא ולבחור באיזה נושא אתה צריך שנעזור לך:\n'));
       const a = document.createElement('span');
       a.className = 'dc-link ob-pulse'; a.textContent = 'https://mazpen.fillout.com/digitalform';
-      a.addEventListener('click', ()=>{ a.classList.remove('ob-pulse'); show(3); }, {once:true});
+      a.addEventListener('click', ()=>{ a.classList.remove('ob-pulse'); show(3); hint3.textContent = 'לחצו על השדה "במה אתה צריך שנעזור לך?"'; }, {once:true});
       b.appendChild(a);
       b.appendChild(document.createTextNode('\n\nהמצפן סוכנות לביטוח'));
       const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now();
@@ -4905,7 +4914,7 @@ window.addEventListener('scroll',()=>{
       topicTxt.textContent = 'בחרו נושא'; topicTxt.classList.add('em-ph');
       topic.classList.add('ob-pulse'); files.hidden = true;
       submit.disabled = true; submit.classList.remove('ob-pulse');
-      hint3.textContent = 'נפתח שדה נוסף: "תביעות בנושא". בחרו את הנושא';
+      hint3.textContent = 'נפתח שדה נוסף: "תביעות בנושא". לחצו עליו ובחרו "ניתוח"';
     } else {
       topicFld.hidden = true; files.hidden = true;
       submit.disabled = false; submit.classList.add('ob-pulse');
@@ -4921,8 +4930,8 @@ window.addEventListener('scroll',()=>{
     topicMenu.hidden = true;
     topicTxt.textContent = o.textContent; topicTxt.classList.remove('em-ph');
     buildFiles(o.textContent);
-    submit.disabled = false; submit.classList.add('ob-pulse');
-    hint3.textContent = 'נפתחו שדות להעלאת המסמכים שמתאימים לנושא התביעה. לחצו עליהם כדי להעלות קבצים, ואז על "שליחה"';
+    submit.disabled = true; submit.classList.remove('ob-pulse');
+    hint3.textContent = 'נפתחו שדות להעלאת המסמכים שמתאימים לנושא התביעה. לחצו על כל שדה כדי להעלות את הקובץ';
   });
   submit.addEventListener('click', ()=>{
     document.getElementById('dcFormBody').hidden = true;
