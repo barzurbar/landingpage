@@ -6020,7 +6020,7 @@ window.addEventListener('scroll',()=>{
       if(f.id){ f.innerHTML = '<span>' + (f.id==='tvStart' ? dayFmt(14) : dayFmt(21)) + '</span><span class="tv-cal">📅</span>'; }
       else f.textContent = f.dataset.v;
       if(i === flds.length-1) later(()=>{
-        const rows = [['חברה','פספורטכארד'],['תאריך תחילת ביטוח',dayFmt(14)],['תאריך תום ביטוח',dayFmt(21)],['עלות הפוליסה','<span style="direction:ltr;unicode-bidi:isolate">₪184.60</span>']];
+        const rows = [['חברה','פספורטכארד'],['תאריך תחילת הביטוח',dayFmt(14)],['תאריך סיום הביטוח',dayFmt(21)],['עלות הפוליסה','<span style="direction:ltr;unicode-bidi:isolate">₪184.60</span>']];
         document.getElementById('tvActBody').innerHTML = rows.map(r=>'<div class="lb-qa"><span>' + r[0] + '</span><b>' + r[1] + '</b></div>').join('');
         document.getElementById('tvActTime').textContent = 'היום, ' + now();
         document.getElementById('tvActWrap').hidden = false; body.scrollTop = body.scrollHeight;
