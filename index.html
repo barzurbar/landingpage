@@ -4779,7 +4779,7 @@ window.addEventListener('scroll',()=>{
             <div class="em-fld"><label>במה אתה צריך שנעזור לך? <i>*</i></label>
               <button class="em-in em-sel em-pick ob-pulse" id="dcNeed" type="button"><span id="dcNeedTxt" class="em-ph">בחרו אפשרות</span><span class="em-caret">⌄</span></button>
               <div class="em-menu" id="dcNeedMenu" hidden>
-                <button class="em-opt ob-pulse" type="button" data-v="תביעות">תביעות</button>
+                <button class="em-opt" type="button" data-v="תביעות">תביעות</button>
                 <button class="em-opt" type="button" data-v="הלוואות">הלוואות</button>
                 <button class="em-opt" type="button" data-v="פדיון">פדיון</button>
                 <button class="em-opt" type="button" data-v="פיצויים">פיצויים</button>
@@ -4975,7 +4975,7 @@ window.addEventListener('scroll',()=>{
     document.getElementById('dcProcType').textContent = needVal + (topicVal ? ' – ' + topicVal : '');
     const n = files.querySelectorAll('.em-drop.done').length;
     document.getElementById('dcProcDocs').textContent = n ? '📎 ' + n + ' קבצים' : '—';
-    document.getElementById('dcProcTxt').textContent = 'לפי הבחירה בשדה "במה אתה צריך שנעזור לך?", נפתח אוטומטית בשורנס תהליך מסוג "' + needVal + '" תחת הלקוח' + (n ? ', וכל המסמכים שהועלו משויכים אליו.' : '.');
+    document.getElementById('dcProcTxt').textContent = 'בהתאם לבחירה של הלקוח, נפתח אוטומטית בשורנס תהליך מסוג "' + needVal + '" תחת הלקוח' + (n ? ', וכל המסמכים שהועלו משויכים אליו.' : '.');
     show(4);
   });
   function reset(){
