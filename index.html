@@ -1453,6 +1453,21 @@ button.em-in:disabled{cursor:default}
 .np-opt:disabled{cursor:default}
 .np-opt.sel i{border-color:#00a884;background:radial-gradient(circle,#00a884 45%,transparent 50%)}
 .np-tbl .sr-row{grid-template-columns:1.2fr 1fr 1fr 1fr}
+/* documents bot demo */
+.dc-tbl .sr-row{grid-template-columns:1fr 1fr 1.3fr}
+.dc-tags{width:100%;min-height:30px;border:1px solid #d5dbe3;border-radius:4px;background:#fff;cursor:pointer;display:flex;align-items:center;gap:4px;flex-wrap:wrap;padding:3px 6px;font-family:'Heebo',sans-serif;position:relative}
+.dc-tags:disabled{cursor:default}
+.dc-tags.ob-pulse{border-color:#2f7fd8;padding-left:26px}
+.dc-chip{background:#8b5cf6;color:#fff;border-radius:10px;padding:2px 8px;font-size:.72rem;font-weight:700;white-space:nowrap}
+.dc-link{color:#027eb5;text-decoration:underline;direction:ltr;unicode-bidi:isolate;display:inline-block;cursor:pointer;border-radius:4px;padding:0 2px}
+.dc-form .em-form-body{padding-top:6px}
+.dc-files .em-drop{flex-direction:row;justify-content:center;padding:10px;font-size:.8rem}
+.dc-files[hidden]{display:none}
+.dc-proc .sr-row{grid-template-columns:1.3fr 1fr .8fr .9fr}
+.em-menu .em-opt.ob-pulse{background:#eaf6ff;font-weight:700;animation:emOptPulse 1.3s ease-in-out infinite}
+@keyframes emOptPulse{0%,100%{box-shadow:inset 0 0 0 2px rgba(0,229,255,.95)}50%{box-shadow:inset 0 0 0 2px rgba(0,229,255,.2)}}
+.dc-done{text-align:center;padding:26px 16px 30px;font-size:.95rem;color:#1f2d3d}
+.dc-done b{display:block;font-size:1.15rem;margin-bottom:6px;color:#0a7a4a}
 </style>
 </head>
 <body>
@@ -1725,6 +1740,9 @@ button.em-in:disabled{cursor:default}
             <li>עדכון סטטוס התהליך בהתאם לקבלת המסמכים</li>
             <li>חיסכון במעקב ידני וקיצור זמני הטיפול</li>
           </ul>
+          <button class="demo-cta" id="openDcModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
 
         <div class="srv-card">
@@ -4700,6 +4718,286 @@ window.addEventListener('scroll',()=>{
   document.getElementById('openNpModal').addEventListener('click', open);
   document.getElementById('npClose').addEventListener('click', close);
   document.getElementById('npFinish').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="dcOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dcTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="dcTitle">
+        <span id="dcStepLabel">// שלב 1 — הוספת תגית בשורנס</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-dc-dot="1"></i><i data-dc-dot="2"></i><i data-dc-dot="3"></i><i data-dc-dot="4"></i></span>
+      </div>
+      <button class="modal-close" id="dcClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="dcBody">
+
+      <!-- DC STEP 1: add a tag in Surense -->
+      <div class="step active" data-dc-step="1">
+        <p class="ob-txt">אפשר לשלוח ללקוח את ההודעה עם הלינק לטופס קבלת המסמכים בכמה דרכים: בשינוי סטטוס, בפתיחת תהליך, או ידנית בלחיצה אחת.<br>בדוגמה הזו, מוסיפים ללקוח בשורנס את התגית "שליחת טופס מסמכים", והאוטומציה שולחת לו מיד הודעת WhatsApp.</p>
+        <div class="sr-table dc-tbl" style="overflow:visible">
+          <div class="sr-row head"><span>לקוח</span><span>טלפון</span><span>תגיות</span></div>
+          <div class="sr-row">
+            <span class="sr-client">ישראלי דניאל</span>
+            <span style="direction:ltr;text-align:right">052-123-4567</span>
+            <span><button class="dc-tags ob-pulse" id="dcTags" type="button"><span id="dcChip"></span><span class="ob-pointer" aria-hidden="true">👉</span></button></span>
+          </div>
+          <div class="ob-menu" id="dcMenu" hidden>
+            <div class="ob-search"><span>חיפוש</span><span>⚙</span></div>
+            <button class="ob-opt ob-pulse" id="dcPick" type="button">שליחת טופס מסמכים<span class="ob-pointer" aria-hidden="true">👉</span></button>
+            <button class="ob-opt" type="button" disabled>לא משלם דמי שרות</button>
+            <button class="ob-opt" type="button" disabled>להתקשר לא מגיב לתזכורות פגישה</button>
+            <button class="ob-opt" type="button" disabled>עדכון דוח חודשי</button>
+            <button class="ob-opt" type="button" disabled>פגישה תקופתית</button>
+            <button class="ob-opt" type="button" disabled>לתאם פגישה</button>
+          </div>
+        </div>
+        <p class="ob-hint-txt" id="dcHint">לחצו על עמודת "תגיות" של הלקוח</p>
+        <div id="dcWaWrap" hidden><button class="wa-cta" id="dcToWa" type="button">▶ פתח סימולציית WhatsApp</button></div>
+      </div>
+
+      <!-- DC STEP 2: WhatsApp with link -->
+      <div class="step" data-dc-step="2">
+        <div class="wa-frame">
+          <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+          <div class="wa-body" id="dcWaBody"></div>
+        </div>
+        <p class="ob-hint-txt" id="dcHint2"></p>
+        <div class="wa-continue-wrap" id="dcContinueWrap" hidden><button class="wa-continue-btn" id="dcContinueBtn" type="button">המשך לשלב הבא ›</button></div>
+      </div>
+
+      <!-- DC STEP 3: documents form -->
+      <div class="step" data-dc-step="3">
+        <div class="em-form dc-form">
+          <div class="em-form-head">
+            <div class="em-logo">🧭</div>
+            <div class="em-form-title">המצפן סוכנות לביטוח</div>
+            <div class="em-form-brand">טופס קבלת מסמכים</div>
+          </div>
+          <div class="em-form-body" id="dcFormBody">
+            <div class="em-fld"><label>במה אתה צריך שנעזור לך? <i>*</i></label>
+              <button class="em-in em-sel em-pick ob-pulse" id="dcNeed" type="button"><span id="dcNeedTxt" class="em-ph">בחרו אפשרות</span><span class="em-caret">⌄</span></button>
+              <div class="em-menu" id="dcNeedMenu" hidden>
+                <button class="em-opt" type="button" data-v="תביעות">תביעות</button>
+                <button class="em-opt" type="button" data-v="הלוואות">הלוואות</button>
+                <button class="em-opt" type="button" data-v="פדיון">פדיון</button>
+                <button class="em-opt" type="button" data-v="פיצויים">פיצויים</button>
+              </div>
+            </div>
+            <div class="em-fld" id="dcTopicFld" hidden><label>תביעות בנושא <i>*</i></label>
+              <button class="em-in em-sel em-pick" id="dcTopic" type="button"><span id="dcTopicTxt" class="em-ph">בחרו נושא</span><span class="em-caret">⌄</span></button>
+              <div class="em-menu" id="dcTopicMenu" hidden>
+                <button class="em-opt" type="button">ייעוץ</button>
+                <button class="em-opt" type="button">בדיקות</button>
+                <button class="em-opt" type="button">רפואה משלימה</button>
+                <button class="em-opt ob-pulse" type="button">ניתוח</button>
+                <button class="em-opt" type="button">תרופות</button>
+                <button class="em-opt" type="button">מחלות קשות</button>
+              </div>
+            </div>
+            <div class="dc-files" id="dcFiles" hidden></div>
+            <button class="em-submit" id="dcSubmit" type="button" disabled>שליחה</button>
+          </div>
+        </div>
+        <p class="ob-hint-txt" id="dcHint3"></p>
+      </div>
+
+      <!-- DC STEP 4: process opened in Surense -->
+      <div class="step" data-dc-step="4">
+        <p class="ob-txt" id="dcProcTxt"></p>
+        <div class="sr-glow">
+          <div class="sr-table sr-meet dc-proc">
+            <div class="sr-row head"><span>סוג תהליך</span><span>לקוח</span><span>סטטוס</span><span>מסמכים</span></div>
+            <div class="sr-row"><span class="sr-type" id="dcProcType"></span><span class="sr-client">ישראלי דניאל</span><span class="sr-status" style="background:#1e90e0">חדש</span><span id="dcProcDocs"></span></div>
+          </div>
+        </div>
+        <div class="wa-continue-wrap"><button class="wa-continue-btn demo-finish" id="dcFinish" type="button">✓ סיום הדגמה</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('dcOverlay');
+  const body = document.getElementById('dcBody');
+  const wa = document.getElementById('dcWaBody');
+  const tags = document.getElementById('dcTags');
+  const menu = document.getElementById('dcMenu');
+  const chip = document.getElementById('dcChip');
+  const hint = document.getElementById('dcHint');
+  const hint2 = document.getElementById('dcHint2');
+  const hint3 = document.getElementById('dcHint3');
+  const waWrap = document.getElementById('dcWaWrap');
+  const need = document.getElementById('dcNeed');
+  const needTxt = document.getElementById('dcNeedTxt');
+  const needMenu = document.getElementById('dcNeedMenu');
+  const topicFld = document.getElementById('dcTopicFld');
+  const topic = document.getElementById('dcTopic');
+  const topicTxt = document.getElementById('dcTopicTxt');
+  const topicMenu = document.getElementById('dcTopicMenu');
+  const submit = document.getElementById('dcSubmit');
+  const stepLabel = document.getElementById('dcStepLabel');
+  const labels = {1:'// שלב 1 — הוספת תגית בשורנס',2:'// שלב 2 — הודעת WhatsApp ללקוח',3:'// שלב 3 — טופס קבלת מסמכים',4:'// שלב 4 — פתיחת תהליך בשורנס'};
+  let needVal = null, topicVal = null;
+  const files = document.getElementById('dcFiles');
+  const DOCS = {
+    'ייעוץ':['קבלה על התשלום','הפניה מרופא'],
+    'בדיקות':['הפניה לבדיקה','קבלה על התשלום','תוצאות הבדיקה'],
+    'רפואה משלימה':['קבלות על הטיפולים','המלצה מרופא'],
+    'ניתוח':['הפניה לניתוח','סיכום ניתוח','סיכום אשפוז / מכתב שחרור','קבלות על התשלום'],
+    'תרופות':['מרשם רופא','קבלה מבית המרקחת','אישור רופא על הצורך בתרופה'],
+    'מחלות קשות':['סיכום מחלה / אבחנה','מסמכים רפואיים ובדיקות','אישור רופא מומחה','צילום תעודת זהות'],
+    'הלוואות':['צילום תעודת זהות','אישור ניהול חשבון בנק'],
+    'פדיון':['צילום תעודת זהות','אישור ניהול חשבון בנק','דוח מצב חשבון עדכני'],
+    'פיצויים':['טופס 161 מהמעסיק','מכתב סיום העסקה','צילום תעודת זהות','אישור ניהול חשבון בנק']
+  };
+  function buildFiles(t){
+    files.innerHTML = '';
+    (DOCS[t]||[]).forEach(name=>{
+      const f = document.createElement('div'); f.className = 'em-fld';
+      const l = document.createElement('label'); l.textContent = name; f.appendChild(l);
+      const d = document.createElement('button'); d.type = 'button'; d.className = 'em-drop';
+      d.innerHTML = '<span class="em-drop-ic">📁</span><span class="em-drop-txt">גרור ושחרר קובץ או <u>עיון</u></span>';
+      d.addEventListener('click', ()=>{
+        d.classList.remove('ob-pulse'); d.classList.add('done'); d.disabled = true;
+        d.querySelector('.em-drop-ic').textContent = '✅'; d.querySelector('.em-drop-txt').textContent = name.replace(/[ /]+/g,'-') + '.pdf';
+        const next = files.querySelector('.em-drop:not(.done)');
+        if(next) next.classList.add('ob-pulse');
+        else { submit.disabled = false; submit.classList.add('ob-pulse'); hint3.textContent = 'כל המסמכים הועלו. לחצו על "שליחה"'; }
+      }, {once:true});
+      f.appendChild(d); files.appendChild(f);
+    });
+    files.hidden = !(DOCS[t]);
+    const first = files.querySelector('.em-drop'); if(first) first.classList.add('ob-pulse');
+  }
+  let timers = [];
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    ov.querySelectorAll('[data-dc-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.dcStep)===n));
+    ov.querySelectorAll('[data-dc-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.dcDot)<=n));
+    stepLabel.textContent = labels[n];
+    body.scrollTop = 0;
+  }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  tags.addEventListener('click', ()=>{
+    menu.hidden = false;
+    tags.classList.remove('ob-pulse');
+    tags.querySelector('.ob-pointer').hidden = true;
+    hint.textContent = 'בחרו בתגית "שליחת טופס מסמכים"';
+  });
+  document.getElementById('dcPick').addEventListener('click', ()=>{
+    menu.hidden = true;
+    chip.className = 'dc-chip'; chip.textContent = 'שליחת טופס מסמכים';
+    tags.disabled = true;
+    hint.textContent = '✓ התגית נוספה, והאוטומציה שולחת לדניאל הודעת WhatsApp עם הלינק לטופס';
+    later(()=>{ waWrap.hidden = false; }, 400);
+  });
+  document.getElementById('dcToWa').addEventListener('click', ()=>{
+    show(2);
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    wa.appendChild(t);
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      b.appendChild(document.createTextNode('היי דניאל,\nלהשלמת המסמכים יש להיכנס ללינק הבא ולבחור באיזה נושא אתה צריך שנעזור לך:\n'));
+      const a = document.createElement('span');
+      a.className = 'dc-link ob-pulse'; a.textContent = 'https://mazpen.fillout.com/digitalform';
+      a.addEventListener('click', ()=>{ a.classList.remove('ob-pulse'); show(3); hint3.textContent = 'לחצו על השדה "במה אתה צריך שנעזור לך?"'; }, {once:true});
+      b.appendChild(a);
+      b.appendChild(document.createTextNode('\n\nהמצפן סוכנות לביטוח'));
+      const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now();
+      b.appendChild(tm); wa.appendChild(b);
+      hint2.textContent = 'לחצו על הלינק כדי לפתוח את הטופס';
+    }, 900);
+  });
+  need.addEventListener('click', ()=>{
+    needMenu.hidden = !needMenu.hidden;
+    need.classList.remove('ob-pulse');
+    topicMenu.hidden = true;
+    hint3.textContent = 'בחרו "תביעות" כדי לראות את השדה הנוסף שנפתח';
+  });
+  needMenu.addEventListener('click', (e)=>{
+    const o = e.target.closest('.em-opt'); if(!o) return;
+    needMenu.hidden = true;
+    needTxt.textContent = o.dataset.v; needTxt.classList.remove('em-ph'); needVal = o.dataset.v; topicVal = null;
+    if(o.dataset.v==='תביעות'){
+      topicFld.hidden = false;
+      topicTxt.textContent = 'בחרו נושא'; topicTxt.classList.add('em-ph');
+      topic.classList.add('ob-pulse'); files.hidden = true;
+      submit.disabled = true; submit.classList.remove('ob-pulse');
+      hint3.textContent = 'נפתח שדה נוסף: "תביעות בנושא". לחצו עליו ובחרו "ניתוח"';
+    } else {
+      topicFld.hidden = true;
+      buildFiles(o.dataset.v);
+      submit.disabled = true; submit.classList.remove('ob-pulse');
+      hint3.textContent = 'נפתחו שדות להעלאת המסמכים שמתאימים לבקשה. לחצו על כל שדה כדי להעלות את הקובץ';
+    }
+  });
+  topic.addEventListener('click', ()=>{
+    topicMenu.hidden = !topicMenu.hidden;
+    topic.classList.remove('ob-pulse');
+  });
+  topicMenu.addEventListener('click', (e)=>{
+    const o = e.target.closest('.em-opt'); if(!o) return;
+    topicMenu.hidden = true;
+    topicTxt.textContent = o.textContent; topicTxt.classList.remove('em-ph'); topicVal = o.textContent;
+    buildFiles(o.textContent);
+    submit.disabled = true; submit.classList.remove('ob-pulse');
+    hint3.textContent = 'נפתחו שדות להעלאת המסמכים שמתאימים לנושא התביעה. לחצו על כל שדה כדי להעלות את הקובץ';
+  });
+  submit.addEventListener('click', ()=>{
+    submit.classList.remove('ob-pulse');
+    hint3.textContent = '';
+    show(2);
+    hint2.textContent = '';
+    body.scrollTop = body.scrollHeight;
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    wa.appendChild(t);
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      b.textContent = 'קיבלנו את המסמכים שלך, ונציג יחזור אליך בקרוב 🙏\n\nהמצפן סוכנות לביטוח';
+      const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now();
+      b.appendChild(tm); wa.appendChild(b);
+      document.getElementById('dcContinueWrap').hidden = false;
+      body.scrollTop = body.scrollHeight;
+    }, 900);
+  });
+  document.getElementById('dcContinueBtn').addEventListener('click', ()=>{
+    document.getElementById('dcProcType').textContent = needVal + (topicVal ? ' – ' + topicVal : '');
+    const n = files.querySelectorAll('.em-drop.done').length;
+    document.getElementById('dcProcDocs').textContent = n ? '📎 ' + n + ' קבצים' : '—';
+    document.getElementById('dcProcTxt').textContent = 'בהתאם לבחירה של הלקוח, נפתח אוטומטית בשורנס תהליך מסוג "' + needVal + '" תחת הלקוח' + (n ? ', וכל המסמכים שהועלו משויכים אליו.' : '.');
+    show(4);
+  });
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    menu.hidden = true; chip.className = ''; chip.textContent = '';
+    tags.disabled = false; tags.classList.add('ob-pulse'); tags.querySelector('.ob-pointer').hidden = false;
+    hint.textContent = 'לחצו על עמודת "תגיות" של הלקוח';
+    waWrap.hidden = true;
+    wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    hint2.textContent = ''; hint3.textContent = '';
+    needTxt.textContent = 'בחרו אפשרות'; needTxt.classList.add('em-ph'); need.classList.add('ob-pulse'); needMenu.hidden = true;
+    topicFld.hidden = true; topicMenu.hidden = true; files.hidden = true; files.innerHTML = '';
+    submit.disabled = true; submit.classList.remove('ob-pulse');
+    document.getElementById('dcContinueWrap').hidden = true;
+    needVal = null; topicVal = null;
+    show(1);
+  }
+  function open(){ reset(); ov.hidden = false; }
+  function close(){ ov.hidden = true; timers.forEach(clearTimeout); timers = []; }
+  document.getElementById('openDcModal').addEventListener('click', open);
+  document.getElementById('dcClose').addEventListener('click', close);
+  document.getElementById('dcFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
