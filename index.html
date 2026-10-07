@@ -1570,6 +1570,21 @@ button.em-in:disabled{cursor:default}
 .au-ta.filled{color:#1f2d3d}
 .au-proc .sr-row{grid-template-columns:1.4fr 1fr .8fr .9fr}
 @media (max-width:480px){.au-row3{grid-template-columns:1fr 1fr}.au-row3>:first-child{grid-column:1/-1}.au-steps{padding:12px 4px 4px}.au-steps::before{right:36px;left:36px}.au-nav .em-submit{font-size:.86rem;padding:11px 8px}.au-back{font-size:.78rem;padding:9px 12px}}
+/* post-meeting feedback demo */
+.fb-search{font-size:.82rem;color:var(--cyan);margin:-4px 0 10px;min-height:1.3em}
+.fb-tbl .sr-row{grid-template-columns:1fr 1fr 1fr .9fr}
+.fb-tbl .sr-row:not(.head){animation:srFlip .45s ease-out both}
+.fb-yn{display:flex;gap:8px}
+.fb-yn button{flex:1;border:1px solid #d5dbe3;border-radius:8px;background:#f8fafc;padding:9px;font-family:'Heebo',sans-serif;font-size:.88rem;color:#1f2d3d;cursor:pointer;position:relative}
+.fb-yn button.on{background:#1e5bb8;border-color:#1e5bb8;color:#fff;font-weight:700}
+.fb-yn button:disabled{cursor:default}
+.fb-yn button.ob-pulse{border-color:#1e5bb8;padding-left:30px}
+.fb-fill{cursor:pointer;position:relative}
+.fb-fill.ob-pulse{border-color:#1e5bb8}
+.fb-fill.done{cursor:default;color:#1f2d3d}
+.fb-ref[hidden]{display:none}
+.fb-ref{border-top:1px dashed #d5dbe3;margin-top:14px;padding-top:2px;animation:srFlip .4s ease-out both}
+.fb-gap{height:14px}
 </style>
 </head>
 <body>
@@ -1917,20 +1932,21 @@ button.em-in:disabled{cursor:default}
     </button>
         </div>
 
-        <!-- TODO: התוכן שסופק כאן זהה לתוכן של "עדכון נתונים שנתי" למעלה — כנראה שגיאת העתקה, יש לעדכן לתיאור האמיתי של "משוב לאחר פגישה" -->
         <div class="srv-card">
           <div class="blc"></div><div class="pulse-line"></div>
           <div class="srv-icon">⭐</div>
           <h3 class="srv-title">משוב לאחר פגישה</h3>
-          <p class="srv-desc">אוטומציה ששולחת אחת לשנה ללקוחות פעילים טופס אישי לעדכון ואישור הפרטים שלהם, ומעדכנת את המידע במערכת בהתאם לתשובות.</p>
+          <p class="srv-desc">בבוקר שאחרי פגישה שהתקיימה, הלקוח מקבל הודעת WhatsApp עם כפתור לטופס משוב קצר, והתשובות נשמרות אוטומטית בשורנס.</p>
           <ul class="srv-list">
-            <li>שליחת טופס אישי עם הנתונים הקיימים במערכת</li>
-            <li>הלקוח מאשר או מעדכן פרטים שהשתנו</li>
-            <li>עדכון אוטומטי של הנתונים ב-Surense</li>
-            <li>זיהוי שינויים, צרכים והזדמנויות חדשות</li>
-            <li>פתיחת משימות או התראות לסוכן בהתאם לתשובות</li>
-            <li>שמירת תיעוד של השינויים שבוצעו</li>
+            <li>שליחה אוטומטית בבוקר שאחרי כל פגישה בסטטוס "התקיימה"</li>
+            <li>נתוני המשוב עולים לפעילות הלקוח בשורנס</li>
+            <li>יצירת לידים חדשים מבני משפחה וחברים שהלקוח ממליץ עליהם</li>
+            <li>זיהוי מהיר של לקוחות שצריכים מענה נוסף</li>
+            <li>שיפור מתמשך של השירות לפי מה שהלקוחות אומרים</li>
           </ul>
+          <button class="demo-cta" id="openFbModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
 
         <div class="srv-card">
@@ -5583,6 +5599,250 @@ window.addEventListener('scroll',()=>{
   document.getElementById('openAuModal').addEventListener('click', open);
   document.getElementById('auClose').addEventListener('click', close);
   document.getElementById('auFinish').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="fbOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="fbTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="fbTitle">
+        <span id="fbStepLabel">// שלב 1 — פגישות שהתקיימו אתמול</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-fb-dot="1"></i><i data-fb-dot="2"></i><i data-fb-dot="3"></i><i data-fb-dot="4"></i></span>
+      </div>
+      <button class="modal-close" id="fbClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="fbBody">
+
+      <!-- FB STEP 1: yesterday's held meetings -->
+      <div class="step active" data-fb-step="1">
+        <p class="ob-txt">בכל בוקר, האוטומציה מחפשת בשורנס את כל הפגישות של אתמול בסטטוס "התקיימה", ושולחת לכל לקוח הודעת WhatsApp עם קישור לטופס משוב קצר.</p>
+        <div class="fb-search" id="fbSearch"></div>
+        <div class="sr-table sr-meet fb-tbl" id="fbTbl">
+          <div class="sr-row head"><span>נושא</span><span>לקוח</span><span>מועד</span><span>סטטוס</span></div>
+        </div>
+        <div id="fbWaWrap" hidden style="margin-top:16px"><button class="wa-cta" id="fbToWa" type="button">▶ פתח סימולציית WhatsApp</button></div>
+      </div>
+
+      <!-- FB STEP 2: WhatsApp -->
+      <div class="step" data-fb-step="2">
+        <div class="wa-frame">
+          <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+          <div class="wa-body" id="fbWaBody"></div>
+        </div>
+        <p class="ob-hint-txt" id="fbHint"></p>
+        <div class="wa-continue-wrap" id="fbContinueWrap" hidden><button class="wa-continue-btn" id="fbContinueBtn" type="button">המשך לשלב הבא ›</button></div>
+      </div>
+
+      <!-- FB STEP 3: feedback form -->
+      <div class="step" data-fb-step="3">
+        <div class="em-form">
+          <div class="em-form-head">
+            <div class="em-logo">🧭</div>
+            <div class="em-form-title">המצפן סוכנות לביטוח</div>
+            <div class="em-form-brand">משוב על הפגישה</div>
+          </div>
+          <div class="em-form-body">
+            <div class="em-fld"><label>האם הפגישה תרמה לך? <i>*</i></label><div class="fb-yn" data-q="0"><button type="button">כן</button><button type="button">לא</button></div></div>
+            <div class="em-fld"><label>האם הייעוץ היה מובן לך? <i>*</i></label><div class="fb-yn" data-q="1"><button type="button">כן</button><button type="button">לא</button></div></div>
+            <div class="em-fld"><label>האם יש עוד משהו שנוכל לעשות עבורך? <i>*</i></label><div class="fb-yn" data-q="2"><button type="button">כן</button><button type="button">לא</button></div></div>
+            <div class="em-fld"><label>יש לך רעיון קטן שיעזור לנו להשתפר?</label><div class="em-in fb-fill em-ph" id="fbSugg">נשמח לשמוע ✍️</div></div>
+            <div class="em-fld"><label>האם השירות שלנו יכול להתאים גם לאנשים שחשובים לך? <i>*</i></label><div class="fb-yn" data-q="3"><button type="button" id="fbRefYes">כן</button><button type="button">לא</button></div></div>
+            <div class="fb-ref" id="fbRef" hidden>
+              <div class="em-row2">
+                <div class="em-fld"><label>שם האדם שחשוב לך <i>*</i></label><div class="em-in fb-fill em-ph" id="fbName">שם מלא</div></div>
+                <div class="em-fld"><label>טלפון <i>*</i></label><div class="em-in fb-fill em-ph" id="fbPhone" style="direction:ltr;justify-content:flex-end">05X-XXX-XXXX</div></div>
+              </div>
+            </div>
+            <button class="em-submit" id="fbSubmit" type="button" disabled>שליחת המשוב</button>
+          </div>
+        </div>
+        <p class="ob-hint-txt" id="fbHint3"></p>
+      </div>
+
+      <!-- FB STEP 4: Surense activity + new lead -->
+      <div class="step" data-fb-step="4">
+        <p class="ob-txt">תשובות המשוב עולות אוטומטית לפעילות של הלקוח בשורנס, ובמקביל נפתח ליד חדש מסוג "משוב לאחר פגישה" עבור האדם שהלקוח המליץ עליו.</p>
+        <div class="lb-lead">
+          <div class="lb-top"><span class="lb-lid">כרטיס לקוח</span><span class="lb-pill" style="background:#2f7fd8">דניאל ישראלי</span></div>
+          <div class="lb-tabs"><span class="on">פעילות</span><span>פוליסות</span><span>מסמכים</span></div>
+          <div class="lb-feed">
+            <div class="lb-act">
+              <div class="lb-act-head"><span class="lb-av">📝</span>טופס משוב<span class="lb-act-time" id="fbActTime"></span></div>
+              <div class="lb-act-title">משוב לאחר פגישה – פגישה שנתית</div>
+              <div class="lb-act-body" id="fbActBody"></div>
+            </div>
+          </div>
+        </div>
+        <div class="fb-gap"></div>
+        <div class="sr-glow">
+          <div class="lb-lead">
+            <div class="lb-top"><span class="lb-lid">ליד 516</span><span class="lb-pill">משוב לאחר פגישה</span></div>
+            <div class="lb-info">
+              <div class="lb-name">👤 <span id="fbLeadName" style="font-size:1.05rem;font-weight:800;color:#1e6fd9;direction:rtl"></span> <span id="fbLeadPhone"></span></div>
+              <div><small>סטטוס</small><div class="lb-status">ליד חדש <span>⌄</span></div></div>
+              <div><small>הומלץ על ידי</small><div class="lb-handler"><span class="lb-av">👤</span>דניאל ישראלי</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="wa-continue-wrap"><button class="wa-continue-btn demo-finish" id="fbFinish" type="button">✓ סיום הדגמה</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('fbOverlay');
+  const body = document.getElementById('fbBody');
+  const wa = document.getElementById('fbWaBody');
+  const hint = document.getElementById('fbHint');
+  const hint3 = document.getElementById('fbHint3');
+  const sugg = document.getElementById('fbSugg');
+  const ref = document.getElementById('fbRef');
+  const nameF = document.getElementById('fbName');
+  const phoneF = document.getElementById('fbPhone');
+  const refYes = document.getElementById('fbRefYes');
+  const submit = document.getElementById('fbSubmit');
+  const stepLabel = document.getElementById('fbStepLabel');
+  const labels = {1:'// שלב 1 — פגישות שהתקיימו אתמול',2:'// שלב 2 — הודעת WhatsApp ללקוח',3:'// שלב 3 — טופס משוב',4:'// שלב 4 — פעילות וליד חדש בשורנס'};
+  const QL = ['האם הפגישה תרמה לך?','האם הייעוץ היה מובן?','עוד משהו שנוכל לעשות?','השירות מתאים גם לאנשים קרובים?'];
+  const REF = {name:'מיכל ישראלי', phone:'054-765-4321'};
+  const SUGG = 'אשמח לקבל סיכום קצר במייל אחרי כל פגישה';
+  let ans = [], sDone = false, nDone = false, pDone = false;
+  let timers = [];
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    ov.querySelectorAll('[data-fb-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.fbStep)===n));
+    ov.querySelectorAll('[data-fb-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.fbDot)<=n));
+    stepLabel.textContent = labels[n];
+    body.scrollTop = 0;
+  }
+  function scrollBottom(){ body.scrollTop = body.scrollHeight; }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function yesterday(){ const d=new Date(); d.setDate(d.getDate()-1); return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear(); }
+  function bot(text, after){
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    wa.appendChild(t); scrollBottom();
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div'); b.className = 'wa-bubble pop'; b.textContent = text;
+      const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now();
+      b.appendChild(tm); wa.appendChild(b);
+      if(after) after();
+      scrollBottom();
+    }, 900);
+  }
+  function setHint(){
+    const firstOpen = [0,1,2].find(i=>ans[i]===undefined);
+    if(firstOpen !== undefined){ hint3.textContent = 'בחרו תשובה לכל שאלה'; return; }
+    if(!sDone){ hint3.textContent = 'לחצו על שדה ההצעה כדי למלא אותו'; return; }
+    if(ans[3]===undefined){ hint3.textContent = 'לחצו על "כן"'; return; }
+    if(!nDone || !pDone){ hint3.textContent = 'לחצו על השדות כדי למלא את השם והטלפון'; return; }
+    hint3.textContent = 'לחצו על "שליחת המשוב"';
+  }
+  function refresh(){
+    sugg.classList.toggle('ob-pulse', !sDone && [0,1,2].every(i=>ans[i]!==undefined));
+    const refReady = sDone && ans[3]===undefined;
+    refYes.classList.toggle('ob-pulse', refReady);
+    let ptr = refYes.querySelector('.ob-pointer');
+    if(refReady && !ptr){ ptr = document.createElement('span'); ptr.className = 'ob-pointer'; ptr.textContent = '👉'; refYes.appendChild(ptr); }
+    if(!refReady && ptr) ptr.remove();
+    nameF.classList.toggle('ob-pulse', ans[3]==='כן' && !nDone);
+    phoneF.classList.toggle('ob-pulse', ans[3]==='כן' && nDone && !pDone);
+    const ok = [0,1,2,3].every(i=>ans[i]!==undefined) && sDone && nDone && pDone;
+    submit.disabled = !ok; submit.classList.toggle('ob-pulse', ok);
+    setHint();
+  }
+  ov.querySelectorAll('.fb-yn').forEach(g=>{
+    const q = Number(g.dataset.q);
+    g.querySelectorAll('button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        if(q===3){
+          if(!sDone || btn !== refYes) return;
+          ref.hidden = false;
+        }
+        ans[q] = btn.firstChild.textContent;
+        g.querySelectorAll('button').forEach(x=>x.classList.toggle('on', x===btn));
+        if(q===3) g.querySelectorAll('button').forEach(x=>x.disabled = true);
+        refresh();
+      });
+    });
+  });
+  function fill(el, text, done){
+    el.addEventListener('click', ()=>{
+      if(!el.classList.contains('ob-pulse')) return;
+      el.classList.remove('ob-pulse','em-ph'); el.classList.add('done'); el.textContent = text;
+      done(); refresh();
+    });
+  }
+  fill(sugg, SUGG, ()=>{ sDone = true; });
+  fill(nameF, REF.name, ()=>{ nDone = true; });
+  fill(phoneF, REF.phone, ()=>{ pDone = true; });
+  function start(){
+    bot('בוקר טוב דניאל ☀️\nתודה שנפגשת איתנו אתמול!\nנשמח לשמוע איך היה, זה ייקח פחות מדקה 🙏', ()=>{
+      const w = document.createElement('div'); w.className = 'wa-btns-wrap pop ob-wa-btns';
+      const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'wa-btn ob-pulse'; btn.style.justifyContent = 'center';
+      btn.textContent = '⭐ להתחלת המשוב';
+      btn.addEventListener('click', ()=>{ btn.disabled = true; btn.classList.remove('ob-pulse'); hint.textContent = ''; show(3); refresh(); }, {once:true});
+      w.appendChild(btn); wa.appendChild(w);
+      hint.textContent = 'לחצו על "להתחלת המשוב"';
+      scrollBottom();
+    });
+  }
+  document.getElementById('fbToWa').addEventListener('click', ()=>{ show(2); start(); });
+  submit.addEventListener('click', ()=>{
+    submit.classList.remove('ob-pulse'); hint3.textContent = '';
+    show(2); scrollBottom();
+    bot('תודה רבה דניאל, המשוב שלך חשוב לנו מאוד 💙\nנציג מטעמנו ייצור קשר עם ' + REF.name + ' בקרוב.\n\nהמצפן סוכנות לביטוח', ()=>{
+      document.getElementById('fbContinueWrap').hidden = false; scrollBottom();
+    });
+  });
+  document.getElementById('fbContinueBtn').addEventListener('click', ()=>{
+    const rows = QL.slice(0,3).map((q,i)=>[q, ans[i]]).concat([['הצעה לשיפור', SUGG], [QL[3], ans[3]], ['שם', REF.name], ['טלפון', REF.phone]]);
+    let h = '';
+    rows.forEach(a=>{
+      h += '<div class="lb-qa"><span>' + a[0] + '</span><b>' + (a[0]==='טלפון' ? '<span style="direction:ltr;unicode-bidi:isolate">' + a[1] + '</span>' : a[1]) + '</b></div>';
+    });
+    document.getElementById('fbActBody').innerHTML = h;
+    document.getElementById('fbActTime').textContent = 'היום, ' + now();
+    document.getElementById('fbLeadName').textContent = REF.name;
+    document.getElementById('fbLeadPhone').textContent = REF.phone;
+    show(4);
+  });
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    ans = []; sDone = nDone = pDone = false;
+    wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    hint.textContent = ''; hint3.textContent = '';
+    ov.querySelectorAll('.fb-yn button').forEach(x=>{ x.classList.remove('on'); x.disabled = false; });
+    ref.hidden = true;
+    sugg.className = 'em-in fb-fill em-ph'; sugg.textContent = 'נשמח לשמוע ✍️';
+    nameF.className = 'em-in fb-fill em-ph'; nameF.textContent = 'שם מלא';
+    phoneF.className = 'em-in fb-fill em-ph'; phoneF.textContent = '05X-XXX-XXXX';
+    refresh();
+    document.getElementById('fbContinueWrap').hidden = true;
+    document.getElementById('fbWaWrap').hidden = true;
+    const tbl = document.getElementById('fbTbl');
+    tbl.querySelectorAll('.sr-row:not(.head)').forEach(r=>r.remove());
+    const s = document.getElementById('fbSearch');
+    s.textContent = '🔍 מחפש פגישות מאתמול בסטטוס "התקיימה"...';
+    later(()=>{
+      const r = document.createElement('div'); r.className = 'sr-row';
+      r.innerHTML = '<span class="sr-subj">פגישה שנתית</span><span class="sr-client">ישראלי דניאל</span><span>' + yesterday() + ' 10:00</span><span class="sr-status" style="background:#1fc77e">התקיימה</span>';
+      tbl.appendChild(r);
+      s.textContent = '✓ נמצאה פגישה שהתקיימה אתמול';
+      later(()=>{ document.getElementById('fbWaWrap').hidden = false; }, 400);
+    }, 1300);
+    show(1);
+  }
+  function open(){ reset(); ov.hidden = false; }
+  function close(){ ov.hidden = true; timers.forEach(clearTimeout); timers = []; }
+  document.getElementById('openFbModal').addEventListener('click', open);
+  document.getElementById('fbClose').addEventListener('click', close);
+  document.getElementById('fbFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
