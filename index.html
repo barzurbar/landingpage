@@ -1468,6 +1468,77 @@ button.em-in:disabled{cursor:default}
 @keyframes emOptPulse{0%,100%{box-shadow:inset 0 0 0 2px rgba(0,229,255,.95)}50%{box-shadow:inset 0 0 0 2px rgba(0,229,255,.2)}}
 .dc-done{text-align:center;padding:26px 16px 30px;font-size:.95rem;color:#1f2d3d}
 .dc-done b{display:block;font-size:1.15rem;margin-bottom:6px;color:#0a7a4a}
+/* discount ending demo */
+#dsOverlay .modal{max-width:780px}
+.ds-crit{display:flex;flex-wrap:wrap;gap:8px;margin:-4px 0 14px}
+.ds-crit span{background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.35);color:var(--text);border-radius:999px;padding:5px 12px;font-size:.8rem}
+.ds-scan{background:#fff;border-radius:10px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;color:#1f2d3d;padding:14px}
+.ds-scan-top{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;font-weight:700;margin-bottom:10px}
+.ds-scan-top small{font-weight:400;color:#5b6b80;font-size:.75rem}
+.ds-bar{height:8px;border-radius:6px;background:#e7ecf2;overflow:hidden}
+.ds-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#1e6fd9,#00c2e0);border-radius:6px;transition:width .12s linear}
+.ds-scan-msg{font-size:.8rem;color:#5b6b80;margin-top:10px;min-height:1.3em}
+.ds-scan-msg.ok{color:#0a7a4a;font-weight:700}
+.ds-mail{background:#fff;border-radius:10px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;color:#1f2d3d;overflow:hidden;position:relative}
+.ds-mail-top{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #e3e8ee;font-weight:800;font-size:.9rem}
+.ds-badge{background:#d93025;color:#fff;border-radius:999px;font-size:.7rem;padding:1px 7px;font-weight:700}
+.ds-badge[hidden]{display:none}
+.ds-badge.bump{animation:dsBump .45s ease-out}
+@keyframes dsBump{0%{transform:scale(.4)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+.ds-mail-search{margin-right:auto;font-weight:400;font-size:.75rem;color:#8a94a6;background:#f1f3f6;border-radius:999px;padding:4px 12px}
+.ds-inbox{min-height:150px}
+.ds-it{display:grid;grid-template-columns:26px 1fr auto;gap:2px 10px;align-items:center;padding:9px 14px;border-bottom:1px solid #eef1f4;font-size:.8rem;width:100%;background:none;border-left:none;border-right:none;border-top:none;text-align:right;font-family:'Heebo',sans-serif;color:#5b6b80;position:relative}
+.ds-it .ds-av{grid-row:1/3;width:26px;height:26px;border-radius:50%;background:#e3e8ee;display:flex;align-items:center;justify-content:center;font-size:.75rem}
+.ds-it b{font-weight:600;color:#3c4a5c}
+.ds-it small{grid-column:2/4;font-size:.74rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ds-it time{font-size:.7rem}
+.ds-it.new{background:#eef6ff;color:#1f2d3d;cursor:pointer;animation:dsSlide .5s ease-out both}
+.ds-it.new b,.ds-it.new time{font-weight:800;color:#1f2d3d}
+.ds-it.new .ds-av{background:#1e6fd9;color:#fff}
+.ds-it.new.ob-pulse{border-radius:0;animation:dsSlide .5s ease-out both,emOptPulse 1.3s ease-in-out .5s infinite}
+.ds-it.new .ob-pointer{top:50%}
+@keyframes dsSlide{0%{opacity:0;transform:translateY(-14px);max-height:0}100%{opacity:1;transform:none;max-height:80px}}
+.ds-toast{position:absolute;top:8px;left:8px;right:8px;z-index:3;background:#1f2d3d;color:#fff;border-radius:8px;padding:9px 12px;font-size:.8rem;display:flex;align-items:center;gap:10px;box-shadow:0 8px 20px rgba(0,0,0,.35);animation:dsToast 3.2s ease-in-out both}
+.ds-toast b{display:block;font-size:.82rem}
+.ds-toast small{color:#c5d0dc;font-size:.72rem}
+@keyframes dsToast{0%{opacity:0;transform:translateY(-20px)}12%,80%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-20px)}}
+.ds-fly{position:absolute;top:-40px;left:50%;font-size:1.8rem;z-index:4;animation:dsFly 1s ease-in both;pointer-events:none}
+@keyframes dsFly{0%{opacity:0;transform:translate(-50%,0) rotate(-12deg) scale(1.3)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,120px) rotate(0) scale(.5)}}
+.ds-em{background:#f3f5f8;border-radius:10px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;color:#1f2d3d;overflow:hidden}
+.ds-em-meta{background:#fff;padding:10px 14px;border-bottom:1px solid #e3e8ee;font-size:.76rem;color:#5b6b80;line-height:1.6}
+.ds-em-meta b{color:#1f2d3d;font-size:.86rem;display:block}
+.ds-em-hero{background:#0f172a;color:#fff;margin:10px;border-radius:10px;padding:16px}
+.ds-em-hero b{display:block;font-size:1.05rem;margin-bottom:4px}
+.ds-em-hero span{font-size:.78rem;color:#cbd5e1}
+.ds-tbl{background:#fff;margin:0 10px 10px;border-radius:8px;border:1px solid #dbe4ef;font-size:.72rem}
+.ds-r>span{min-width:0;overflow-wrap:anywhere}
+.ds-r{display:grid;grid-template-columns:1fr .8fr 1.05fr 1.1fr .8fr .75fr .8fr .75fr .8fr .95fr;gap:5px;align-items:center;padding:8px 10px;border-top:1px solid #e5ebf2}
+.ds-r.head{background:#eaf1fb;font-weight:700;border-top:none;font-size:.72rem}
+.ds-r small{display:block;color:#6b7785;font-size:.68rem}
+.ds-r .dn{color:#d93025;font-weight:700}
+.ds-r .ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.ds-enter{background:#1d4ed8;color:#fff;border:none;border-radius:6px;padding:7px 4px;font-family:'Heebo',sans-serif;font-weight:700;font-size:.75rem;cursor:pointer;width:100%}
+.ds-enter:hover{background:#1e40af}
+@media (max-width:560px){
+  .ds-r.head{display:none}
+  .ds-r{grid-template-columns:1fr 1fr;gap:6px 10px}
+  .ds-r>span[data-l]::before{content:attr(data-l);display:block;color:#6b7785;font-size:.66rem}
+  .ds-r>span:first-child{grid-column:1/-1;font-weight:700;font-size:.82rem}
+  .ds-r{padding:10px 12px}
+  .ds-r>span:last-child{grid-column:1/-1}
+}
+.ds-pols{padding:10px;background:#f3f5f8}
+.ds-pol{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08);padding:10px 12px;font-size:.8rem;margin-bottom:8px}
+.ds-pol:last-child{margin-bottom:0}
+.ds-pol-h{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:800;margin-bottom:6px}
+.ds-pol-h span{font-weight:400;color:#5b6b80;font-size:.72rem}
+.ds-pol-g{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.ds-pol-g small{display:block;color:#6b7785;font-size:.68rem}
+.ds-pol.hit{border:1px solid rgba(0,229,255,.7);animation:srGlow 2.4s ease-in-out infinite}
+.ds-warn{margin-top:8px;background:#fff4e5;color:#9a5b00;border-radius:6px;padding:6px 8px;font-size:.74rem;font-weight:700}
+@media (max-width:480px){.ds-pol-g{grid-template-columns:1fr 1fr}}
+.ds-end{display:flex;gap:10px;flex-wrap:wrap}
+.ds-end>*{flex:1 1 180px}
 </style>
 </head>
 <body>
@@ -1756,6 +1827,9 @@ button.em-in:disabled{cursor:default}
             <li>פתיחת משימות או תהליכי שירות בהתאם לקריטריונים</li>
             <li>טיפול יזום בלקוחות לפני עליית הפרמיה</li>
           </ul>
+          <button class="demo-cta" id="openDsModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
 
         <div class="srv-card">
@@ -4998,6 +5072,195 @@ window.addEventListener('scroll',()=>{
   document.getElementById('openDcModal').addEventListener('click', open);
   document.getElementById('dcClose').addEventListener('click', close);
   document.getElementById('dcFinish').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="dsOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dsTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="dsTitle">
+        <span id="dsStepLabel">// שלב 1 — בדיקה חודשית בשורנס</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-ds-dot="1"></i><i data-ds-dot="2"></i><i data-ds-dot="3"></i><i data-ds-dot="4"></i></span>
+      </div>
+      <button class="modal-close" id="dsClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="dsBody">
+
+      <!-- DS STEP 1: monthly scan -->
+      <div class="step active" data-ds-step="1">
+        <p class="ob-txt">אחת לחודש האוטומציה סורקת את כל הלקוחות בשורנס, ובודקת אצל מי מדרגת ההנחה בביטוח החיים או בביטוח המשכנתא יורדת בחודש הבא.<br>הסוכנות בוחרת את הקריטריון, לדוגמה:</p>
+        <div class="ds-crit"><span>ההנחה יורדת מתחת ל־65%</span><span>הפרמיה של הלקוח עולה ב־40 ₪ ומעלה</span></div>
+        <div class="ds-scan">
+          <div class="ds-scan-top">🔍 בדיקת סיום הנחות <small id="dsScanCount">0 לקוחות נבדקו</small></div>
+          <div class="ds-bar"><i id="dsBar"></i></div>
+          <div class="ds-scan-msg" id="dsScanMsg">מתחיל סריקה...</div>
+        </div>
+        <p class="ob-hint-txt" id="dsHint1"></p>
+        <div id="dsMailWrap" hidden><button class="wa-cta ob-pulse" id="dsToMail" type="button">✉ פתח את תיבת המייל של הסוכנות</button></div>
+      </div>
+
+      <!-- DS STEP 2: inbox, email arrives -->
+      <div class="step" data-ds-step="2">
+        <div class="ds-mail" id="dsMail">
+          <div class="ds-mail-top">📥 דואר נכנס <span class="ds-badge" id="dsBadge" hidden>1</span><span class="ds-mail-search">חיפוש בדואר</span></div>
+          <div class="ds-inbox" id="dsInbox">
+            <div class="ds-it"><span class="ds-av">ש</span><b>שורנס</b><time>09:12</time><small>סיכום פעילות שבועי</small></div>
+            <div class="ds-it"><span class="ds-av">מ</span><b>מחלקת תפעול</b><time>אתמול</time><small>עדכון נהלי עבודה מול חברות הביטוח</small></div>
+            <div class="ds-it"><span class="ds-av">ה</span><b>המצפן אוטומציות</b><time>07/09</time><small>התראת סיום הנחה בביטוח חיים ומשכנתא – ספטמבר</small></div>
+          </div>
+        </div>
+        <p class="ob-hint-txt" id="dsHint2"></p>
+      </div>
+
+      <!-- DS STEP 3: the email -->
+      <div class="step" data-ds-step="3">
+        <div class="ds-em">
+          <div class="ds-em-meta"><b>התראת סיום הנחה בביטוח חיים ומשכנתא – אוקטובר</b>מאת: המצפן אוטומציות · אל: תפעול המצפן סוכנות לביטוח</div>
+          <div class="ds-em-hero"><b>התראת סיום הנחה בביטוח חיים ומשכנתא</b><span>להלן לקוחות שההנחה שלהם צפויה להסתיים בחודש הבא</span></div>
+          <div class="ds-tbl" id="dsTbl">
+            <div class="ds-r head"><span>לקוח</span><span>חברה</span><span>תעודת זהות</span><span>מספר פוליסה</span><span>פרמיה נוכחית</span><span>שיעור הנחה נוכחית</span><span>סכום הנחה נוכחית</span><span>שיעור הנחה הבאה</span><span>סכום הנחה הבאה</span><span>כרטיס לקוח</span></div>
+          </div>
+        </div>
+        <p class="ob-hint-txt">לחצו על "כניסה" כדי לפתוח את כרטיס הלקוח בשורנס</p>
+      </div>
+
+      <!-- DS STEP 4: client card in Surense -->
+      <div class="step" data-ds-step="4">
+        <p class="ob-txt">לחיצה על "כניסה" פותחת ישירות את כרטיס הלקוח בשורנס, כך שאפשר ליצור איתו קשר ולטפל בפוליסה עוד לפני שהפרמיה עולה.</p>
+        <div class="lb-lead" style="margin-top:14px">
+          <div class="lb-top"><span class="lb-lid">כרטיס לקוח</span><span class="lb-pill">התראת סיום הנחה</span></div>
+          <div class="lb-info">
+            <div class="lb-name">👤 <span id="dsCName" style="font-size:1.05rem;font-weight:800;color:#1e6fd9;direction:rtl"></span> <span id="dsCMeta"></span></div>
+            <div><small>סטטוס</small><div class="lb-status">לקוח פעיל <span>⌄</span></div></div>
+            <div><small>סוכן מטפל</small><div class="lb-handler"><span class="lb-av">👩‍💼</span>נציג שירות</div></div>
+          </div>
+          <div class="lb-tabs"><span class="on">פוליסות</span><span>פעילות</span><span>מסמכים</span></div>
+          <div class="ds-pols" id="dsPols"></div>
+        </div>
+        <div class="wa-continue-wrap ds-end">
+          <button class="mr-again" id="dsBack" type="button">› חזרה למייל</button>
+          <button class="wa-continue-btn demo-finish" id="dsFinish" type="button">✓ סיום הדגמה</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('dsOverlay');
+  const body = document.getElementById('dsBody');
+  const stepLabel = document.getElementById('dsStepLabel');
+  const labels = {1:'// שלב 1 — בדיקה חודשית בשורנס',2:'// שלב 2 — מייל מתקבל בסוכנות',3:'// שלב 3 — מייל ההתראה',4:'// שלב 4 — כרטיס הלקוח בשורנס'};
+  const bar = document.getElementById('dsBar');
+  const cnt = document.getElementById('dsScanCount');
+  const msg = document.getElementById('dsScanMsg');
+  const hint1 = document.getElementById('dsHint1');
+  const hint2 = document.getElementById('dsHint2');
+  const mailWrap = document.getElementById('dsMailWrap');
+  const inbox = document.getElementById('dsInbox');
+  const mail = document.getElementById('dsMail');
+  const badge = document.getElementById('dsBadge');
+  const tbl = document.getElementById('dsTbl');
+  const TOTAL = 1284;
+  const CL = [
+    {n:'יעל כהן ברק', co:'הראל', id:'034567812', pol:'7700451283', prod:'ריסק משכנתא', base:160, cur:.70, nxt:.50, ph:'050-734-2918'},
+    {n:'אורי לוי', co:'מגדל', id:'205118934', pol:'6102938475', prod:'ביטוח חיים', base:155, cur:.60, nxt:.40, ph:'052-918-4407'},
+    {n:'נועה אברהמי', co:'כלל', id:'312845670', pol:'8841203396', prod:'ריסק משכנתא', base:142, cur:.75, nxt:.60, ph:'054-660-1835'},
+    {n:'משה דהן', co:'הפניקס', id:'027731459', pol:'5519087342', prod:'ביטוח חיים', base:350, cur:.70, nxt:.55, ph:'053-207-7741'},
+    {n:'רונית שמעוני', co:'מנורה', id:'059864213', pol:'3307716520', prod:'ריסק משכנתא', base:142, cur:.80, nxt:.60, ph:'058-412-9063'}
+  ];
+  const money = v => '<span class="ltr">₪' + v.toFixed(2) + '</span>';
+  const pct = v => '<span class="ltr">' + Math.round(v*100) + '%</span>';
+  let timers = [];
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    ov.querySelectorAll('[data-ds-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.dsStep)===n));
+    ov.querySelectorAll('[data-ds-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.dsDot)<=n));
+    stepLabel.textContent = labels[n];
+    body.scrollTop = 0;
+  }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  // email table rows
+  CL.forEach((c,i)=>{
+    const r = document.createElement('div'); r.className = 'ds-r';
+    r.innerHTML =
+      '<span>' + c.n + '</span>' +
+      '<span data-l="חברה">' + c.co + '</span>' +
+      '<span data-l="תעודת זהות">' + c.id + '</span>' +
+      '<span data-l="מספר פוליסה">' + c.pol + '</span>' +
+      '<span data-l="פרמיה נוכחית">' + money(c.base*(1-c.cur)) + '</span>' +
+      '<span data-l="שיעור הנחה נוכחית">' + pct(c.cur) + '</span>' +
+      '<span data-l="סכום הנחה נוכחית">' + money(c.base*c.cur) + '</span>' +
+      '<span data-l="שיעור הנחה הבאה" class="dn">' + pct(c.nxt) + '</span>' +
+      '<span data-l="סכום הנחה הבאה" class="dn">' + money(c.base*c.nxt) + '</span>' +
+      '<span><button class="ds-enter ob-pulse" type="button" data-i="' + i + '">כניסה</button></span>';
+    tbl.appendChild(r);
+  });
+  function runScan(){
+    const t0 = Date.now(), dur = 2600;
+    (function tick(){
+      const p = Math.min(1, (Date.now()-t0)/dur);
+      bar.style.width = (p*100) + '%';
+      cnt.textContent = Math.round(TOTAL*p).toLocaleString('en-US') + ' לקוחות נבדקו';
+      msg.textContent = p < 1 ? 'בודק מדרגות הנחה בפוליסות ביטוח חיים ומשכנתא...' : '';
+      if(p < 1){ later(tick, 60); return; }
+      msg.classList.add('ok');
+      msg.textContent = '✓ נמצאו 5 לקוחות שעומדים בקריטריון. נשלח מייל מרוכז לסוכנות';
+      later(()=>{ mailWrap.hidden = false; hint1.textContent = 'לחצו כדי לראות את המייל מגיע לתיבת הדואר'; }, 500);
+    })();
+  }
+  function receiveMail(){
+    hint2.textContent = '';
+    const fly = document.createElement('div'); fly.className = 'ds-fly'; fly.textContent = '✉️';
+    mail.appendChild(fly);
+    later(()=>{
+      fly.remove();
+      const toast = document.createElement('div'); toast.className = 'ds-toast';
+      toast.innerHTML = '<span style="font-size:1.3rem">📩</span><div><b>מייל חדש התקבל</b><small>המצפן אוטומציות · התראת סיום הנחה בביטוח חיים ומשכנתא</small></div>';
+      mail.appendChild(toast);
+      later(()=>toast.remove(), 3300);
+      badge.hidden = false; badge.classList.remove('bump'); void badge.offsetWidth; badge.classList.add('bump');
+      const it = document.createElement('button'); it.type = 'button'; it.className = 'ds-it new ob-pulse'; it.id = 'dsNew';
+      it.innerHTML = '<span class="ds-av">ה</span><b>המצפן אוטומציות</b><time>' + now() + '</time><small>התראת סיום הנחה בביטוח חיים ומשכנתא – אוקטובר · 5 לקוחות</small>';
+      inbox.prepend(it);
+      it.addEventListener('click', ()=>{ it.classList.remove('ob-pulse','new'); badge.hidden = true; show(3); });
+      later(()=>{ hint2.textContent = 'לחצו על המייל החדש כדי לפתוח אותו'; }, 700);
+    }, 950);
+  }
+  document.getElementById('dsToMail').addEventListener('click', ()=>{ show(2); receiveMail(); });
+  tbl.addEventListener('click', (e)=>{
+    const b = e.target.closest('.ds-enter'); if(!b) return;
+    const c = CL[Number(b.dataset.i)];
+    const curP = c.base*(1-c.cur), nxtP = c.base*(1-c.nxt);
+    document.getElementById('dsCName').textContent = c.n;
+    document.getElementById('dsCMeta').textContent = c.ph + ' · ת"ז ' + c.id;
+    document.getElementById('dsPols').innerHTML =
+      '<div class="ds-pol hit"><div class="ds-pol-h">' + c.prod + ' – ' + c.co + '<span>פוליסה ' + c.pol + '</span></div>' +
+      '<div class="ds-pol-g"><div><small>פרמיה נוכחית</small>' + money(curP) + '</div><div><small>הנחה נוכחית</small>' + pct(c.cur) + '</div>' +
+      '<div><small>הנחה מהחודש הבא</small><b class="dn" style="color:#d93025">' + pct(c.nxt) + '</b></div><div><small>פרמיה צפויה</small><b style="color:#d93025">' + money(nxtP) + '</b></div></div>' +
+      '<div class="ds-warn">⚠ מדרגת ההנחה יורדת בחודש הבא, והפרמיה תעלה ב־' + money(nxtP-curP) + ' בחודש</div></div>' +
+      '<div class="ds-pol"><div class="ds-pol-h">ביטוח בריאות – ' + c.co + '<span>פוליסה ' + (Number(c.pol)+1048) + '</span></div>' +
+      '<div class="ds-pol-g"><div><small>פרמיה נוכחית</small>' + money(118.4) + '</div><div><small>סטטוס</small>פעילה</div></div></div>';
+    show(4);
+  });
+  document.getElementById('dsBack').addEventListener('click', ()=>show(3));
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    bar.style.width = '0'; cnt.textContent = '0 לקוחות נבדקו';
+    msg.classList.remove('ok'); msg.textContent = 'מתחיל סריקה...';
+    hint1.textContent = ''; hint2.textContent = ''; mailWrap.hidden = true;
+    badge.hidden = true;
+    const n = document.getElementById('dsNew'); if(n) n.remove();
+    mail.querySelectorAll('.ds-toast,.ds-fly').forEach(el=>el.remove());
+    show(1);
+  }
+  function open(){ reset(); ov.hidden = false; later(runScan, 700); }
+  function close(){ ov.hidden = true; timers.forEach(clearTimeout); timers = []; }
+  document.getElementById('openDsModal').addEventListener('click', open);
+  document.getElementById('dsClose').addEventListener('click', close);
+  document.getElementById('dsFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
