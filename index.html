@@ -1461,6 +1461,8 @@ button.em-in:disabled{cursor:default}
 .dc-chip{background:#8b5cf6;color:#fff;border-radius:10px;padding:2px 8px;font-size:.72rem;font-weight:700;white-space:nowrap}
 .dc-link{color:#027eb5;text-decoration:underline;direction:ltr;unicode-bidi:isolate;display:inline-block;cursor:pointer;border-radius:4px;padding:0 2px}
 .dc-form .em-form-body{padding-top:6px}
+.dc-files .em-drop{flex-direction:row;justify-content:center;padding:10px;font-size:.8rem}
+.dc-files[hidden]{display:none}
 .dc-done{text-align:center;padding:26px 16px 30px;font-size:.95rem;color:#1f2d3d}
 .dc-done b{display:block;font-size:1.15rem;margin-bottom:6px;color:#0a7a4a}
 </style>
@@ -4790,6 +4792,7 @@ window.addEventListener('scroll',()=>{
                 <button class="em-opt" type="button">מחלות קשות</button>
               </div>
             </div>
+            <div class="dc-files" id="dcFiles" hidden></div>
             <button class="em-submit" id="dcSubmit" type="button" disabled>שליחה</button>
           </div>
           <div class="dc-done" id="dcDone" hidden><b>✓ תודה דניאל!</b>הפרטים התקבלו, ובשלב הבא תתבקש להעלות את המסמכים הרלוונטיים לבקשה.</div>
@@ -4823,6 +4826,27 @@ window.addEventListener('scroll',()=>{
   const submit = document.getElementById('dcSubmit');
   const stepLabel = document.getElementById('dcStepLabel');
   const labels = {1:'// שלב 1 — הוספת תגית בשורנס',2:'// שלב 2 — הודעת WhatsApp ללקוח',3:'// שלב 3 — טופס קבלת מסמכים'};
+  const files = document.getElementById('dcFiles');
+  const DOCS = {
+    'ייעוץ':['קבלה על התשלום','הפניה מרופא'],
+    'בדיקות':['הפניה לבדיקה','קבלה על התשלום','תוצאות הבדיקה'],
+    'רפואה משלימה':['קבלות על הטיפולים','המלצה מרופא'],
+    'ניתוח':['הפניה לניתוח','סיכום ניתוח','סיכום אשפוז / מכתב שחרור','קבלות על התשלום'],
+    'תרופות':['מרשם רופא','קבלה מבית המרקחת','אישור רופא על הצורך בתרופה'],
+    'מחלות קשות':['סיכום מחלה / אבחנה','מסמכים רפואיים ובדיקות','אישור רופא מומחה','צילום תעודת זהות']
+  };
+  function buildFiles(t){
+    files.innerHTML = '';
+    (DOCS[t]||[]).forEach(name=>{
+      const f = document.createElement('div'); f.className = 'em-fld';
+      const l = document.createElement('label'); l.textContent = name; f.appendChild(l);
+      const d = document.createElement('button'); d.type = 'button'; d.className = 'em-drop';
+      d.innerHTML = '<span class="em-drop-ic">📁</span><span class="em-drop-txt">גרור ושחרר קובץ או <u>עיון</u></span>';
+      d.addEventListener('click', ()=>{ d.classList.add('done'); d.disabled = true; d.querySelector('.em-drop-ic').textContent = '✅'; d.querySelector('.em-drop-txt').textContent = name.replace(/[ /]+/g,'-') + '.pdf'; }, {once:true});
+      f.appendChild(d); files.appendChild(f);
+    });
+    files.hidden = !(DOCS[t]);
+  }
   let timers = [];
   function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
   function show(n){
@@ -4879,11 +4903,11 @@ window.addEventListener('scroll',()=>{
     if(o.dataset.v==='תביעות'){
       topicFld.hidden = false;
       topicTxt.textContent = 'בחרו נושא'; topicTxt.classList.add('em-ph');
-      topic.classList.add('ob-pulse');
+      topic.classList.add('ob-pulse'); files.hidden = true;
       submit.disabled = true; submit.classList.remove('ob-pulse');
       hint3.textContent = 'נפתח שדה נוסף: "תביעות בנושא". בחרו את הנושא';
     } else {
-      topicFld.hidden = true;
+      topicFld.hidden = true; files.hidden = true;
       submit.disabled = false; submit.classList.add('ob-pulse');
       hint3.textContent = 'לחצו על "שליחה"';
     }
@@ -4896,8 +4920,9 @@ window.addEventListener('scroll',()=>{
     const o = e.target.closest('.em-opt'); if(!o) return;
     topicMenu.hidden = true;
     topicTxt.textContent = o.textContent; topicTxt.classList.remove('em-ph');
+    buildFiles(o.textContent);
     submit.disabled = false; submit.classList.add('ob-pulse');
-    hint3.textContent = 'לחצו על "שליחה"';
+    hint3.textContent = 'נפתחו שדות להעלאת המסמכים שמתאימים לנושא התביעה. לחצו עליהם כדי להעלות קבצים, ואז על "שליחה"';
   });
   submit.addEventListener('click', ()=>{
     document.getElementById('dcFormBody').hidden = true;
@@ -4914,7 +4939,7 @@ window.addEventListener('scroll',()=>{
     wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
     hint2.textContent = ''; hint3.textContent = '';
     needTxt.textContent = 'בחרו אפשרות'; needTxt.classList.add('em-ph'); need.classList.add('ob-pulse'); needMenu.hidden = true;
-    topicFld.hidden = true; topicMenu.hidden = true;
+    topicFld.hidden = true; topicMenu.hidden = true; files.hidden = true; files.innerHTML = '';
     submit.disabled = true; submit.classList.remove('ob-pulse');
     document.getElementById('dcFormBody').hidden = false;
     document.getElementById('dcDone').hidden = true;
