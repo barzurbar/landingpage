@@ -1539,6 +1539,37 @@ button.em-in:disabled{cursor:default}
 @media (max-width:480px){.ds-pol-g{grid-template-columns:1fr 1fr}}
 .ds-end{display:flex;gap:10px;flex-wrap:wrap}
 .ds-end>*{flex:1 1 180px}
+/* annual data update demo */
+.au-steps{display:flex;justify-content:space-between;position:relative;padding:14px 22px 4px}
+.au-steps::before{content:"";position:absolute;top:30px;right:48px;left:48px;height:3px;background:#e3e8ee}
+.au-st{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.72rem;font-weight:700;color:#8a94a6;width:70px}
+.au-st i{width:32px;height:32px;border-radius:50%;background:#fff;border:2px solid #e3e8ee;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:.85rem;color:#8a94a6}
+.au-st.on{color:#00a86b}
+.au-st.on i{background:#00c27a;border-color:#00c27a;color:#fff;box-shadow:0 0 0 4px rgba(0,194,122,.18)}
+.au-st.done{color:#00a86b}
+.au-st.done i{background:#00c27a;border-color:#00c27a;color:#fff}
+.au-pg[hidden]{display:none}
+.au-sec{font-size:1rem;font-weight:800;border-right:4px solid #00c27a;padding-right:8px;margin-top:6px}
+.au-sub{font-size:.75rem;color:#5b6b80;margin:4px 0 4px}
+.au-box{border:1px solid #e3e8ee;border-radius:12px;background:#fafbfc;padding:4px 12px 12px;margin-top:10px}
+.au-box-t{font-size:.82rem;font-weight:800;border-right:3px solid #c9a227;padding-right:7px;margin-top:10px}
+.au-row3{display:grid;grid-template-columns:2fr .8fr 1.2fr;gap:8px}
+.au-nav{display:flex;gap:10px;margin-top:16px}
+.au-nav .em-submit{margin-top:0;border-radius:999px;flex:1;white-space:nowrap}
+.au-nav .em-submit.ob-pulse{border-radius:999px}
+.au-back{flex:0 0 auto;background:#fff;border:1px solid #d5dbe3;border-radius:999px;padding:10px 16px;font-family:'Heebo',sans-serif;font-size:.85rem;font-weight:700;color:#3a4550;cursor:pointer}
+.au-chg{border-color:#00c27a !important;background:#effcf6 !important}
+.au-q{margin-top:12px}
+.au-q-t{font-size:.84rem;font-weight:700}
+.au-q-t i{color:#dc2626;font-style:normal}
+.au-stars{display:flex;gap:6px;margin-top:6px;padding:4px 6px;border-radius:8px;width:max-content}
+.au-stars button{background:none;border:none;font-size:1.6rem;line-height:1;color:#cbd5e1;cursor:pointer;padding:0}
+.au-stars button.on{color:#fbbf24}
+.au-stars.ob-pulse{background:#eaf6ff}
+.au-ta{border:1px solid #d5dbe3;border-radius:8px;padding:9px 12px;font-size:.84rem;background:#fff;min-height:38px;color:#8a94a6}
+.au-ta.filled{color:#1f2d3d}
+.au-proc .sr-row{grid-template-columns:1.4fr 1fr .8fr .9fr}
+@media (max-width:480px){.au-row3{grid-template-columns:1fr 1fr}.au-row3>:first-child{grid-column:1/-1}.au-steps{padding:12px 4px 4px}.au-steps::before{right:36px;left:36px}.au-nav .em-submit{font-size:.86rem;padding:11px 8px}.au-back{font-size:.78rem;padding:9px 12px}}
 </style>
 </head>
 <body>
@@ -1881,6 +1912,9 @@ button.em-in:disabled{cursor:default}
             <li>פתיחת משימות או התראות לסוכן בהתאם לתשובות</li>
             <li>שמירת תיעוד של השינויים שבוצעו</li>
           </ul>
+          <button class="demo-cta" id="openAuModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
 
         <!-- TODO: התוכן שסופק כאן זהה לתוכן של "עדכון נתונים שנתי" למעלה — כנראה שגיאת העתקה, יש לעדכן לתיאור האמיתי של "משוב לאחר פגישה" -->
@@ -5261,6 +5295,294 @@ window.addEventListener('scroll',()=>{
   document.getElementById('openDsModal').addEventListener('click', open);
   document.getElementById('dsClose').addEventListener('click', close);
   document.getElementById('dsFinish').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="auOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="auTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="auTitle">
+        <span id="auStepLabel">// שלב 1 — פתיחת תהליך בשורנס</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-au-dot="1"></i><i data-au-dot="2"></i><i data-au-dot="3"></i><i data-au-dot="4"></i></span>
+      </div>
+      <button class="modal-close" id="auClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="auBody">
+
+      <!-- AU STEP 1: process opened in Surense -->
+      <div class="step active" data-au-step="1">
+        <p class="ob-txt">בתחילת השנה, או בתאריך יום ההולדת של הלקוח, נפתח אוטומטית בשורנס תהליך "עדכון נתונים שנתי" תחת הלקוח.<br>באותו רגע הלקוח מקבל הודעת WhatsApp עם ברכת יום הולדת ובקשה לעדכן את הפרטים שלו.</p>
+        <div class="sr-table sr-meet au-proc">
+          <div class="sr-row head"><span>סוג תהליך</span><span>לקוח</span><span>סטטוס</span><span>נפתח</span></div>
+          <div class="sr-row"><span class="sr-type">עדכון נתונים שנתי</span><span class="sr-client">ישראלי דניאל</span><span class="sr-status" style="background:#1e90e0">חדש</span><span id="auOpened"></span></div>
+        </div>
+        <div style="margin-top:16px"><button class="wa-cta" id="auToWa" type="button">▶ פתח סימולציית WhatsApp</button></div>
+      </div>
+
+      <!-- AU STEP 2: WhatsApp birthday message -->
+      <div class="step" data-au-step="2">
+        <div class="wa-frame">
+          <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+          <div class="wa-body" id="auWaBody"></div>
+        </div>
+        <p class="ob-hint-txt" id="auHint2"></p>
+      </div>
+
+      <!-- AU STEP 3: 3-page form -->
+      <div class="step" data-au-step="3">
+        <div class="em-form">
+          <div class="em-form-head">
+            <div class="em-logo">🧭</div>
+            <div class="em-form-title">המצפן סוכנות לביטוח</div>
+            <div class="em-form-brand">עדכון פרטים ומשוב</div>
+          </div>
+          <div class="au-steps">
+            <div class="au-st on" data-au-st="1"><i>1</i>מידע אישי</div>
+            <div class="au-st" data-au-st="2"><i>2</i>תעסוקה</div>
+            <div class="au-st" data-au-st="3"><i>3</i>משוב</div>
+          </div>
+          <div class="em-form-body">
+
+            <div class="au-pg" data-au-pg="1">
+              <div class="au-sec">פרטים מזהים 👤</div>
+              <div class="au-sub">הפרטים כבר ממולאים לפי המידע שקיים אצלנו. אפשר לעדכן כל פרט שהשתנה.</div>
+              <div class="au-box">
+                <div class="au-box-t">מידע אישי וזיהוי</div>
+                <div class="em-row2">
+                  <div class="em-fld"><label>שם פרטי <i>*</i></label><div class="em-in">דניאל</div></div>
+                  <div class="em-fld"><label>שם משפחה <i>*</i></label><div class="em-in">ישראלי</div></div>
+                  <div class="em-fld"><label>מגדר <i>*</i></label><div class="em-in">זכר <span class="em-caret">⌄</span></div></div>
+                  <div class="em-fld"><label>מספר תעודת זהות <i>*</i></label><div class="em-in">038215467</div></div>
+                </div>
+                <div class="em-fld"><label>כתובת דוא"ל <i>*</i></label><div class="em-in em-ltr">daniel.israeli@gmail.com</div></div>
+              </div>
+              <div class="au-box">
+                <div class="au-box-t">כתובת למכתבים ומגורים</div>
+                <div class="au-row3">
+                  <div class="em-fld"><label>רחוב <i>*</i></label><div class="em-in">הרצל</div></div>
+                  <div class="em-fld"><label>מספר <i>*</i></label><div class="em-in">12</div></div>
+                  <div class="em-fld"><label>עיר <i>*</i></label><div class="em-in">רמת גן</div></div>
+                </div>
+              </div>
+              <div class="au-nav"><button class="em-submit ob-pulse" id="auNext1" type="button">המשך לשלב הבא</button></div>
+            </div>
+
+            <div class="au-pg" data-au-pg="2" hidden>
+              <div class="au-sec">מצב אישי ותעסוקתי 💼</div>
+              <div class="au-sub">מידע זה קריטי להתאמת הכיסויים הביטוחיים עבורך.</div>
+              <div class="au-box">
+                <div class="au-box-t">מצב אישי</div>
+                <div class="em-row2">
+                  <div class="em-fld"><label>סטטוס משפחתי <i>*</i></label><div class="em-in">נשוי/אה <span class="em-caret">⌄</span></div></div>
+                  <div class="em-fld"><label>תאריך נישואין <i>*</i></label><div class="em-in">14/06/2018</div></div>
+                </div>
+              </div>
+              <div class="au-box">
+                <div class="au-box-t">תעסוקה ובריאות</div>
+                <div class="em-row2">
+                  <div class="em-fld"><label>עיסוק / מקצוע <i>*</i></label><div class="em-in">מהנדס תוכנה</div></div>
+                  <div class="em-fld"><label>סטטוס תעסוקתי <i>*</i></label><div class="em-in">שכיר <span class="em-caret">⌄</span></div></div>
+                  <div class="em-fld"><label>החלפת מעסיק השנה? <i>*</i></label><div class="em-in">לא <span class="em-caret">⌄</span></div></div>
+                  <div class="em-fld"><label>קופת חולים <i>*</i></label>
+                    <button class="em-in em-sel em-pick ob-pulse" id="auKupa" type="button"><span id="auKupaTxt">מכבי</span><span class="em-caret">⌄</span></button>
+                    <div class="em-menu" id="auKupaMenu" hidden>
+                      <button class="em-opt ob-pulse" type="button">כללית</button>
+                      <button class="em-opt" type="button" disabled>מכבי</button>
+                      <button class="em-opt" type="button" disabled>מאוחדת</button>
+                      <button class="em-opt" type="button" disabled>לאומית</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="em-fld"><label>מצב עישון <i>*</i></label>
+                  <button class="em-in em-sel em-pick ob-pulse" id="auSmoke" type="button"><span id="auSmokeTxt">מעשן</span><span class="em-caret">⌄</span></button>
+                  <div class="em-menu" id="auSmokeMenu" hidden>
+                    <button class="em-opt ob-pulse" type="button">לא מעשן</button>
+                    <button class="em-opt" type="button" disabled>מעשן</button>
+                    <button class="em-opt" type="button" disabled>מעשן לשעבר</button>
+                  </div>
+                </div>
+              </div>
+              <div class="au-nav"><button class="au-back" id="auPrev2" type="button">חזור לשלב הקודם</button><button class="em-submit" id="auNext2" type="button" disabled>המשך לשלב הבא</button></div>
+            </div>
+
+            <div class="au-pg" data-au-pg="3" hidden>
+              <div class="au-sec">משוב שביעות רצון ⭐</div>
+              <div class="au-sub">המשוב שלך עוזר לנו להשתפר ולהעניק לך שירות איכותי ומדויק יותר.</div>
+              <div id="auQs"></div>
+              <div class="em-fld"><label>מה, אם בכלל, היית משפר/ת?</label><div class="au-ta" id="auTa">נשמח לשמוע את דעתך הכנה...</div></div>
+              <div class="au-nav"><button class="au-back" id="auPrev3" type="button">חזור לשלב הקודם</button><button class="em-submit" id="auSubmit" type="button" disabled>שליחת הטופס</button></div>
+            </div>
+
+          </div>
+        </div>
+        <p class="ob-hint-txt" id="auHint3"></p>
+      </div>
+
+      <!-- AU STEP 4: activity on the process in Surense -->
+      <div class="step" data-au-step="4">
+        <p class="ob-txt">עם שליחת הטופס, נוצרת אוטומטית פעילות על התהליך "עדכון נתונים שנתי" בשורנס, עם כל הנתונים שהלקוח שינה ותשובות המשוב שלו.</p>
+        <div class="sr-glow">
+          <div class="lb-lead">
+            <div class="lb-top"><span class="lb-lid">תהליך 1842</span><span class="lb-pill">עדכון נתונים שנתי</span></div>
+            <div class="lb-info">
+              <div class="lb-name">👤 דניאל ישראלי <span>052-123-4567 · daniel.israeli@gmail.com</span></div>
+              <div><small>סטטוס</small><div class="lb-status">התקבל עדכון <span>⌄</span></div></div>
+              <div><small>מטפל/ת</small><div class="lb-handler"><span class="lb-av">👩‍💼</span>נציג שירות</div></div>
+            </div>
+            <div class="lb-tabs"><span class="on">פעילות</span><span>לוג</span></div>
+            <div class="lb-feed">
+              <div class="lb-act">
+                <div class="lb-act-head"><span class="lb-av">📝</span>טופס עדכון פרטים<span class="lb-act-time" id="auActTime"></span></div>
+                <div class="lb-act-title">עדכון נתונים שנתי – דניאל ישראלי</div>
+                <div class="lb-act-body" id="auActBody"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wa-continue-wrap"><button class="wa-continue-btn demo-finish" id="auFinish" type="button">✓ סיום הדגמה</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('auOverlay');
+  const body = document.getElementById('auBody');
+  const wa = document.getElementById('auWaBody');
+  const stepLabel = document.getElementById('auStepLabel');
+  const labels = {1:'// שלב 1 — פתיחת תהליך בשורנס',2:'// שלב 2 — הודעת WhatsApp ללקוח',3:'// שלב 3 — טופס עדכון פרטים',4:'// שלב 4 — פעילות על התהליך בשורנס'};
+  const hint2 = document.getElementById('auHint2');
+  const hint3 = document.getElementById('auHint3');
+  const kupa = document.getElementById('auKupa'), kupaTxt = document.getElementById('auKupaTxt'), kupaMenu = document.getElementById('auKupaMenu');
+  const smoke = document.getElementById('auSmoke'), smokeTxt = document.getElementById('auSmokeTxt'), smokeMenu = document.getElementById('auSmokeMenu');
+  const next1 = document.getElementById('auNext1'), next2 = document.getElementById('auNext2'), submit = document.getElementById('auSubmit');
+  const qsWrap = document.getElementById('auQs');
+  const ta = document.getElementById('auTa');
+  const QS = ['כיצד היית מדרג את זמינות המענה שלנו?','כיצד היית מדרג את רמת השקיפות?','כיצד היית מדרג את רמת השירות מהצוות?','מהי הסבירות שתמליץ עלינו לחבר או עמית?'];
+  const GIVE = [5,4,5,5];
+  let rates = [], kupaDone = false, smokeDone = false;
+  let timers = [];
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    ov.querySelectorAll('[data-au-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.auStep)===n));
+    ov.querySelectorAll('[data-au-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.auDot)<=n));
+    stepLabel.textContent = labels[n];
+    body.scrollTop = 0;
+  }
+  function page(n){
+    ov.querySelectorAll('[data-au-pg]').forEach(el=>el.hidden = Number(el.dataset.auPg)!==n);
+    ov.querySelectorAll('[data-au-st]').forEach(el=>{
+      const k = Number(el.dataset.auSt);
+      el.classList.toggle('on', k===n); el.classList.toggle('done', k<n);
+      el.querySelector('i').textContent = k<n ? '✓' : k;
+    });
+    body.scrollTop = 0;
+  }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function today(){ const d=new Date(); return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear(); }
+  function birthday(){
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    wa.appendChild(t);
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      b.textContent = 'היי דניאל 🎉\nמזל טוב ויום הולדת שמח!\nכל הצוות במצפן מאחל לך שנה של בריאות, שמחה והצלחה 🎂\n\nלקראת השנה החדשה, נשמח שתעבור רגע על הפרטים שלך אצלנו ותעדכן אם משהו השתנה, כדי שנמשיך להתאים לך את הכיסויים בצורה המדויקת ביותר.\nהפרטים כבר ממולאים מראש, וזה ייקח פחות מדקה 🙏\n\nהמצפן סוכנות לביטוח';
+      const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now();
+      b.appendChild(tm); wa.appendChild(b);
+      const w = document.createElement('div'); w.className = 'wa-btns-wrap pop ob-wa-btns';
+      const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'wa-btn ob-pulse'; btn.style.justifyContent = 'center';
+      btn.textContent = '📝 לעדכון הפרטים';
+      btn.addEventListener('click', ()=>{ show(3); page(1); hint3.textContent = 'הפרטים כבר ממולאים מתוך שורנס. לחצו על "המשך לשלב הבא"'; }, {once:true});
+      w.appendChild(btn); wa.appendChild(w);
+      hint2.textContent = 'לחצו על "לעדכון הפרטים"';
+      body.scrollTop = body.scrollHeight;
+    }, 900);
+  }
+  function buildQs(){
+    qsWrap.innerHTML = '';
+    QS.forEach((q,i)=>{
+      const d = document.createElement('div'); d.className = 'au-q';
+      d.innerHTML = '<div class="au-q-t"><i>*</i> ' + q + '</div>';
+      const s = document.createElement('div'); s.className = 'au-stars' + (i===0 ? ' ob-pulse' : '');
+      for(let k=1;k<=5;k++){
+        const b = document.createElement('button'); b.type = 'button'; b.textContent = '★'; b.setAttribute('aria-label', k + ' כוכבים');
+        b.addEventListener('click', ()=>{
+          if(rates.length < i) return;
+          rates[i] = k;
+          s.querySelectorAll('button').forEach((x,j)=>x.classList.toggle('on', j<k));
+          s.classList.remove('ob-pulse');
+          const nx = qsWrap.querySelectorAll('.au-stars')[i+1];
+          if(nx && rates[i+1] === undefined) nx.classList.add('ob-pulse');
+          if(rates.filter(Boolean).length === QS.length){
+            ta.textContent = 'הכל מעולה, אולי רק להוסיף אפשרות לקבוע פגישה אונליין'; ta.classList.add('filled');
+            submit.disabled = false; submit.classList.add('ob-pulse');
+            hint3.textContent = 'לחצו על "שליחת הטופס"';
+          }
+        });
+        s.appendChild(b);
+      }
+      d.appendChild(s); qsWrap.appendChild(d);
+    });
+  }
+  function checkPage2(){
+    if(kupaDone && smokeDone){
+      next2.disabled = false; next2.classList.add('ob-pulse');
+      hint3.textContent = '✓ השינויים נשמרו. לחצו על "המשך לשלב הבא"';
+    }
+  }
+  document.getElementById('auToWa').addEventListener('click', ()=>{ show(2); birthday(); });
+  next1.addEventListener('click', ()=>{
+    page(2);
+    hint3.textContent = kupaDone && smokeDone ? '' : 'לדוגמה, הלקוח עבר קופת חולים והפסיק לעשן. לחצו על "קופת חולים" ועל "מצב עישון" כדי לעדכן';
+  });
+  kupa.addEventListener('click', ()=>{ if(kupaDone) return; kupaMenu.hidden = !kupaMenu.hidden; });
+  kupaMenu.querySelector('.ob-pulse').addEventListener('click', ()=>{
+    kupaMenu.hidden = true; kupaTxt.textContent = 'כללית'; kupa.classList.remove('ob-pulse'); kupa.classList.add('au-chg'); kupaDone = true; checkPage2();
+  });
+  smoke.addEventListener('click', ()=>{ if(smokeDone) return; smokeMenu.hidden = !smokeMenu.hidden; });
+  smokeMenu.querySelector('.ob-pulse').addEventListener('click', ()=>{
+    smokeMenu.hidden = true; smokeTxt.textContent = 'לא מעשן'; smoke.classList.remove('ob-pulse'); smoke.classList.add('au-chg'); smokeDone = true; checkPage2();
+  });
+  next2.addEventListener('click', ()=>{ page(3); if(!submit.disabled) return; hint3.textContent = 'דרגו את השאלות בכוכבים'; });
+  document.getElementById('auPrev2').addEventListener('click', ()=>{ page(1); hint3.textContent = ''; });
+  document.getElementById('auPrev3').addEventListener('click', ()=>{ page(2); hint3.textContent = ''; });
+  submit.addEventListener('click', ()=>{
+    const stars = n => '★'.repeat(n) + '☆'.repeat(5-n);
+    const rows = [['קופת חולים','מכבי ← כללית'],['מצב עישון','מעשן ← לא מעשן']];
+    let h = '<b>נתונים שעודכנו:</b>';
+    rows.forEach(r=>{ h += '<div class="lb-qa"><span>' + r[0] + '</span><b>' + r[1] + '</b></div>'; });
+    h += '<b style="display:block;margin-top:10px">משוב שביעות רצון:</b>';
+    QS.forEach((q,i)=>{ h += '<div class="lb-qa"><span>' + q + '</span><b style="color:#f5a400;letter-spacing:1px">' + stars(rates[i]) + '</b></div>'; });
+    h += '<div class="lb-qa"><span>מה היית משפר/ת?</span><b>' + ta.textContent + '</b></div>';
+    document.getElementById('auActBody').innerHTML = h;
+    document.getElementById('auActTime').textContent = 'היום, ' + now();
+    hint3.textContent = '';
+    show(4);
+  });
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    hint2.textContent = ''; hint3.textContent = '';
+    document.getElementById('auOpened').textContent = today();
+    kupaDone = false; smokeDone = false; rates = [];
+    kupaTxt.textContent = 'מכבי'; kupa.classList.add('ob-pulse'); kupa.classList.remove('au-chg'); kupaMenu.hidden = true;
+    smokeTxt.textContent = 'מעשן'; smoke.classList.add('ob-pulse'); smoke.classList.remove('au-chg'); smokeMenu.hidden = true;
+    next2.disabled = true; next2.classList.remove('ob-pulse');
+    submit.disabled = true; submit.classList.remove('ob-pulse');
+    ta.textContent = 'נשמח לשמוע את דעתך הכנה...'; ta.classList.remove('filled');
+    buildQs(); page(1);
+    show(1);
+  }
+  function open(){ reset(); ov.hidden = false; }
+  function close(){ ov.hidden = true; timers.forEach(clearTimeout); timers = []; }
+  document.getElementById('openAuModal').addEventListener('click', open);
+  document.getElementById('auClose').addEventListener('click', close);
+  document.getElementById('auFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
