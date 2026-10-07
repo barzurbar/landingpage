@@ -70,7 +70,11 @@ nav{
   letter-spacing:2px;
   display:flex;align-items:center;gap:10px;
 }
-.nav-logo svg{flex-shrink:0}
+.nav-logo-img{width:36px;height:auto;flex-shrink:0;filter:drop-shadow(0 0 1px rgba(255,255,255,.5)) drop-shadow(0 0 6px rgba(0,229,255,.35))}
+.nav-logo{direction:ltr}
+.nav-logo-txt{text-shadow:none}
+.nl-zur{color:#fff}
+.nl-auto{background:linear-gradient(90deg,var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .nav-links{display:flex;gap:30px;list-style:none}
 .nav-links a{
   color:var(--dim);text-decoration:none;
@@ -816,7 +820,7 @@ footer{
 
 /* ── RESPONSIVE ── */
 @media(max-width:860px){
-  nav{padding:14px 22px}
+  nav{display:none}
   .nav-links{display:none}
   #services,#about,#testimonials,#cta,#process{padding:70px 22px}
   .about-wrap{grid-template-columns:1fr;gap:40px}
@@ -1617,14 +1621,8 @@ button.em-in:disabled{cursor:default}
     <li><a href="#cta" class="nav-cta">צור קשר</a></li>
   </ul>
   <div class="nav-logo">
-    <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-      <path d="M13 4l1.5-3 1.5 3c.7-.1 1.4-.1 2 0l1.5-3 1.3 3.2c.6.3 1.1.6 1.6 1l3-1.3.2 1.4-3 .9c.1.6.1 1.3 0 2l3 .9.2 1.4-3-1.3c-.5.4-1 .7-1.6 1L22 17l-1.3.2-.9-3c-.6.1-1.3.1-2 0l-.9 3L16 17l1.3-3c-.4-.5-.7-1-1-1.6l-3 1.3-.2-1.4 3-.9c-.1-.6-.1-1.3 0-2l-3-.9L13 7l3 1.3c.3-.6.6-1.1 1-1.6L13 4z" fill="#00e5ff" opacity=".9"/>
-      <circle cx="16" cy="12" r="3" fill="none" stroke="#00ff9d" stroke-width="1.5"/>
-      <circle cx="16" cy="12" r="1.2" fill="#00ff9d"/>
-      <line x1="19" y1="12" x2="23" y2="12" stroke="#00ff9d" stroke-width="1" opacity=".7"/>
-      <circle cx="23" cy="12" r="1.2" fill="#00ff9d" opacity=".7"/>
-    </svg>
-    BAR.ZUR // AUTOMATION
+    <img src="assets/logo.png" alt="" class="nav-logo-img">
+    <span class="nav-logo-txt"><span class="nl-zur">zur</span><span class="nl-auto">automation</span></span>
   </div>
 </nav>
 
