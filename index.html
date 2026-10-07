@@ -1463,6 +1463,7 @@ button.em-in:disabled{cursor:default}
 .dc-form .em-form-body{padding-top:6px}
 .dc-files .em-drop{flex-direction:row;justify-content:center;padding:10px;font-size:.8rem}
 .dc-files[hidden]{display:none}
+.dc-proc .sr-row{grid-template-columns:1.3fr 1fr .8fr .9fr}
 .em-menu .em-opt.ob-pulse{background:#eaf6ff;font-weight:700;animation:emOptPulse 1.3s ease-in-out infinite}
 @keyframes emOptPulse{0%,100%{box-shadow:inset 0 0 0 2px rgba(0,229,255,.95)}50%{box-shadow:inset 0 0 0 2px rgba(0,229,255,.2)}}
 .dc-done{text-align:center;padding:26px 16px 30px;font-size:.95rem;color:#1f2d3d}
@@ -4726,7 +4727,7 @@ window.addEventListener('scroll',()=>{
     <div class="modal-head">
       <div class="modal-head-title" id="dcTitle">
         <span id="dcStepLabel">// שלב 1 — הוספת תגית בשורנס</span>
-        <span class="step-dots" aria-hidden="true"><i class="on" data-dc-dot="1"></i><i data-dc-dot="2"></i><i data-dc-dot="3"></i></span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-dc-dot="1"></i><i data-dc-dot="2"></i><i data-dc-dot="3"></i><i data-dc-dot="4"></i></span>
       </div>
       <button class="modal-close" id="dcClose" aria-label="סגור" type="button">✕</button>
     </div>
@@ -4763,6 +4764,7 @@ window.addEventListener('scroll',()=>{
           <div class="wa-body" id="dcWaBody"></div>
         </div>
         <p class="ob-hint-txt" id="dcHint2"></p>
+        <div class="wa-continue-wrap" id="dcContinueWrap" hidden><button class="wa-continue-btn" id="dcContinueBtn" type="button">המשך לשלב הבא ›</button></div>
       </div>
 
       <!-- DC STEP 3: documents form -->
@@ -4797,10 +4799,20 @@ window.addEventListener('scroll',()=>{
             <div class="dc-files" id="dcFiles" hidden></div>
             <button class="em-submit" id="dcSubmit" type="button" disabled>שליחה</button>
           </div>
-          <div class="dc-done" id="dcDone" hidden><b>✓ תודה דניאל!</b>הפרטים התקבלו, ובשלב הבא תתבקש להעלות את המסמכים הרלוונטיים לבקשה.</div>
         </div>
         <p class="ob-hint-txt" id="dcHint3"></p>
-        <div class="wa-continue-wrap" id="dcFinishWrap" hidden><button class="wa-continue-btn demo-finish" id="dcFinish" type="button">✓ סיום הדגמה</button></div>
+      </div>
+
+      <!-- DC STEP 4: process opened in Surense -->
+      <div class="step" data-dc-step="4">
+        <p class="ob-txt" id="dcProcTxt"></p>
+        <div class="sr-glow">
+          <div class="sr-table sr-meet dc-proc">
+            <div class="sr-row head"><span>סוג תהליך</span><span>לקוח</span><span>סטטוס</span><span>מסמכים</span></div>
+            <div class="sr-row"><span class="sr-type" id="dcProcType"></span><span class="sr-client">ישראלי דניאל</span><span class="sr-status" style="background:#1e90e0">חדש</span><span id="dcProcDocs"></span></div>
+          </div>
+        </div>
+        <div class="wa-continue-wrap"><button class="wa-continue-btn demo-finish" id="dcFinish" type="button">✓ סיום הדגמה</button></div>
       </div>
 
     </div>
@@ -4827,7 +4839,8 @@ window.addEventListener('scroll',()=>{
   const topicMenu = document.getElementById('dcTopicMenu');
   const submit = document.getElementById('dcSubmit');
   const stepLabel = document.getElementById('dcStepLabel');
-  const labels = {1:'// שלב 1 — הוספת תגית בשורנס',2:'// שלב 2 — הודעת WhatsApp ללקוח',3:'// שלב 3 — טופס קבלת מסמכים'};
+  const labels = {1:'// שלב 1 — הוספת תגית בשורנס',2:'// שלב 2 — הודעת WhatsApp ללקוח',3:'// שלב 3 — טופס קבלת מסמכים',4:'// שלב 4 — פתיחת תהליך בשורנס'};
+  let needVal = null, topicVal = null;
   const files = document.getElementById('dcFiles');
   const DOCS = {
     'ייעוץ':['קבלה על התשלום','הפניה מרופא'],
@@ -4908,7 +4921,7 @@ window.addEventListener('scroll',()=>{
   needMenu.addEventListener('click', (e)=>{
     const o = e.target.closest('.em-opt'); if(!o) return;
     needMenu.hidden = true;
-    needTxt.textContent = o.dataset.v; needTxt.classList.remove('em-ph');
+    needTxt.textContent = o.dataset.v; needTxt.classList.remove('em-ph'); needVal = o.dataset.v; topicVal = null;
     if(o.dataset.v==='תביעות'){
       topicFld.hidden = false;
       topicTxt.textContent = 'בחרו נושא'; topicTxt.classList.add('em-ph');
@@ -4928,16 +4941,38 @@ window.addEventListener('scroll',()=>{
   topicMenu.addEventListener('click', (e)=>{
     const o = e.target.closest('.em-opt'); if(!o) return;
     topicMenu.hidden = true;
-    topicTxt.textContent = o.textContent; topicTxt.classList.remove('em-ph');
+    topicTxt.textContent = o.textContent; topicTxt.classList.remove('em-ph'); topicVal = o.textContent;
     buildFiles(o.textContent);
     submit.disabled = true; submit.classList.remove('ob-pulse');
     hint3.textContent = 'נפתחו שדות להעלאת המסמכים שמתאימים לנושא התביעה. לחצו על כל שדה כדי להעלות את הקובץ';
   });
   submit.addEventListener('click', ()=>{
-    document.getElementById('dcFormBody').hidden = true;
-    document.getElementById('dcDone').hidden = false;
+    submit.classList.remove('ob-pulse');
     hint3.textContent = '';
-    document.getElementById('dcFinishWrap').hidden = false;
+    show(2);
+    hint2.textContent = '';
+    body.scrollTop = body.scrollHeight;
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    wa.appendChild(t);
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div');
+      b.className = 'wa-bubble pop';
+      b.textContent = 'קיבלנו את המסמכים שלך, ונציג יחזור אליך בקרוב 🙏\n\nהמצפן סוכנות לביטוח';
+      const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now();
+      b.appendChild(tm); wa.appendChild(b);
+      document.getElementById('dcContinueWrap').hidden = false;
+      body.scrollTop = body.scrollHeight;
+    }, 900);
+  });
+  document.getElementById('dcContinueBtn').addEventListener('click', ()=>{
+    document.getElementById('dcProcType').textContent = needVal + (topicVal ? ' – ' + topicVal : '');
+    const n = files.querySelectorAll('.em-drop.done').length;
+    document.getElementById('dcProcDocs').textContent = n ? '📎 ' + n + ' קבצים' : '—';
+    document.getElementById('dcProcTxt').textContent = 'לפי הבחירה בשדה "במה אתה צריך שנעזור לך?", נפתח אוטומטית בשורנס תהליך מסוג "' + needVal + '" תחת הלקוח' + (n ? ', וכל המסמכים שהועלו משויכים אליו.' : '.');
+    show(4);
   });
   function reset(){
     timers.forEach(clearTimeout); timers = [];
@@ -4950,9 +4985,8 @@ window.addEventListener('scroll',()=>{
     needTxt.textContent = 'בחרו אפשרות'; needTxt.classList.add('em-ph'); need.classList.add('ob-pulse'); needMenu.hidden = true;
     topicFld.hidden = true; topicMenu.hidden = true; files.hidden = true; files.innerHTML = '';
     submit.disabled = true; submit.classList.remove('ob-pulse');
-    document.getElementById('dcFormBody').hidden = false;
-    document.getElementById('dcDone').hidden = true;
-    document.getElementById('dcFinishWrap').hidden = true;
+    document.getElementById('dcContinueWrap').hidden = true;
+    needVal = null; topicVal = null;
     show(1);
   }
   function open(){ reset(); ov.hidden = false; }
