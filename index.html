@@ -1585,6 +1585,22 @@ button.em-in:disabled{cursor:default}
 .fb-ref[hidden]{display:none}
 .fb-ref{border-top:1px dashed #d5dbe3;margin-top:14px;padding-top:2px;animation:srFlip .4s ease-out both}
 .fb-gap{height:14px}
+/* travel policy demo */
+.tv-mail-body{background:#fff;padding:14px;font-size:.84rem;line-height:1.7;color:#1f2d3d}
+.tv-att{display:inline-flex;align-items:center;gap:8px;margin-top:10px;border:1px solid #e3e8ee;border-radius:8px;padding:8px 12px;background:#f8fafc;font-size:.8rem}
+.tv-att b{color:#d93025;font-size:.72rem}
+.tv-read{margin-top:12px;font-size:.82rem;color:var(--cyan);min-height:1.3em}
+.tv-flds{padding:6px 14px 14px}
+.tv-sec{font-size:.78rem;font-weight:700;color:#5b6b80;padding:10px 0 4px;border-bottom:1px solid #eef1f4;margin-bottom:4px}
+.tv-fld{display:grid;grid-template-columns:120px 1fr;gap:10px;align-items:center;padding:6px 0}
+.tv-fld>span{font-size:.8rem;color:#3a4550;text-decoration:underline dotted #9aa5b1;text-underline-offset:3px}
+.tv-in{border:1px solid #d5dbe3;border-radius:8px;padding:8px 12px;font-size:.85rem;min-height:36px;display:flex;align-items:center;justify-content:space-between;color:#1f2d3d;background:#fff}
+.tv-in.empty{color:transparent}
+.tv-in.fill{animation:srFlip .45s ease-out both;border-color:#00c27a;background:#effcf6}
+.tv-cal{color:#8a94a6}
+.tv-wa b{font-weight:700}
+.tv-wa .dc-link{display:inline;word-break:break-all}
+@media (max-width:480px){.tv-fld{grid-template-columns:1fr;gap:4px}}
 </style>
 </head>
 <body>
@@ -1902,6 +1918,9 @@ button.em-in:disabled{cursor:default}
             <li>בהודעה ללקוח: טרקלין חינם בעיכוב טיסה, טעינת כסף לכרטיס במקרה רפואי או עיכוב כבודה, שירות לקוחות בוואטסאפ ואפליקציית "חדר המצב"</li>
             <li>חיסכון בהקלדה ידנית ושירות מקצועי ללקוח עוד לפני שהוא ממריא</li>
           </ul>
+          <button class="demo-cta" id="openTvModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
       </div>
     </div>
@@ -5855,6 +5874,176 @@ window.addEventListener('scroll',()=>{
   document.getElementById('openFbModal').addEventListener('click', open);
   document.getElementById('fbClose').addEventListener('click', close);
   document.getElementById('fbFinish').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="tvOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tvTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="tvTitle">
+        <span id="tvStepLabel">// שלב 1 — פוליסה מתקבלת במייל</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-tv-dot="1"></i><i data-tv-dot="2"></i><i data-tv-dot="3"></i></span>
+      </div>
+      <button class="modal-close" id="tvClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="tvBody">
+
+      <!-- TV STEP 1: policy email -->
+      <div class="step active" data-tv-step="1">
+        <p class="ob-txt">פוליסת ביטוח נסיעות לחו"ל מתקבלת במייל של הסוכנות. האוטומציה מזהה אותה וקוראת את הנתונים מהקובץ המצורף.</p>
+        <div class="ds-mail" id="tvMail">
+          <div class="ds-mail-top">📥 דואר נכנס <span class="ds-badge" id="tvBadge" hidden>1</span><span class="ds-mail-search">חיפוש בדואר</span></div>
+          <div class="ds-inbox" id="tvInbox">
+            <div class="ds-it"><span class="ds-av">ש</span><b>שורנס</b><time>09:12</time><small>סיכום פעילות שבועי</small></div>
+            <div class="ds-it"><span class="ds-av">מ</span><b>מחלקת תפעול</b><time>אתמול</time><small>עדכון נהלי עבודה מול חברות הביטוח</small></div>
+          </div>
+        </div>
+        <div class="ds-em" id="tvOpen" hidden>
+          <div class="ds-em-meta"><b>פוליסת ביטוח נסיעות לחו"ל – דניאל ישראלי</b>מאת: פספורטכארד · אל: תפעול המצפן סוכנות לביטוח</div>
+          <div class="tv-mail-body">שלום רב,<br>מצורפת פוליסת ביטוח הנסיעות לחו"ל של הלקוח דניאל ישראלי.<br>
+            <span class="tv-att">📄 policy_daniel_israeli.pdf <b>PDF</b></span>
+          </div>
+        </div>
+        <p class="ob-hint-txt" id="tvHint1"></p>
+        <div class="tv-read" id="tvRead"></div>
+        <div id="tvSrWrap" hidden style="margin-top:12px"><button class="wa-cta" id="tvToSr" type="button">▶ המשך לתהליך בשורנס</button></div>
+      </div>
+
+      <!-- TV STEP 2: Surense process -->
+      <div class="step" data-tv-step="2">
+        <p class="ob-txt">האוטומציה פותחת בשורנס תהליך "ביטוח נסיעות לחו"ל" תחת הלקוח, וממלאת בו את הנתונים מהפוליסה.</p>
+        <div class="sr-glow">
+          <div class="lb-lead">
+            <div class="lb-top"><span class="lb-lid">תהליך 2207</span><span class="lb-pill">ביטוח נסיעות לחו"ל</span></div>
+            <div class="lb-info">
+              <div class="lb-name">👤 דניאל ישראלי <span>052-123-4567</span></div>
+              <div><small>סטטוס</small><div class="lb-status">פוליסה נקלטה <span>⌄</span></div></div>
+              <div><small>מטפל/ת</small><div class="lb-handler"><span class="lb-av">🤖</span>אוטומציה</div></div>
+            </div>
+            <div class="tv-flds">
+              <div class="tv-sec">מוצר חדש</div>
+              <div class="tv-fld"><span>סוג מוצר חדש</span><div class="tv-in empty" data-v='ביטוח נסיעות לחו"ל'></div></div>
+              <div class="tv-fld"><span>יצרן חדש</span><div class="tv-in empty" data-v="פספורטכארד"></div></div>
+              <div class="tv-fld"><span>תאריך תחילת ביטוח</span><div class="tv-in empty" id="tvStart"></div></div>
+              <div class="tv-fld"><span>תאריך תום ביטוח</span><div class="tv-in empty" id="tvEnd"></div></div>
+            </div>
+          </div>
+        </div>
+        <div id="tvWaWrap" hidden style="margin-top:16px"><button class="wa-cta" id="tvToWa" type="button">▶ פתח סימולציית WhatsApp</button></div>
+      </div>
+
+      <!-- TV STEP 3: WhatsApp to client -->
+      <div class="step" data-tv-step="3">
+        <p class="ob-txt">במקביל, הלקוח מקבל הודעת WhatsApp עם מידע חשוב לפני הטיסה:</p>
+        <div class="wa-frame">
+          <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+          <div class="wa-body" id="tvWaBody"></div>
+        </div>
+        <div class="wa-continue-wrap" id="tvEndWrap" hidden><button class="wa-continue-btn demo-finish" id="tvFinish" type="button">✓ סיום הדגמה</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('tvOverlay');
+  const body = document.getElementById('tvBody');
+  const wa = document.getElementById('tvWaBody');
+  const mail = document.getElementById('tvMail');
+  const inbox = document.getElementById('tvInbox');
+  const badge = document.getElementById('tvBadge');
+  const openMail = document.getElementById('tvOpen');
+  const hint1 = document.getElementById('tvHint1');
+  const read = document.getElementById('tvRead');
+  const stepLabel = document.getElementById('tvStepLabel');
+  const labels = {1:'// שלב 1 — פוליסה מתקבלת במייל',2:'// שלב 2 — תהליך בשורנס',3:'// שלב 3 — הודעת WhatsApp ללקוח'};
+  let timers = [];
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    ov.querySelectorAll('[data-tv-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.tvStep)===n));
+    ov.querySelectorAll('[data-tv-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.tvDot)<=n));
+    stepLabel.textContent = labels[n];
+    body.scrollTop = 0;
+  }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function dayFmt(add){ const d=new Date(); d.setDate(d.getDate()+add); return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear(); }
+  function link(u){ return '<span class="dc-link">' + u + '</span>'; }
+  const MSG =
+    'היי דניאל,\nתודה שסגרת ביטוח נסיעות דרך "המצפן סוכנות לביטוח" 🙌\nמאחל לכם טיסה נעימה ושקט בראש ✈\n\n' +
+    'כמה דברים קטנים ששווה להכיר לפני הטיסה:\n\n' +
+    '🔹 <b>עיכוב טיסה מעל 90 דקות?</b>\nמגיע לכם טרקלין חינם – רק להירשם מראש:\n' + link('https://www.passportcard.co.il/view/passportcardflightdelay') + '\n\n' +
+    '🔹 <b>במקרה רפואי או עיכוב כבודה</b>\nאפשר להטעין כסף ישירות לכרטיס דרך האפליקציה:\n' + link('https://pocket.passportcard.co.il/link/app') + '\n\n' +
+    '🔹 <b>שירות לקוחות זמין גם בוואטסאפ:</b>\n<span style="direction:ltr;unicode-bidi:isolate">050-6708544</span>\n\n' +
+    '🔹 <b>מומלץ להוריד "חדר המצב"</b>\nלקבל עדכונים בזמן אמת בזמן השהות בחו״ל:\n' + link('https://www.passportcard.co.il/control-room/');
+  function arrive(){
+    const fly = document.createElement('div'); fly.className = 'ds-fly'; fly.textContent = '✉️';
+    mail.appendChild(fly);
+    later(()=>{
+      fly.remove();
+      const toast = document.createElement('div'); toast.className = 'ds-toast';
+      toast.innerHTML = '<span style="font-size:1.3rem">📩</span><div><b>מייל חדש התקבל</b><small>פספורטכארד · פוליסת ביטוח נסיעות לחו"ל</small></div>';
+      mail.appendChild(toast);
+      later(()=>toast.remove(), 3300);
+      badge.hidden = false; badge.classList.remove('bump'); void badge.offsetWidth; badge.classList.add('bump');
+      const it = document.createElement('button'); it.type = 'button'; it.className = 'ds-it new ob-pulse'; it.id = 'tvNew';
+      it.innerHTML = '<span class="ds-av">P</span><b>פספורטכארד</b><time>' + now() + '</time><small>פוליסת ביטוח נסיעות לחו"ל – דניאל ישראלי 📎</small>';
+      inbox.prepend(it);
+      it.addEventListener('click', openPolicy, {once:true});
+      later(()=>{ hint1.textContent = 'לחצו על המייל החדש כדי לפתוח אותו'; }, 700);
+    }, 950);
+  }
+  function openPolicy(){
+    mail.hidden = true; openMail.hidden = false; hint1.textContent = '';
+    read.textContent = '🔍 האוטומציה קוראת את הנתונים מהפוליסה...';
+    later(()=>{
+      read.textContent = '✓ זוהו: פספורטכארד · ביטוח נסיעות לחו"ל · ' + dayFmt(14) + ' עד ' + dayFmt(21);
+      later(()=>{ document.getElementById('tvSrWrap').hidden = false; body.scrollTop = body.scrollHeight; }, 400);
+    }, 1500);
+  }
+  document.getElementById('tvToSr').addEventListener('click', ()=>{
+    show(2);
+    const flds = ov.querySelectorAll('.tv-in');
+    flds.forEach((f,i)=>later(()=>{
+      f.classList.remove('empty'); f.classList.add('fill');
+      if(f.id){ f.innerHTML = '<span>' + (f.id==='tvStart' ? dayFmt(14) : dayFmt(21)) + '</span><span class="tv-cal">📅</span>'; }
+      else f.textContent = f.dataset.v;
+      if(i === flds.length-1) later(()=>{ document.getElementById('tvWaWrap').hidden = false; body.scrollTop = body.scrollHeight; }, 400);
+    }, 500 + i*450));
+  });
+  document.getElementById('tvToWa').addEventListener('click', ()=>{
+    show(3);
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    wa.appendChild(t);
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div'); b.className = 'wa-bubble pop tv-wa'; b.innerHTML = MSG;
+      const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now();
+      b.appendChild(tm); wa.appendChild(b);
+      document.getElementById('tvEndWrap').hidden = false;
+    }, 900);
+  });
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    mail.hidden = false; openMail.hidden = true; badge.hidden = true;
+    const n = document.getElementById('tvNew'); if(n) n.remove();
+    mail.querySelectorAll('.ds-toast,.ds-fly').forEach(el=>el.remove());
+    hint1.textContent = ''; read.textContent = '';
+    document.getElementById('tvSrWrap').hidden = true;
+    document.getElementById('tvWaWrap').hidden = true;
+    document.getElementById('tvEndWrap').hidden = true;
+    ov.querySelectorAll('.tv-in').forEach(f=>{ f.className = 'tv-in empty'; f.textContent = ''; });
+    wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    show(1);
+  }
+  function open(){ reset(); ov.hidden = false; later(arrive, 700); }
+  function close(){ ov.hidden = true; timers.forEach(clearTimeout); timers = []; }
+  document.getElementById('openTvModal').addEventListener('click', open);
+  document.getElementById('tvClose').addEventListener('click', close);
+  document.getElementById('tvFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
