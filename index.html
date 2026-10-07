@@ -4848,7 +4848,10 @@ window.addEventListener('scroll',()=>{
     'רפואה משלימה':['קבלות על הטיפולים','המלצה מרופא'],
     'ניתוח':['הפניה לניתוח','סיכום ניתוח','סיכום אשפוז / מכתב שחרור','קבלות על התשלום'],
     'תרופות':['מרשם רופא','קבלה מבית המרקחת','אישור רופא על הצורך בתרופה'],
-    'מחלות קשות':['סיכום מחלה / אבחנה','מסמכים רפואיים ובדיקות','אישור רופא מומחה','צילום תעודת זהות']
+    'מחלות קשות':['סיכום מחלה / אבחנה','מסמכים רפואיים ובדיקות','אישור רופא מומחה','צילום תעודת זהות'],
+    'הלוואות':['צילום תעודת זהות','אישור ניהול חשבון בנק'],
+    'פדיון':['צילום תעודת זהות','אישור ניהול חשבון בנק','דוח מצב חשבון עדכני'],
+    'פיצויים':['טופס 161 מהמעסיק','מכתב סיום העסקה','צילום תעודת זהות','אישור ניהול חשבון בנק']
   };
   function buildFiles(t){
     files.innerHTML = '';
@@ -4929,9 +4932,10 @@ window.addEventListener('scroll',()=>{
       submit.disabled = true; submit.classList.remove('ob-pulse');
       hint3.textContent = 'נפתח שדה נוסף: "תביעות בנושא". לחצו עליו ובחרו "ניתוח"';
     } else {
-      topicFld.hidden = true; files.hidden = true;
-      submit.disabled = false; submit.classList.add('ob-pulse');
-      hint3.textContent = 'לחצו על "שליחה"';
+      topicFld.hidden = true;
+      buildFiles(o.dataset.v);
+      submit.disabled = true; submit.classList.remove('ob-pulse');
+      hint3.textContent = 'נפתחו שדות להעלאת המסמכים שמתאימים לבקשה. לחצו על כל שדה כדי להעלות את הקובץ';
     }
   });
   topic.addEventListener('click', ()=>{
