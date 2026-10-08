@@ -1605,6 +1605,21 @@ button.em-in:disabled{cursor:default}
 .tv-wa b{font-weight:700}
 .tv-wa .dc-link{display:inline;word-break:break-all}
 @media (max-width:480px){.tv-fld{grid-template-columns:1fr;gap:4px}}
+/* product report frequency demo */
+.pr-tbl .sr-row{grid-template-columns:1fr 1fr 1fr .9fr}
+.pr-tbl .sr-row:not(.head){animation:srFlip .45s ease-out both}
+@media (max-width:480px){.pr-tbl .sr-row{font-size:.7rem;gap:6px;padding:7px 8px;grid-template-columns:.9fr 1.3fr 1fr 1.05fr}.pr-tbl .sr-row:not(.head)>span:nth-child(2),.pr-tbl .sr-row:not(.head)>span:nth-child(4){white-space:nowrap}}
+.pr-fields{padding:6px 14px 14px}
+.pr-fld{display:grid;grid-template-columns:130px 1fr;gap:10px;align-items:center;padding:6px 0;font-size:.82rem}
+.pr-fld>span{color:#5b6b80}
+.pr-val{border:1px solid #d5dbe3;border-radius:8px;padding:8px 12px;min-height:36px;display:flex;align-items:center;color:#1f2d3d;background:#fff}
+.pr-val.new{animation:srFlip .45s ease-out both,srGlow 2.4s ease-in-out .45s infinite;border-color:rgba(0,229,255,.7);font-weight:700}
+.pr-sms{background:#fff;border-radius:10px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;color:#1f2d3d;overflow:hidden;margin-top:14px}
+.pr-sms-top{padding:10px 14px;border-bottom:1px solid #e3e8ee;font-weight:800;font-size:.86rem;display:flex;align-items:center;gap:8px}
+.pr-sms-body{background:#f3f5f8;padding:12px}
+.pr-sms-bub{background:#e9e9eb;border-radius:16px;padding:9px 13px;font-size:.82rem;line-height:1.6;width:fit-content;max-width:85%}
+.pr-lbl{font-size:.78rem;color:var(--cyan);margin:14px 0 6px;font-family:'Share Tech Mono',monospace}
+@media (max-width:480px){.pr-fld{grid-template-columns:1fr;gap:4px}}
 </style>
 </head>
 <body>
@@ -1847,20 +1862,6 @@ button.em-in:disabled{cursor:default}
       <div class="srv-grid">
         <div class="srv-card">
           <div class="blc"></div><div class="pulse-line"></div>
-          <div class="srv-icon">📧</div>
-          <h3 class="srv-title">מייל עדכון ללקוח בסיום תהליכים</h3>
-          <p class="srv-desc">אוטומציה שמרכזת את כל התהליכים שבוצעו עבור הלקוח ושולחת לו מייל סיכום מסודר עם תמונת מצב מלאה.</p>
-          <ul class="srv-list">
-            <li>ריכוז כלל התהליכים שבוצעו בתקופה האחרונה</li>
-            <li>פירוט המוצרים, השינויים והפעולות שבוצעו</li>
-            <li>הצגת הסטטוס העדכני של כל תהליך</li>
-            <li>שליחת מייל אוטומטית עם סיכום ברור ומותאם אישית</li>
-            <li>מתן תמונה מלאה ללקוח ללא צורך במעקב או שיחה נוספת</li>
-          </ul>
-        </div>
-
-        <div class="srv-card">
-          <div class="blc"></div><div class="pulse-line"></div>
           <div class="srv-icon">📎</div>
           <h3 class="srv-title">בוט קבלת מסמכים מלקוח</h3>
           <p class="srv-desc">בוט אוטומטי שמבקש מהלקוח את המסמכים הנדרשים ומרכז אותם ישירות במערכת.</p>
@@ -1894,20 +1895,6 @@ button.em-in:disabled{cursor:default}
 
         <div class="srv-card">
           <div class="blc"></div><div class="pulse-line"></div>
-          <div class="srv-icon">🔍</div>
-          <h3 class="srv-title">בדיקת תהליכים מול פרודוקציה</h3>
-          <p class="srv-desc">אוטומציה שבודקת באופן שוטף שתהליכי ההצטרפות והניוד תואמים למוצר שנקלט בפועל בפרודוקציה.</p>
-          <ul class="srv-list">
-            <li>השוואת המוצר שנקלט מול התהליך במערכת</li>
-            <li>בדיקת דמי ניהול, הפקדות וצבירה/סכום ניוד</li>
-            <li>סגירה אוטומטית של תהליכים תקינים</li>
-            <li>זיהוי חריגות והשארתן לטיפול הסוכנות</li>
-            <li>הצגת הפערים שנמצאו לצורך המשך טיפול</li>
-          </ul>
-        </div>
-
-        <div class="srv-card">
-          <div class="blc"></div><div class="pulse-line"></div>
           <div class="srv-icon">✈️</div>
           <h3 class="srv-title">קליטת פוליסת ביטוח נסיעות לחו"ל ממייל וסידור הנתונים</h3>
           <p class="srv-desc">כשמתקבלת במייל פוליסת ביטוח נסיעות לחו"ל, האוטומציה קוראת את הנתונים מהקובץ, פותחת תהליך בשורנס תחת הלקוח, ושולחת ללקוח הודעת WhatsApp מסודרת לפני הטיסה.</p>
@@ -1919,6 +1906,34 @@ button.em-in:disabled{cursor:default}
           <button class="demo-cta" id="openTvModal" type="button">
       <span class="dot"></span> לחץ כאן לראות איך זה עובד
     </button>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-icon">📧</div>
+          <h3 class="srv-title">מייל עדכון ללקוח בסיום תהליכים</h3>
+          <p class="srv-desc">אוטומציה שמרכזת את כל התהליכים שבוצעו עבור הלקוח ושולחת לו מייל סיכום מסודר עם תמונת מצב מלאה.</p>
+          <ul class="srv-list">
+            <li>ריכוז כלל התהליכים שבוצעו בתקופה האחרונה</li>
+            <li>פירוט המוצרים, השינויים והפעולות שבוצעו</li>
+            <li>הצגת הסטטוס העדכני של כל תהליך</li>
+            <li>שליחת מייל אוטומטית עם סיכום ברור ומותאם אישית</li>
+            <li>מתן תמונה מלאה ללקוח ללא צורך במעקב או שיחה נוספת</li>
+          </ul>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-icon">🔍</div>
+          <h3 class="srv-title">בדיקת תהליכים מול פרודוקציה</h3>
+          <p class="srv-desc">אוטומציה שבודקת באופן שוטף שתהליכי ההצטרפות והניוד תואמים למוצר שנקלט בפועל בפרודוקציה.</p>
+          <ul class="srv-list">
+            <li>השוואת המוצר שנקלט מול התהליך במערכת</li>
+            <li>בדיקת דמי ניהול, הפקדות וצבירה/סכום ניוד</li>
+            <li>סגירה אוטומטית של תהליכים תקינים</li>
+            <li>זיהוי חריגות והשארתן לטיפול הסוכנות</li>
+            <li>הצגת הפערים שנמצאו לצורך המשך טיפול</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -1943,6 +1958,7 @@ button.em-in:disabled{cursor:default}
       <span class="dot"></span> לחץ כאן לראות איך זה עובד
     </button>
         </div>
+
         <div class="srv-card">
           <div class="blc"></div><div class="pulse-line"></div>
           <div class="srv-icon">🔄</div>
@@ -1974,6 +1990,22 @@ button.em-in:disabled{cursor:default}
             <li>שיפור מתמשך של השירות לפי מה שהלקוחות אומרים</li>
           </ul>
           <button class="demo-cta" id="openFbModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-icon">📊</div>
+          <h3 class="srv-title">שליחת דוח מוצרים לבחירת הלקוח</h3>
+          <p class="srv-desc">האוטומציה מזהה לקוחות פעילים חדשים בשורנס ושולחת להם הודעת WhatsApp לבחירת התדירות שבה ירצו לקבל את דוח המוצרים: כל חודש, כל רבעון או כל שנה.</p>
+          <ul class="srv-list">
+            <li>הלקוח בוחר בלחיצת כפתור ב־WhatsApp</li>
+            <li>הבחירה מתעדכנת אוטומטית בכרטיס הלקוח בשורנס</li>
+            <li>הדוח נשלח ללקוח במייל וב־SMS לפי התדירות שבחר</li>
+            <li>הלקוח מקבל תמונה מלאה של המוצרים שלו, בלי עבודה ידנית של הסוכנות</li>
+          </ul>
+          <button class="demo-cta" id="openPrModal" type="button">
       <span class="dot"></span> לחץ כאן לראות איך זה עובד
     </button>
         </div>
@@ -4727,7 +4759,11 @@ window.addEventListener('scroll',()=>{
       <!-- NP STEP 1: intro -->
       <div class="step active" data-np-step="1">
         <p class="ob-txt">כל בוקר האוטומציה מחפשת בשורנס לקוחות חדשים שנכנסו עם מוצר (פרודוקציה), ושולחת לכל אחד מהם הודעת WhatsApp אישית לקבלת פנים.</p>
-        <button class="wa-cta" id="npToWa" type="button">▶ פתח סימולציית WhatsApp</button>
+        <div class="fb-search" id="npSearch"></div>
+        <div class="sr-table sr-meet pr-tbl" id="npTbl">
+          <div class="sr-row head"><span>לקוח</span><span>טלפון</span><span>מוצר</span><span>נקלט</span></div>
+        </div>
+        <div id="npWaWrap" style="margin-top:16px;visibility:hidden"><button class="wa-cta" id="npToWa" type="button">▶ פתח סימולציית WhatsApp</button></div>
       </div>
 
       <!-- NP STEP 2: WhatsApp -->
@@ -4856,6 +4892,20 @@ window.addEventListener('scroll',()=>{
     timers.forEach(clearTimeout); timers = []; choice = null;
     contWrap.hidden = true; hint.textContent = '';
     wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    document.getElementById('npWaWrap').style.visibility = 'hidden';
+    const tbl = document.getElementById('npTbl');
+    tbl.querySelectorAll('.sr-row:not(.head)').forEach(r=>r.remove());
+    const s = document.getElementById('npSearch');
+    s.textContent = '🔍 מחפש לקוחות חדשים עם מוצר (פרודוקציה)...';
+    const d = new Date();
+    const r = document.createElement('div'); r.className = 'sr-row';
+    r.innerHTML = '<span class="sr-client">ישראלי דניאל</span><span style="direction:ltr;text-align:right">052-123-4567</span><span>ביטוח בריאות</span><span>' + String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear() + '</span>';
+    r.style.visibility = 'hidden'; r.style.animation = 'none'; tbl.appendChild(r);
+    later(()=>{
+      r.style.visibility = ''; r.style.animation = '';
+      s.textContent = '✓ נמצא לקוח חדש עם מוצר';
+      later(()=>{ document.getElementById('npWaWrap').style.visibility = 'visible'; }, 400);
+    }, 1300);
     show(1);
   }
   function open(){ reset(); ov.hidden = false; }
@@ -5650,7 +5700,7 @@ window.addEventListener('scroll',()=>{
         <div class="sr-table sr-meet fb-tbl" id="fbTbl">
           <div class="sr-row head"><span>נושא</span><span>לקוח</span><span>מועד</span><span>סטטוס</span></div>
         </div>
-        <div id="fbWaWrap" hidden style="margin-top:16px"><button class="wa-cta" id="fbToWa" type="button">▶ פתח סימולציית WhatsApp</button></div>
+        <div id="fbWaWrap" style="margin-top:16px;visibility:hidden"><button class="wa-cta" id="fbToWa" type="button">▶ פתח סימולציית WhatsApp</button></div>
       </div>
 
       <!-- FB STEP 2: WhatsApp -->
@@ -5853,17 +5903,18 @@ window.addEventListener('scroll',()=>{
     phoneF.className = 'em-in fb-fill em-ph'; phoneF.textContent = '05X-XXX-XXXX';
     refresh();
     document.getElementById('fbContinueWrap').hidden = true;
-    document.getElementById('fbWaWrap').hidden = true;
+    document.getElementById('fbWaWrap').style.visibility = 'hidden';
     const tbl = document.getElementById('fbTbl');
     tbl.querySelectorAll('.sr-row:not(.head)').forEach(r=>r.remove());
     const s = document.getElementById('fbSearch');
     s.textContent = '🔍 מחפש פגישות מאתמול בסטטוס "התקיימה"...';
+    const r = document.createElement('div'); r.className = 'sr-row';
+    r.innerHTML = '<span class="sr-subj">פגישה שנתית</span><span class="sr-client">ישראלי דניאל</span><span>' + yesterday() + ' 10:00</span><span class="sr-status" style="background:#1fc77e">התקיימה</span>';
+    r.style.visibility = 'hidden'; r.style.animation = 'none'; tbl.appendChild(r);
     later(()=>{
-      const r = document.createElement('div'); r.className = 'sr-row';
-      r.innerHTML = '<span class="sr-subj">פגישה שנתית</span><span class="sr-client">ישראלי דניאל</span><span>' + yesterday() + ' 10:00</span><span class="sr-status" style="background:#1fc77e">התקיימה</span>';
-      tbl.appendChild(r);
+      r.style.visibility = ''; r.style.animation = '';
       s.textContent = '✓ נמצאה פגישה שהתקיימה אתמול';
-      later(()=>{ document.getElementById('fbWaWrap').hidden = false; }, 400);
+      later(()=>{ document.getElementById('fbWaWrap').style.visibility = 'visible'; }, 400);
     }, 1300);
     show(1);
   }
@@ -6059,6 +6110,155 @@ window.addEventListener('scroll',()=>{
   document.getElementById('openTvModal').addEventListener('click', open);
   document.getElementById('tvClose').addEventListener('click', close);
   document.getElementById('tvFinish').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="prOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="prTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="prTitle">
+        <span id="prStepLabel">// שלב 1 — לקוח פעיל חדש בשורנס</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-pr-dot="1"></i><i data-pr-dot="2"></i><i data-pr-dot="3"></i></span>
+      </div>
+      <button class="modal-close" id="prClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="prBody">
+
+      <!-- PR STEP 1: new active client -->
+      <div class="step active" data-pr-step="1">
+        <p class="ob-txt">האוטומציה מזהה בשורנס לקוחות פעילים חדשים, ושולחת להם הודעת WhatsApp לבחירת התדירות שבה ירצו לקבל את דוח המוצרים.</p>
+        <div class="fb-search" id="prSearch"></div>
+        <div class="sr-table sr-meet pr-tbl" id="prTbl">
+          <div class="sr-row head"><span>לקוח</span><span>טלפון</span><span>נקלט</span><span>סטטוס</span></div>
+        </div>
+        <div id="prWaWrap" style="margin-top:16px;visibility:hidden"><button class="wa-cta" id="prToWa" type="button">▶ פתח סימולציית WhatsApp</button></div>
+      </div>
+
+      <!-- PR STEP 2: WhatsApp choice -->
+      <div class="step" data-pr-step="2">
+        <div class="wa-frame">
+          <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+          <div class="wa-body" id="prWaBody"></div>
+        </div>
+        <p class="ob-hint-txt" id="prHint"></p>
+        <div class="wa-continue-wrap" id="prContinueWrap" hidden><button class="wa-continue-btn" id="prContinueBtn" type="button">המשך לשלב הבא ›</button></div>
+      </div>
+
+      <!-- PR STEP 3: Surense updated -->
+      <div class="step" data-pr-step="3">
+        <p class="ob-txt">הבחירה של הלקוח מתעדכנת אוטומטית בכרטיס שלו בשורנס, והדוח נשלח אליו לפי התדירות שבחר.</p>
+        <div class="lb-lead">
+          <div class="lb-top"><span class="lb-lid">כרטיס לקוח</span><span class="lb-pill" style="background:#2f7fd8">לקוח פעיל</span></div>
+          <div class="lb-info">
+            <div class="lb-name">👤 דניאל ישראלי <span>052-123-4567 · daniel.israeli@gmail.com</span></div>
+          </div>
+          <div class="pr-fields">
+            <div class="pr-fld"><span>תדירות דוח מוצרים</span><div class="pr-val" id="prFreq"></div></div>
+            <div class="pr-fld"><span>ערוצי שליחה</span><div class="pr-val">📧 מייל + 💬 SMS</div></div>
+            <div class="pr-fld"><span>הדוח הבא יישלח</span><div class="pr-val" id="prNext"></div></div>
+          </div>
+        </div>
+        <div class="wa-continue-wrap"><button class="wa-continue-btn demo-finish" id="prFinish" type="button">✓ סיום הדגמה</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('prOverlay');
+  const body = document.getElementById('prBody');
+  const wa = document.getElementById('prWaBody');
+  const hint = document.getElementById('prHint');
+  const stepLabel = document.getElementById('prStepLabel');
+  const labels = {1:'// שלב 1 — לקוח פעיל חדש בשורנס',2:'// שלב 2 — בחירת תדירות ב־WhatsApp',3:'// שלב 3 — עדכון בשורנס'};
+  const OPTS = {'כל חודש':1,'כל רבעון':3,'כל שנה':12};
+  let choice = null;
+  let timers = [];
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    ov.querySelectorAll('[data-pr-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.prStep)===n));
+    ov.querySelectorAll('[data-pr-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.prDot)<=n));
+    stepLabel.textContent = labels[n];
+    body.scrollTop = 0;
+  }
+  function scrollBottom(){ body.scrollTop = body.scrollHeight; }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function fmt(d){ return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear(); }
+  function bot(text, after){
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    wa.appendChild(t); scrollBottom();
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div'); b.className = 'wa-bubble pop'; b.textContent = text;
+      const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now();
+      b.appendChild(tm); wa.appendChild(b);
+      if(after) after();
+      scrollBottom();
+    }, 900);
+  }
+  function out(text){
+    const o = document.createElement('div'); o.className = 'lb-out pop'; o.textContent = text;
+    const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now() + ' ✓✓';
+    o.appendChild(tm); wa.appendChild(o); scrollBottom();
+  }
+  function start(){
+    bot('היי דניאל 👋\nשמחים שהצטרפת למצפן סוכנות לביטוח!\n\nנשמח לשלוח לך דוח מסודר של כל המוצרים שמנוהלים עבורך אצלנו, למייל וב־SMS.\nבאיזו תדירות תרצה לקבל אותו? 📊', ()=>{
+      const w = document.createElement('div'); w.className = 'wa-btns-wrap pop lb-q';
+      Object.keys(OPTS).forEach(label=>{
+        const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'wa-btn'; btn.textContent = label;
+        btn.addEventListener('click', ()=>{
+          w.querySelectorAll('button').forEach(x=>x.disabled = true);
+          choice = label; hint.textContent = '';
+          out(label);
+          later(()=>bot('מעולה, עודכן! 🙌\nהדוח יישלח אליך ' + label + ' למייל וב־SMS.\n\nהמצפן סוכנות לביטוח', ()=>{
+            document.getElementById('prContinueWrap').hidden = false; scrollBottom();
+          }), 450);
+        });
+        w.appendChild(btn);
+      });
+      wa.appendChild(w);
+      hint.textContent = 'בחרו תדירות לקבלת הדוח';
+    });
+  }
+  document.getElementById('prToWa').addEventListener('click', ()=>{ show(2); start(); });
+  document.getElementById('prContinueBtn').addEventListener('click', ()=>{
+    const f = document.getElementById('prFreq'), n = document.getElementById('prNext');
+    f.className = 'pr-val'; n.className = 'pr-val'; f.textContent = ''; n.textContent = '';
+    show(3);
+    const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + OPTS[choice]);
+    later(()=>{ f.textContent = choice; f.classList.add('new'); }, 500);
+    later(()=>{ n.textContent = fmt(d); n.classList.add('new'); }, 950);
+  });
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    choice = null;
+    wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    hint.textContent = '';
+    document.getElementById('prContinueWrap').hidden = true;
+    document.getElementById('prWaWrap').style.visibility = 'hidden';
+    const tbl = document.getElementById('prTbl');
+    tbl.querySelectorAll('.sr-row:not(.head)').forEach(r=>r.remove());
+    const s = document.getElementById('prSearch');
+    s.textContent = '🔍 מחפש לקוחות פעילים חדשים...';
+    const r = document.createElement('div'); r.className = 'sr-row';
+    r.innerHTML = '<span class="sr-client">ישראלי דניאל</span><span style="direction:ltr;text-align:right">052-123-4567</span><span>' + fmt(new Date()) + '</span><span class="sr-status" style="background:#1fc77e">לקוח פעיל</span>';
+    r.style.visibility = 'hidden'; r.style.animation = 'none'; tbl.appendChild(r);
+    later(()=>{
+      r.style.visibility = ''; r.style.animation = '';
+      s.textContent = '✓ נמצא לקוח פעיל חדש';
+      later(()=>{ document.getElementById('prWaWrap').style.visibility = 'visible'; }, 400);
+    }, 1300);
+    show(1);
+  }
+  function open(){ reset(); ov.hidden = false; }
+  function close(){ ov.hidden = true; timers.forEach(clearTimeout); timers = []; }
+  document.getElementById('openPrModal').addEventListener('click', open);
+  document.getElementById('prClose').addEventListener('click', close);
+  document.getElementById('prFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
