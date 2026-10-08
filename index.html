@@ -673,12 +673,12 @@ section{position:relative;z-index:2}
   position:relative;max-width:820px;margin:0 auto;
   display:flex;align-items:center;gap:14px;
 }
-.test-viewport{overflow:hidden;flex:1;border-radius:8px;touch-action:pan-y;transition:height .4s ease}
+.test-viewport{overflow:hidden;flex:1;border-radius:8px;touch-action:pan-y}
 .test-track{
-  display:flex;align-items:flex-start;
+  display:flex;
   transition:transform .5s cubic-bezier(.4,0,.2,1);
 }
-.test-track>.test-card{flex:0 0 100%}
+.test-track>.test-card{flex:0 0 100%;display:flex;flex-direction:column;justify-content:center}
 .test-card{
   background:var(--card);
   border:1px solid var(--border);
@@ -2157,7 +2157,7 @@ button.em-in:disabled{cursor:default}
       <button class="test-nav test-prev" type="button" aria-label="ההמלצה הקודמת">&#8250;</button>
       <div class="test-viewport">
         <div class="test-track">
-        <div class="test-card" role="group" aria-roledescription="slide" aria-label="1 מתוך 3">
+        <div class="test-card" role="group" aria-roledescription="slide" aria-label="1 מתוך 4">
           <div class="test-author">
             <div class="t-avatar"><img src="https://i.imgur.com/4MqwiB8.png" alt="יריב ברקאי" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
             <div><div class="t-name">יריב ברקאי</div><div class="t-role">מנכ"ל ברקאי קפיטל - מרכז פיננסי</div></div>
@@ -2166,7 +2166,7 @@ button.em-in:disabled{cursor:default}
           <div class="q-icon">"</div>
           <p class="test-txt">בר פיתח ויישם עבורנו אוטומציות ששיפרו מאוד את חווית הלקוח שלנו. הפיתוח הפך את תהליכי קליטת הלקוחות, שליחת המסמכים ותיאום הפגישות ליעילים ומסודרים יותר, שחוסכים לנו זמן משמעותי ומשפרים את שביעות רצונם של לקוחותינו. מעבר למקצועיות הגבוהה, בר תמיד קשוב, סבלני וזמין לאורך כל הדרך, והקפיד להבין את הצרכים שלנו לעומקם ולהמליץ על הפתרונות המתאימים בדיוק לנו.<br>תודה רבה בר.</p>
         </div>
-        <div class="test-card" role="group" aria-roledescription="slide" aria-label="2 מתוך 3">
+        <div class="test-card" role="group" aria-roledescription="slide" aria-label="2 מתוך 4">
           <div class="test-author">
             <div class="t-avatar"><img src="https://i.imgur.com/1888ike.png" alt="זוהר סופר" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
             <div><div class="t-name">זוהר סופר</div><div class="t-role">בעלים של סוכנות סופר ביטוח ופיננסים</div></div>
@@ -2175,7 +2175,7 @@ button.em-in:disabled{cursor:default}
           <div class="q-icon">"</div>
           <p class="test-txt">אני רוצה להמליץ על בר התותח. בר תמיד רוצה לעזור, קשוב וסבלני, מקצועי, אדיב ושירותי מאוד. הוא יצר לנו הרבה מאוד אוטומציות שהקלו על התפעול היומיומי שלנו מול לקוחות הסוכנות.</p>
         </div>
-        <div class="test-card" role="group" aria-roledescription="slide" aria-label="3 מתוך 3">
+        <div class="test-card" role="group" aria-roledescription="slide" aria-label="3 מתוך 4">
           <div class="test-author">
             <div class="t-avatar"><img src="https://i.imgur.com/wWAs7e9.png" alt="שון אשכנזי" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
             <div><div class="t-name">שון אשכנזי</div><div class="t-role">בעלים של סוכנות שון אשכנזי</div></div>
@@ -2183,6 +2183,15 @@ button.em-in:disabled{cursor:default}
           <div class="stars">★★★★★</div>
           <div class="q-icon">"</div>
           <p class="test-txt">ממליץ בחום על בר, שבנה עבורי תהליכי אוטומציה במערכת Surance שמותאמים לעבודה השוטפת של הסוכנות. מעבר למקצועיות ולידע שלו במערכת, מה שהכי בלט היה היכולת להבין את הצורך העסקי מאחורי כל תהליך. בר היה זמין, שירותי וסבלני, הגדיל ראש והציע פתרונות ושיפורים שלא תמיד חשבתי עליהם בעצמי. התוצאה היא תהליכי עבודה מסודרים ואוטומטיים שחוסכים זמן ומשפרים את ההתנהלות מול הלקוחות. מקצוען, אמין ונעים לעבוד איתו.</p>
+        </div>
+        <div class="test-card" role="group" aria-roledescription="slide" aria-label="4 מתוך 4">
+          <div class="test-author">
+            <div class="t-avatar"><img src="https://i.imgur.com/MJUjbX9.png" alt="אריאל יצחק" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"></div>
+            <div><div class="t-name">אריאל יצחק</div><div class="t-role">בעלים של סוכנות המצפן הפיננסי</div></div>
+          </div>
+          <div class="stars">★★★★★</div>
+          <div class="q-icon">"</div>
+          <p class="test-txt">רוצים לפרגן ולהמליץ מכל הלב על בר! 🙌 בר בנה והטמיע אצלנו אוטומציות שעשו שינוי משמעותי בהתנהלות היומיומית של העסק. מקליטת לקוחות חדשים, דרך שליחת מסמכים ועד תיאום פגישות, הכול הפך לפשוט, מהיר ויעיל הרבה יותר. התוצאה: חיסכון משמעותי בזמן, פחות עבודה ידנית ושירות מקצועי יותר ללקוחות שלנו. מעבר לתוצאה, בר תמיד זמין, סבלני וקשוב, חושב כמה צעדים קדימה ויודע להציע פתרונות חכמים שמתאימים בדיוק לצרכים של העסק. ממליצים בחום! 👏</p>
         </div>
         </div>
       </div>
@@ -2581,14 +2590,13 @@ document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
   var track=wrap.querySelector('.test-track'),cards=track.children,n=cards.length,i=0;
   var dotsBox=wrap.querySelector('.test-dots'),dots=[];
   for(var k=0;k<n;k++){(function(k){var d=document.createElement('button');d.type='button';d.className='test-dot';d.setAttribute('aria-label','המלצה '+(k+1));d.onclick=function(){go(k)};dotsBox.appendChild(d);dots.push(d)})(k)}
-  function go(k){i=(k+n)%n;track.style.transform='translateX('+(i*100)+'%)';dots.forEach(function(d,j){d.classList.toggle('active',j===i)});vp.style.height=cards[i].offsetHeight+'px'}
+  function go(k){i=(k+n)%n;track.style.transform='translateX('+(i*100)+'%)';dots.forEach(function(d,j){d.classList.toggle('active',j===i)})}
   wrap.querySelector('.test-next').onclick=function(){go(i+1)};
   wrap.querySelector('.test-prev').onclick=function(){go(i-1)};
   var vp=wrap.querySelector('.test-viewport'),x0=null;
   vp.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
   vp.addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;x0=null;if(Math.abs(dx)>40)go(dx>0?i+1:i-1)});
   wrap.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')go(i+1);else if(e.key==='ArrowRight')go(i-1)});
-  window.addEventListener('resize',function(){go(i)});
   go(0);
 })();
 
