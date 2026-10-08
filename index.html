@@ -1608,6 +1608,7 @@ button.em-in:disabled{cursor:default}
 /* product report frequency demo */
 .pr-tbl .sr-row{grid-template-columns:1fr 1fr 1fr .9fr}
 .pr-tbl .sr-row:not(.head){animation:srFlip .45s ease-out both}
+@media (max-width:480px){.pr-tbl .sr-row{font-size:.7rem;gap:6px;padding:7px 8px;grid-template-columns:.9fr 1.3fr 1fr 1.05fr}.pr-tbl .sr-row:not(.head)>span:nth-child(2),.pr-tbl .sr-row:not(.head)>span:nth-child(4){white-space:nowrap}}
 .pr-fields{padding:6px 14px 14px}
 .pr-fld{display:grid;grid-template-columns:130px 1fr;gap:10px;align-items:center;padding:6px 0;font-size:.82rem}
 .pr-fld>span{color:#5b6b80}
@@ -4758,7 +4759,11 @@ window.addEventListener('scroll',()=>{
       <!-- NP STEP 1: intro -->
       <div class="step active" data-np-step="1">
         <p class="ob-txt">כל בוקר האוטומציה מחפשת בשורנס לקוחות חדשים שנכנסו עם מוצר (פרודוקציה), ושולחת לכל אחד מהם הודעת WhatsApp אישית לקבלת פנים.</p>
-        <button class="wa-cta" id="npToWa" type="button">▶ פתח סימולציית WhatsApp</button>
+        <div class="fb-search" id="npSearch"></div>
+        <div class="sr-table sr-meet pr-tbl" id="npTbl">
+          <div class="sr-row head"><span>לקוח</span><span>טלפון</span><span>מוצר</span><span>נקלט</span></div>
+        </div>
+        <div id="npWaWrap" style="margin-top:16px;visibility:hidden"><button class="wa-cta" id="npToWa" type="button">▶ פתח סימולציית WhatsApp</button></div>
       </div>
 
       <!-- NP STEP 2: WhatsApp -->
@@ -4887,6 +4892,20 @@ window.addEventListener('scroll',()=>{
     timers.forEach(clearTimeout); timers = []; choice = null;
     contWrap.hidden = true; hint.textContent = '';
     wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    document.getElementById('npWaWrap').style.visibility = 'hidden';
+    const tbl = document.getElementById('npTbl');
+    tbl.querySelectorAll('.sr-row:not(.head)').forEach(r=>r.remove());
+    const s = document.getElementById('npSearch');
+    s.textContent = '🔍 מחפש לקוחות חדשים עם מוצר (פרודוקציה)...';
+    const d = new Date();
+    const r = document.createElement('div'); r.className = 'sr-row';
+    r.innerHTML = '<span class="sr-client">ישראלי דניאל</span><span style="direction:ltr;text-align:right">052-123-4567</span><span>ביטוח בריאות</span><span>' + String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear() + '</span>';
+    r.style.visibility = 'hidden'; r.style.animation = 'none'; tbl.appendChild(r);
+    later(()=>{
+      r.style.visibility = ''; r.style.animation = '';
+      s.textContent = '✓ נמצא לקוח חדש עם מוצר';
+      later(()=>{ document.getElementById('npWaWrap').style.visibility = 'visible'; }, 400);
+    }, 1300);
     show(1);
   }
   function open(){ reset(); ov.hidden = false; }
