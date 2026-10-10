@@ -351,7 +351,7 @@ section{position:relative;z-index:2}
 #services{padding:100px 60px}
 .srv-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(max(270px,calc((100% - 24px) / 2)),1fr));
   gap:24px;max-width:1180px;margin:0 auto;
 }
 
