@@ -1946,10 +1946,10 @@ button.em-in:disabled{cursor:default}
           <div class="blc"></div><div class="pulse-line"></div>
           <div class="srv-icon">📑</div>
           <h3 class="srv-title">יצירת דוחות בשורנס עבור רשימת תפוצה</h3>
-          <p class="srv-desc">האוטומציה מפיקה דוח משורנס בכל תחילת חודש או תחילת שנה, לפי הצורך: הפקדות לעצמאיים, פיגורים, סיום ביטוח רכב, עסק או דירה. מתוך דוח האקסל נבנית רשימת תפוצה, ולכל לקוח ברשימה נשלחת הודעה מותאמת.</p>
+          <p class="srv-desc">האוטומציה מפיקה דוח משורנס בכל תחילת חודש או תחילת שנה, לפי הצורך: הפקדות לעצמאיים, פיגורים, סיום ביטוח רכב, עסק או דירה ועוד. מתוך דוח האקסל נבנית רשימת תפוצה, ולכל לקוח ברשימה נשלחת הודעה מותאמת.</p>
           <ul class="srv-list">
             <li>הפקת הדוח אוטומטית בתחילת חודש או שנה</li>
-            <li>דוחות לפי הצורך: הפקדות לעצמאיים, פיגורים, סיום ביטוחים</li>
+            <li>דוחות לפי הצורך: הפקדות לעצמאיים, פיגורים, סיום ביטוחים ועוד</li>
             <li>יצירת ליד בשורנס לכל לקוח ברשימה</li>
             <li>שליחת הודעת WhatsApp עם כפתורי תגובה</li>
             <li>עדכון סטטוס הליד לפי תשובת הלקוח</li>
@@ -6193,7 +6193,7 @@ window.addEventListener('scroll',()=>{
 
       <!-- RL STEP 1: report -->
       <div class="step active" data-rl-step="1">
-        <p class="ob-txt">בתחילת החודש האוטומציה מפיקה בשורנס דוח הפקדות לעצמאיים, ומייצאת אותו לאקסל שממנו נבנית רשימת התפוצה.</p>
+        <p class="ob-txt">בדוגמה הזו, בתחילת החודש האוטומציה מפיקה בשורנס דוח הפקדות לעצמאיים (אחד מתוך מגוון דוחות אפשריים), ומייצאת אותו לאקסל שממנו נבנית רשימת התפוצה.</p>
         <div class="fb-search" id="rlSearch"></div>
         <div class="rl-rep">
           <div class="rl-rep-top">📊 דוח הפקדות לעצמאיים<small id="rlDate"></small></div>
@@ -6217,7 +6217,7 @@ window.addEventListener('scroll',()=>{
             <div class="lb-top"><span class="lb-lid">ליד 742</span><span class="lb-pill">בדיקת הפקדות עצמאיים</span></div>
             <div class="lb-info">
               <div class="lb-name">👤 דניאל ישראלי <span>052-123-4567</span></div>
-              <div><small>סטטוס</small><div class="lb-status rl-st" id="rlSt1" style="background:#1e90e0">ליד חדש <span>⌄</span></div></div>
+              <div><small>סטטוס</small><div class="lb-status rl-st" id="rlSt1" style="background:#1e90e0">חדש <span>⌄</span></div></div>
               <div><small>מקור</small><div class="lb-handler"><span class="lb-av">📑</span>דוח הפקדות לעצמאיים</div></div>
             </div>
           </div>
@@ -6243,7 +6243,7 @@ window.addEventListener('scroll',()=>{
             <div class="lb-top"><span class="lb-lid">ליד 742</span><span class="lb-pill">בדיקת הפקדות עצמאיים</span></div>
             <div class="lb-info">
               <div class="lb-name">👤 דניאל ישראלי <span>052-123-4567</span></div>
-              <div><small>סטטוס</small><div class="lb-status rl-st" id="rlSt2" style="background:#1e90e0">ליד חדש <span>⌄</span></div></div>
+              <div><small>סטטוס</small><div class="lb-status rl-st" id="rlSt2" style="background:#1e90e0">חדש <span>⌄</span></div></div>
               <div><small>מקור</small><div class="lb-handler"><span class="lb-av">📑</span>דוח הפקדות לעצמאיים</div></div>
             </div>
           </div>
@@ -6265,7 +6265,7 @@ window.addEventListener('scroll',()=>{
   const xls = document.getElementById('rlXls');
   const labels = {1:'// שלב 1 — הפקת דוח בשורנס',2:'// שלב 2 — יצירת ליד בשורנס',3:'// שלב 3 — הודעת WhatsApp ללקוח',4:'// שלב 4 — עדכון סטטוס הליד'};
   const ST = {'מעוניין':['מעוניין – לתיאום שיחה','#1fc77e','דניאל לחץ "מעוניין", והסטטוס של הליד בשורנס התעדכן אוטומטית כדי שנציג יחזור אליו לבדיקת הסכומים.'],
-              'לא מעוניין':['לא מעוניין','#e5484d','דניאל לחץ "לא מעוניין", והסטטוס של הליד בשורנס התעדכן אוטומטית, כך שלא יישלחו אליו פניות נוספות בנושא.']};
+              'לא מעוניין':['לא מעוניין','#d00000','דניאל לחץ "לא מעוניין", והסטטוס של הליד בשורנס התעדכן אוטומטית, כך שלא יישלחו אליו פניות נוספות בנושא.']};
   let choice = null;
   let timers = [];
   function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
@@ -6321,7 +6321,7 @@ window.addEventListener('scroll',()=>{
   document.getElementById('rlToWa').addEventListener('click', ()=>{ show(3); start(); });
   document.getElementById('rlContinueBtn').addEventListener('click', ()=>{
     const el = document.getElementById('rlSt2');
-    setSt(el, 'ליד חדש', '#1e90e0'); el.classList.remove('new');
+    setSt(el, 'חדש', '#1e90e0'); el.classList.remove('new');
     document.getElementById('rlStTxt').textContent = ST[choice][2];
     show(4);
     later(()=>{ setSt(el, ST[choice][0], ST[choice][1]); el.classList.add('new'); }, 700);
