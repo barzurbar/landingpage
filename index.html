@@ -1623,6 +1623,14 @@ button.em-in:disabled{cursor:default}
 .pr-sms-bub{background:#e9e9eb;border-radius:16px;padding:9px 13px;font-size:.82rem;line-height:1.6;width:fit-content;max-width:85%}
 .pr-lbl{font-size:.78rem;color:var(--cyan);margin:14px 0 6px;font-family:'Share Tech Mono',monospace}
 @media (max-width:480px){.pr-fld{grid-template-columns:1fr;gap:4px}}
+.rl-rep{background:#fff;border-radius:10px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;color:#1f2d3d;overflow:hidden}
+.rl-rep-top{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;padding:10px 14px;border-bottom:1px solid #e3e8ee;font-weight:800;font-size:.9rem}
+.rl-rep-top small{margin-right:auto;font-weight:400;color:#6b7785;font-size:.72rem}
+.rl-rep .sr-table{box-shadow:none;border:none;border-radius:0;margin:0}
+.rl-rep .sr-row.rl-hit{background:#eef6ff;font-weight:700;animation:srFlip .45s ease-out both,srGlow 2.4s ease-in-out .45s infinite}
+.rl-xls{display:flex;align-items:center;gap:8px;padding:9px 14px;border-top:1px solid #e3e8ee;font-size:.78rem;color:#1d6f42;font-weight:700}
+.rl-st{transition:background .3s}
+.rl-st.new{animation:srGlow 2.4s ease-in-out infinite}
 .ms-call{background:#111827;border-radius:10px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;color:#e5e7eb;overflow:hidden}
 .ms-call-top{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid #1f2937;font-weight:700;font-size:.86rem}
 .ms-end{margin-right:auto;background:#dc2626;color:#fff;border-radius:999px;padding:2px 10px;font-size:.7rem;font-weight:700;white-space:nowrap}
@@ -1930,6 +1938,23 @@ button.em-in:disabled{cursor:default}
             <li>חיסכון בהקלדה ידנית ושירות מקצועי ללקוח עוד לפני שהוא ממריא</li>
           </ul>
           <button class="demo-cta" id="openTvModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-icon">📑</div>
+          <h3 class="srv-title">יצירת דוחות בשורנס עבור רשימת תפוצה</h3>
+          <p class="srv-desc">האוטומציה מפיקה דוח משורנס בכל תחילת חודש או תחילת שנה, לפי הצורך: הפקדות לעצמאיים, פיגורים, סיום ביטוח רכב, עסק או דירה. מתוך דוח האקסל נבנית רשימת תפוצה, ולכל לקוח ברשימה נשלחת הודעה מותאמת.</p>
+          <ul class="srv-list">
+            <li>הפקת הדוח אוטומטית בתחילת חודש או שנה</li>
+            <li>דוחות לפי הצורך: הפקדות לעצמאיים, פיגורים, סיום ביטוחים</li>
+            <li>יצירת ליד בשורנס לכל לקוח ברשימה</li>
+            <li>שליחת הודעת WhatsApp עם כפתורי תגובה</li>
+            <li>עדכון סטטוס הליד לפי תשובת הלקוח</li>
+          </ul>
+          <button class="demo-cta" id="openRlModal" type="button">
       <span class="dot"></span> לחץ כאן לראות איך זה עובד
     </button>
         </div>
@@ -6151,6 +6176,183 @@ window.addEventListener('scroll',()=>{
   document.getElementById('openTvModal').addEventListener('click', open);
   document.getElementById('tvClose').addEventListener('click', close);
   document.getElementById('tvFinish').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="rlOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="rlTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="rlTitle">
+        <span id="rlStepLabel">// שלב 1 — הפקת דוח בשורנס</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-rl-dot="1"></i><i data-rl-dot="2"></i><i data-rl-dot="3"></i><i data-rl-dot="4"></i></span>
+      </div>
+      <button class="modal-close" id="rlClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="rlBody">
+
+      <!-- RL STEP 1: report -->
+      <div class="step active" data-rl-step="1">
+        <p class="ob-txt">בתחילת החודש האוטומציה מפיקה בשורנס דוח הפקדות לעצמאיים, ומייצאת אותו לאקסל שממנו נבנית רשימת התפוצה.</p>
+        <div class="fb-search" id="rlSearch"></div>
+        <div class="rl-rep">
+          <div class="rl-rep-top">📊 דוח הפקדות לעצמאיים<small id="rlDate"></small></div>
+          <div class="sr-table sr-meet pr-tbl" id="rlTbl">
+            <div class="sr-row head"><span>לקוח</span><span>טלפון</span><span>הופקד השנה</span><span>יתרה לניצול</span></div>
+            <div class="sr-row rl-hit"><span class="sr-client">ישראלי דניאל</span><span style="direction:ltr;text-align:right">052-123-4567</span><span>₪12,400</span><span>₪9,850</span></div>
+            <div class="sr-row"><span class="sr-client">כהן רונית</span><span style="direction:ltr;text-align:right">054-218-3390</span><span>₪8,200</span><span>₪14,050</span></div>
+            <div class="sr-row"><span class="sr-client">לוי יוסי</span><span style="direction:ltr;text-align:right">050-774-1265</span><span>₪15,900</span><span>₪6,350</span></div>
+            <div class="sr-row"><span class="sr-client">אברהם מיכל</span><span style="direction:ltr;text-align:right">053-602-8814</span><span>₪4,750</span><span>₪17,500</span></div>
+          </div>
+          <div class="rl-xls" id="rlXls">📗 deposits_report.xlsx · נוצרה רשימת תפוצה (156 לקוחות)</div>
+        </div>
+        <div id="rlLeadWrap" style="margin-top:16px;visibility:hidden"><button class="wa-cta ob-pulse" id="rlToLead" type="button">▶ יצירת לידים בשורנס</button></div>
+      </div>
+
+      <!-- RL STEP 2: lead created -->
+      <div class="step" data-rl-step="2">
+        <p class="ob-txt">לכל לקוח ברשימה נוצר ליד בשורנס תחת הכרטיס שלו. כך נראה הליד של דניאל ישראלי:</p>
+        <div class="sr-glow">
+          <div class="lb-lead">
+            <div class="lb-top"><span class="lb-lid">ליד 742</span><span class="lb-pill">בדיקת הפקדות עצמאיים</span></div>
+            <div class="lb-info">
+              <div class="lb-name">👤 דניאל ישראלי <span>052-123-4567</span></div>
+              <div><small>סטטוס</small><div class="lb-status rl-st" id="rlSt1" style="background:#1e90e0">ליד חדש <span>⌄</span></div></div>
+              <div><small>מקור</small><div class="lb-handler"><span class="lb-av">📑</span>דוח הפקדות לעצמאיים</div></div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px"><button class="wa-cta" id="rlToWa" type="button">▶ פתח סימולציית WhatsApp</button></div>
+      </div>
+
+      <!-- RL STEP 3: WhatsApp -->
+      <div class="step" data-rl-step="3">
+        <div class="wa-frame">
+          <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+          <div class="wa-body" id="rlWaBody"></div>
+        </div>
+        <p class="ob-hint-txt" id="rlHint"></p>
+        <div class="wa-continue-wrap" id="rlContinueWrap" hidden><button class="wa-continue-btn" id="rlContinueBtn" type="button">המשך לשלב הבא ›</button></div>
+      </div>
+
+      <!-- RL STEP 4: lead status updated -->
+      <div class="step" data-rl-step="4">
+        <p class="ob-txt" id="rlStTxt"></p>
+        <div class="sr-glow">
+          <div class="lb-lead">
+            <div class="lb-top"><span class="lb-lid">ליד 742</span><span class="lb-pill">בדיקת הפקדות עצמאיים</span></div>
+            <div class="lb-info">
+              <div class="lb-name">👤 דניאל ישראלי <span>052-123-4567</span></div>
+              <div><small>סטטוס</small><div class="lb-status rl-st" id="rlSt2" style="background:#1e90e0">ליד חדש <span>⌄</span></div></div>
+              <div><small>מקור</small><div class="lb-handler"><span class="lb-av">📑</span>דוח הפקדות לעצמאיים</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="wa-continue-wrap"><button class="wa-continue-btn demo-finish" id="rlFinish" type="button">✓ סיום הדגמה</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('rlOverlay');
+  const body = document.getElementById('rlBody');
+  const wa = document.getElementById('rlWaBody');
+  const hint = document.getElementById('rlHint');
+  const stepLabel = document.getElementById('rlStepLabel');
+  const rows = ov.querySelectorAll('#rlTbl .sr-row:not(.head)');
+  const xls = document.getElementById('rlXls');
+  const labels = {1:'// שלב 1 — הפקת דוח בשורנס',2:'// שלב 2 — יצירת ליד בשורנס',3:'// שלב 3 — הודעת WhatsApp ללקוח',4:'// שלב 4 — עדכון סטטוס הליד'};
+  const ST = {'מעוניין':['מעוניין – לתיאום שיחה','#1fc77e','דניאל לחץ "מעוניין", והסטטוס של הליד בשורנס התעדכן אוטומטית כדי שנציג יחזור אליו לבדיקת הסכומים.'],
+              'לא מעוניין':['לא מעוניין','#e5484d','דניאל לחץ "לא מעוניין", והסטטוס של הליד בשורנס התעדכן אוטומטית, כך שלא יישלחו אליו פניות נוספות בנושא.']};
+  let choice = null;
+  let timers = [];
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    ov.querySelectorAll('[data-rl-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.rlStep)===n));
+    ov.querySelectorAll('[data-rl-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.rlDot)<=n));
+    stepLabel.textContent = labels[n];
+    body.scrollTop = 0;
+  }
+  function scrollBottom(){ body.scrollTop = body.scrollHeight; }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function bot(text, after){
+    const t = document.createElement('div');
+    t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    wa.appendChild(t); scrollBottom();
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div'); b.className = 'wa-bubble pop'; b.textContent = text;
+      const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now();
+      b.appendChild(tm); wa.appendChild(b);
+      if(after) after();
+      scrollBottom();
+    }, 900);
+  }
+  function out(text){
+    const o = document.createElement('div'); o.className = 'lb-out pop'; o.textContent = text;
+    const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = now() + ' ✓✓';
+    o.appendChild(tm); wa.appendChild(o); scrollBottom();
+  }
+  function setSt(el, label, color){ el.innerHTML = label + ' <span>⌄</span>'; el.style.background = color; }
+  function start(){
+    bot('היי דניאל 👋\n\nשנת המס מתקרבת לסיומה, ולכן אנחנו בודקים עבור הלקוחות שלנו את ניצול הטבות המס ואת תקרות ההפקדה השנתיות בקופות ובקרנות.\n\nרוצה לדעת כמה כדאי לך להפקיד עד סוף השנה? לחץ על הכפתור 👇\n\nבברכה,\nהמצפן סוכנות לביטוח', ()=>{
+      const w = document.createElement('div'); w.className = 'wa-btns-wrap pop lb-q';
+      Object.keys(ST).forEach(label=>{
+        const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'wa-btn'; btn.textContent = label;
+        btn.addEventListener('click', ()=>{
+          w.querySelectorAll('button').forEach(x=>x.disabled = true);
+          choice = label; hint.textContent = '';
+          out(label);
+          const reply = label==='מעוניין'
+            ? 'מעולה, תודה דניאל! 🙌\nנציג מטעמנו יחזור אליך בקרוב עם הסכומים המומלצים להפקדה.\n\nהמצפן סוכנות לביטוח'
+            : 'תודה על העדכון, דניאל 🙏\nאם תרצה לבדוק בהמשך, אנחנו כאן.\n\nהמצפן סוכנות לביטוח';
+          later(()=>bot(reply, ()=>{ document.getElementById('rlContinueWrap').hidden = false; scrollBottom(); }), 450);
+        });
+        w.appendChild(btn);
+      });
+      wa.appendChild(w);
+      hint.textContent = 'בחרו את תשובת הלקוח';
+    });
+  }
+  document.getElementById('rlToLead').addEventListener('click', ()=>show(2));
+  document.getElementById('rlToWa').addEventListener('click', ()=>{ show(3); start(); });
+  document.getElementById('rlContinueBtn').addEventListener('click', ()=>{
+    const el = document.getElementById('rlSt2');
+    setSt(el, 'ליד חדש', '#1e90e0'); el.classList.remove('new');
+    document.getElementById('rlStTxt').textContent = ST[choice][2];
+    show(4);
+    later(()=>{ setSt(el, ST[choice][0], ST[choice][1]); el.classList.add('new'); }, 700);
+  });
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    choice = null;
+    wa.innerHTML = '<div class="wa-daychip"><span>היום</span></div>';
+    hint.textContent = '';
+    document.getElementById('rlContinueWrap').hidden = true;
+    document.getElementById('rlLeadWrap').style.visibility = 'hidden';
+    const d0 = new Date(); document.getElementById('rlDate').textContent = 'הופק ב־01/' + String(d0.getMonth()+1).padStart(2,'0') + '/' + d0.getFullYear();
+    rows.forEach(r=>{ r.style.visibility = 'hidden'; r.style.animation = 'none'; });
+    xls.style.visibility = 'hidden';
+    const s = document.getElementById('rlSearch');
+    s.textContent = '⚙️ מפיק דוח הפקדות לעצמאיים...';
+    show(1);
+    later(()=>{
+      rows.forEach((r,i)=>later(()=>{ r.style.visibility = ''; r.style.animation = ''; }, i*350));
+      later(()=>{
+        xls.style.visibility = '';
+        s.textContent = '✓ הדוח הופק וייוצא לאקסל';
+        later(()=>{ document.getElementById('rlLeadWrap').style.visibility = 'visible'; }, 400);
+      }, rows.length*350 + 200);
+    }, 1200);
+  }
+  function open(){ reset(); ov.hidden = false; }
+  function close(){ ov.hidden = true; timers.forEach(clearTimeout); timers = []; }
+  document.getElementById('openRlModal').addEventListener('click', open);
+  document.getElementById('rlClose').addEventListener('click', close);
+  document.getElementById('rlFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
