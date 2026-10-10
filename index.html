@@ -1620,6 +1620,29 @@ button.em-in:disabled{cursor:default}
 .pr-sms-bub{background:#e9e9eb;border-radius:16px;padding:9px 13px;font-size:.82rem;line-height:1.6;width:fit-content;max-width:85%}
 .pr-lbl{font-size:.78rem;color:var(--cyan);margin:14px 0 6px;font-family:'Share Tech Mono',monospace}
 @media (max-width:480px){.pr-fld{grid-template-columns:1fr;gap:4px}}
+.ms-call{background:#111827;border-radius:10px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;color:#e5e7eb;overflow:hidden}
+.ms-call-top{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid #1f2937;font-weight:700;font-size:.86rem}
+.ms-end{margin-right:auto;background:#dc2626;color:#fff;border-radius:999px;padding:2px 10px;font-size:.7rem;font-weight:700;white-space:nowrap}
+.ms-tr{padding:10px 14px;font-size:.8rem;line-height:1.55}
+.ms-tr-h{font-size:.72rem;color:#9ca3af;margin-bottom:6px}
+.ms-line{display:grid;grid-template-columns:auto 1fr;gap:8px;padding:4px 0}
+.ms-line b{font-weight:700;white-space:nowrap}
+.ms-line.ag b{color:#5eead4}
+.ms-line.cl b{color:#93c5fd}
+.ms-line.on{animation:srFlip .35s ease-out both}
+.ms-ai{background:#fff;border-radius:10px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;color:#1f2d3d;overflow:hidden}
+.ms-ai-top{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid #e3e8ee;font-weight:800;font-size:.86rem}
+.ms-ai-top small{margin-right:auto;font-weight:400;color:#6b7785;font-size:.72rem}
+.ms-sec{padding:8px 14px;border-bottom:1px dashed #e3e8ee;font-size:.8rem;line-height:1.6}
+.ms-sec:last-child{border-bottom:none}
+.ms-sec h5{margin:0 0 2px;font-size:.8rem;color:#1e6fd9}
+.ms-sec ul{margin:0;padding-right:18px}
+.ms-sec.on{animation:srFlip .45s ease-out both}
+.ms-status{margin:12px 0 0;font-size:.82rem;color:var(--cyan);min-height:1.3em}
+.ms-act-body .ms-sec{padding:6px 0}
+.ms-mail-body{background:#fff;margin:0 10px 10px;border-radius:8px;border:1px solid #dbe4ef}
+.ms-mail-body .ms-sec{padding:8px 12px}
+.ms-mail-sign{padding:8px 12px 12px;font-size:.8rem;color:#5b6b80}
 </style>
 </head>
 <body>
@@ -1910,20 +1933,6 @@ button.em-in:disabled{cursor:default}
 
         <div class="srv-card">
           <div class="blc"></div><div class="pulse-line"></div>
-          <div class="srv-icon">📧</div>
-          <h3 class="srv-title">מייל עדכון ללקוח בסיום תהליכים</h3>
-          <p class="srv-desc">אוטומציה שמרכזת את כל התהליכים שבוצעו עבור הלקוח ושולחת לו מייל סיכום מסודר עם תמונת מצב מלאה.</p>
-          <ul class="srv-list">
-            <li>ריכוז כלל התהליכים שבוצעו בתקופה האחרונה</li>
-            <li>פירוט המוצרים, השינויים והפעולות שבוצעו</li>
-            <li>הצגת הסטטוס העדכני של כל תהליך</li>
-            <li>שליחת מייל אוטומטית עם סיכום ברור ומותאם אישית</li>
-            <li>מתן תמונה מלאה ללקוח ללא צורך במעקב או שיחה נוספת</li>
-          </ul>
-        </div>
-
-        <div class="srv-card">
-          <div class="blc"></div><div class="pulse-line"></div>
           <div class="srv-icon">🔍</div>
           <h3 class="srv-title">בדיקת תהליכים מול פרודוקציה</h3>
           <p class="srv-desc">אוטומציה שבודקת באופן שוטף שתהליכי ההצטרפות והניוד תואמים למוצר שנקלט בפועל בפרודוקציה.</p>
@@ -2006,6 +2015,22 @@ button.em-in:disabled{cursor:default}
             <li>הלקוח מקבל תמונה מלאה של המוצרים שלו, בלי עבודה ידנית של הסוכנות</li>
           </ul>
           <button class="demo-cta" id="openPrModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
+        </div>
+
+        <div class="srv-card">
+          <div class="blc"></div><div class="pulse-line"></div>
+          <div class="srv-icon">🎥</div>
+          <h3 class="srv-title">סיכום פגישה מקוונת עם לקוח</h3>
+          <p class="srv-desc">בסיום פגישה מקוונת עם לקוח, האוטומציה מסכמת את התמלול של הפגישה לפי הנוסח שהסוכנות בוחרת, מעלה את הסיכום כפעילות תחת הלקוח בשורנס ושולחת ללקוח מייל מסודר.</p>
+          <ul class="srv-list">
+            <li>סיכום התמלול עם AI לפי נוסח קבוע של הסוכנות</li>
+            <li>הסיכום עולה כפעילות בכרטיס הלקוח בשורנס</li>
+            <li>הלקוח מקבל מייל מסודר עם עיקרי הפגישה והמשימות להמשך</li>
+            <li>בלי לכתוב סיכומים ידנית אחרי כל פגישה</li>
+          </ul>
+          <button class="demo-cta" id="openMsModal" type="button">
       <span class="dot"></span> לחץ כאן לראות איך זה עובד
     </button>
         </div>
@@ -6267,6 +6292,182 @@ window.addEventListener('scroll',()=>{
   document.getElementById('openPrModal').addEventListener('click', open);
   document.getElementById('prClose').addEventListener('click', close);
   document.getElementById('prFinish').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="msOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="msTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="msTitle">
+        <span id="msStepLabel">// שלב 1 — סיום הפגישה ותמלול</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-ms-dot="1"></i><i data-ms-dot="2"></i><i data-ms-dot="3"></i><i data-ms-dot="4"></i></span>
+      </div>
+      <button class="modal-close" id="msClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="msBody">
+
+      <!-- MS STEP 1: meeting ended, transcript -->
+      <div class="step active" data-ms-step="1">
+        <p class="ob-txt">הפגישה המקוונת עם הלקוח הסתיימה. האוטומציה לוקחת את התמלול המלא של הפגישה.</p>
+        <div class="ms-call">
+          <div class="ms-call-top">🎥 פגישה מקוונת · דניאל ישראלי<span class="ms-end">הפגישה הסתיימה · 32:14</span></div>
+          <div class="ms-tr">
+            <div class="ms-tr-h">📝 תמלול הפגישה</div>
+            <div class="ms-line ag"><b>המצפן:</b><span>דניאל, עברנו על התיק. דמי הניהול בקרן הפנסיה שלך גבוהים יחסית.</span></div>
+            <div class="ms-line cl"><b>דניאל:</b><span>כמה אפשר לחסוך אם עוברים מסלול?</span></div>
+            <div class="ms-line ag"><b>המצפן:</b><span>מסלול עם דמי ניהול נמוכים יכול לחסוך עשרות אלפי שקלים עד הפרישה.</span></div>
+            <div class="ms-line cl"><b>דניאל:</b><span>מעולה, בוא נתקדם. ואני רוצה לצרף גם את נועה לביטוח הבריאות.</span></div>
+            <div class="ms-line ag"><b>המצפן:</b><span>אשלח לך טופס לחתימה דיגיטלית, ותעביר לי צילום ת"ז של נועה.</span></div>
+          </div>
+        </div>
+        <div id="msAiWrap" style="margin-top:16px;visibility:hidden"><button class="wa-cta ob-pulse" id="msToAi" type="button">🤖 שליחת התמלול ל־AI</button></div>
+      </div>
+
+      <!-- MS STEP 2: AI summary -->
+      <div class="step" data-ms-step="2">
+        <p class="ob-txt">ה־AI מסכם את התמלול לפי הנוסח שהסוכנות בחרה: נושאים שעלו, החלטות, משימות להמשך ופגישת מעקב.</p>
+        <div class="ms-ai" id="msAi">
+          <div class="ms-ai-top">🤖 סיכום פגישה<small>לפי נוסח הסוכנות</small></div>
+          <div class="ms-sec"><h5>נושאים שעלו</h5><ul><li>בדיקת דמי הניהול בקרן הפנסיה</li><li>ביטוח בריאות לבת הזוג, נועה</li></ul></div>
+            <div class="ms-sec"><h5>החלטות</h5><ul><li>מעבר למסלול פנסיה עם דמי ניהול נמוכים יותר</li><li>צירוף נועה לביטוח הבריאות של דניאל</li></ul></div>
+            <div class="ms-sec"><h5>משימות להמשך</h5><ul><li>המצפן: שליחת טופס העברה לחתימה דיגיטלית</li><li>דניאל: העברת צילום ת"ז של נועה</li></ul></div>
+            <div class="ms-sec"><h5>פגישת מעקב</h5>בעוד 3 חודשים</div>
+        </div>
+        <p class="ms-status" id="msStatus"></p>
+        <div id="msSrWrap" style="margin-top:12px;visibility:hidden"><button class="wa-cta" id="msToSr" type="button">▶ העלאה לשורנס</button></div>
+      </div>
+
+      <!-- MS STEP 3: Surense activity -->
+      <div class="step" data-ms-step="3">
+        <p class="ob-txt">הסיכום עולה אוטומטית כפעילות חדשה בכרטיס של הלקוח בשורנס.</p>
+        <div class="sr-glow">
+          <div class="lb-lead">
+            <div class="lb-top"><span class="lb-lid">כרטיס לקוח</span><span class="lb-pill" style="background:#2f7fd8">דניאל ישראלי</span></div>
+            <div class="lb-tabs"><span class="on">פעילות</span><span>פוליסות</span><span>מסמכים</span></div>
+            <div class="lb-feed">
+              <div class="lb-act">
+                <div class="lb-act-head"><span class="lb-av">🎥</span>סיכום פגישה<span class="lb-act-time" id="msActTime"></span></div>
+                <div class="lb-act-title">סיכום פגישה מקוונת</div>
+                <div class="lb-act-body ms-act-body">
+                  <div class="ms-sec"><h5>נושאים שעלו</h5><ul><li>בדיקת דמי הניהול בקרן הפנסיה</li><li>ביטוח בריאות לבת הזוג, נועה</li></ul></div>
+            <div class="ms-sec"><h5>החלטות</h5><ul><li>מעבר למסלול פנסיה עם דמי ניהול נמוכים יותר</li><li>צירוף נועה לביטוח הבריאות של דניאל</li></ul></div>
+            <div class="ms-sec"><h5>משימות להמשך</h5><ul><li>המצפן: שליחת טופס העברה לחתימה דיגיטלית</li><li>דניאל: העברת צילום ת"ז של נועה</li></ul></div>
+            <div class="ms-sec"><h5>פגישת מעקב</h5>בעוד 3 חודשים</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wa-continue-wrap"><button class="wa-continue-btn" id="msToMail" type="button">המשך לשלב הבא ›</button></div>
+      </div>
+
+      <!-- MS STEP 4: email to client -->
+      <div class="step" data-ms-step="4">
+        <p class="ob-txt">במקביל, הלקוח מקבל מייל מסודר עם סיכום הפגישה:</p>
+        <div class="ds-mail" id="msMail">
+          <div class="ds-mail-top">📥 דואר נכנס <span class="ds-badge" id="msBadge" hidden>1</span><span class="ds-mail-search">חיפוש בדואר</span></div>
+          <div class="ds-inbox" id="msInbox">
+            <div class="ds-it"><span class="ds-av">מ</span><b>מרפאת השיניים</b><time>09:12</time><small>תזכורת לתור שלך ביום ראשון</small></div>
+            <div class="ds-it"><span class="ds-av">ח</span><b>חנות אונליין</b><time>אתמול</time><small>ההזמנה שלך יצאה למשלוח</small></div>
+          </div>
+        </div>
+        <div class="ds-em" id="msOpen" hidden>
+          <div class="ds-em-meta"><b>סיכום הפגישה שלנו – דניאל ישראלי</b>מאת: המצפן סוכנות לביטוח · אל: daniel.israeli@gmail.com</div>
+          <div class="ds-em-hero"><b>היי דניאל, תודה על הפגישה היום 🙏</b><span>ריכזנו עבורך את עיקרי הפגישה והמשימות להמשך</span></div>
+          <div class="ms-mail-body">
+            <div class="ms-sec"><h5>נושאים שעלו</h5><ul><li>בדיקת דמי הניהול בקרן הפנסיה</li><li>ביטוח בריאות לבת הזוג, נועה</li></ul></div>
+            <div class="ms-sec"><h5>החלטות</h5><ul><li>מעבר למסלול פנסיה עם דמי ניהול נמוכים יותר</li><li>צירוף נועה לביטוח הבריאות של דניאל</li></ul></div>
+            <div class="ms-sec"><h5>משימות להמשך</h5><ul><li>המצפן: שליחת טופס העברה לחתימה דיגיטלית</li><li>דניאל: העברת צילום ת"ז של נועה</li></ul></div>
+            <div class="ms-sec"><h5>פגישת מעקב</h5>בעוד 3 חודשים</div>
+            <div class="ms-mail-sign">בכל שאלה אנחנו כאן,<br>המצפן סוכנות לביטוח</div>
+          </div>
+        </div>
+        <p class="ob-hint-txt" id="msHint4"></p>
+        <div class="wa-continue-wrap" id="msEndWrap" hidden><button class="wa-continue-btn demo-finish" id="msFinish" type="button">✓ סיום הדגמה</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('msOverlay');
+  const body = document.getElementById('msBody');
+  const mail = document.getElementById('msMail');
+  const inbox = document.getElementById('msInbox');
+  const badge = document.getElementById('msBadge');
+  const openMail = document.getElementById('msOpen');
+  const hint4 = document.getElementById('msHint4');
+  const status = document.getElementById('msStatus');
+  const stepLabel = document.getElementById('msStepLabel');
+  const lines = ov.querySelectorAll('.ms-line');
+  const aiSecs = document.getElementById('msAi').querySelectorAll('.ms-sec');
+  const labels = {1:'// שלב 1 — סיום הפגישה ותמלול',2:'// שלב 2 — סיכום עם AI',3:'// שלב 3 — פעילות בשורנס',4:'// שלב 4 — מייל ללקוח'};
+  let timers = [];
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    ov.querySelectorAll('[data-ms-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.msStep)===n));
+    ov.querySelectorAll('[data-ms-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.msDot)<=n));
+    stepLabel.textContent = labels[n];
+    body.scrollTop = 0;
+  }
+  function now(){ const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+  function hide(el){ el.style.visibility = 'hidden'; el.classList.remove('on'); }
+  function reveal(el){ el.style.visibility = ''; el.classList.add('on'); }
+  document.getElementById('msToAi').addEventListener('click', ()=>{
+    show(2);
+    status.textContent = '🤖 ה־AI מסכם את התמלול...';
+    aiSecs.forEach((sec,i)=>later(()=>reveal(sec), 1200 + i*600));
+    later(()=>{
+      status.textContent = '✓ הסיכום מוכן';
+      later(()=>{ document.getElementById('msSrWrap').style.visibility = 'visible'; }, 400);
+    }, 1200 + aiSecs.length*600);
+  });
+  document.getElementById('msToSr').addEventListener('click', ()=>{
+    document.getElementById('msActTime').textContent = 'היום, ' + now();
+    show(3);
+  });
+  function arrive(){
+    const fly = document.createElement('div'); fly.className = 'ds-fly'; fly.textContent = '✉️';
+    mail.appendChild(fly);
+    later(()=>{
+      fly.remove();
+      const toast = document.createElement('div'); toast.className = 'ds-toast';
+      toast.innerHTML = '<span style="font-size:1.3rem">📩</span><div><b>מייל חדש התקבל</b><small>המצפן סוכנות לביטוח · סיכום הפגישה שלנו</small></div>';
+      mail.appendChild(toast);
+      later(()=>toast.remove(), 3300);
+      badge.hidden = false; badge.classList.remove('bump'); void badge.offsetWidth; badge.classList.add('bump');
+      const it = document.createElement('button'); it.type = 'button'; it.className = 'ds-it new ob-pulse'; it.id = 'msNew';
+      it.innerHTML = '<span class="ds-av">🧭</span><b>המצפן סוכנות לביטוח</b><time>' + now() + '</time><small>סיכום הפגישה שלנו – דניאל ישראלי</small>';
+      inbox.prepend(it);
+      it.addEventListener('click', ()=>{
+        mail.hidden = true; openMail.hidden = false; hint4.textContent = '';
+        document.getElementById('msEndWrap').hidden = false;
+      }, {once:true});
+      later(()=>{ hint4.textContent = 'לחצו על המייל החדש כדי לפתוח אותו'; }, 700);
+    }, 950);
+  }
+  document.getElementById('msToMail').addEventListener('click', ()=>{ show(4); later(arrive, 600); });
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    lines.forEach(hide); aiSecs.forEach(hide);
+    status.textContent = ''; hint4.textContent = '';
+    document.getElementById('msAiWrap').style.visibility = 'hidden';
+    document.getElementById('msSrWrap').style.visibility = 'hidden';
+    mail.hidden = false; openMail.hidden = true; badge.hidden = true;
+    const n = document.getElementById('msNew'); if(n) n.remove();
+    mail.querySelectorAll('.ds-toast,.ds-fly').forEach(el=>el.remove());
+    document.getElementById('msEndWrap').hidden = true;
+    show(1);
+    lines.forEach((l,i)=>later(()=>reveal(l), 500 + i*700));
+    later(()=>{ document.getElementById('msAiWrap').style.visibility = 'visible'; }, 500 + lines.length*700);
+  }
+  function open(){ reset(); ov.hidden = false; }
+  function close(){ ov.hidden = true; timers.forEach(clearTimeout); timers = []; }
+  document.getElementById('openMsModal').addEventListener('click', open);
+  document.getElementById('msClose').addEventListener('click', close);
+  document.getElementById('msFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
