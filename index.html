@@ -445,26 +445,28 @@ section{position:relative;z-index:2}
 .srv-card:nth-child(4) .pulse-line::after{animation-delay:2.4s}
 
 .srv-tap-hint{display:none;text-align:center;font-size:.85rem;color:var(--cyan);margin:-28px 0 18px}
-/* Mobile: service cards collapse to their title, tap to expand */
+/* Service cards collapse to their title, click to expand */
+.srv-grid{align-items:start}
+.srv-card{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:20px 22px}
+.srv-card .srv-icon{width:42px;height:42px;font-size:1.3rem;margin:0;flex-shrink:0;cursor:pointer}
+.srv-card .srv-title{flex:1;min-width:0;margin:0;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:1.02rem}
+.srv-card .srv-title::after{
+  content:'';flex-shrink:0;margin-right:auto;
+  width:30px;height:30px;border-radius:50%;
+  border:1px solid rgba(0,229,255,.5);
+  background:rgba(0,229,255,.08) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300e5ff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") center/16px no-repeat;
+  transition:transform .3s;
+}
+.srv-card.open .srv-title::after{transform:rotate(180deg)}
+.srv-card .srv-desc,.srv-card .srv-list,.srv-card .demo-cta{display:none;width:100%}
+.srv-card.open .srv-desc{display:block;margin:6px 0 4px}
+.srv-card.open .srv-list{display:block}
+.srv-card.open .demo-cta{display:flex}
+.srv-card.open{border-color:rgba(0,229,255,.45)}
+.srv-tap-hint{display:block}
 @media(max-width:700px){
-  .srv-card{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 16px}
+  .srv-card{padding:16px 16px}
   .srv-card:hover{transform:none}
-  .srv-card .srv-icon{width:42px;height:42px;font-size:1.3rem;margin:0;flex-shrink:0;cursor:pointer}
-  .srv-card .srv-title{flex:1;min-width:0;margin:0;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:1.02rem}
-  .srv-card .srv-title::after{
-    content:'';flex-shrink:0;margin-right:auto;
-    width:30px;height:30px;border-radius:50%;
-    border:1px solid rgba(0,229,255,.5);
-    background:rgba(0,229,255,.08) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300e5ff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") center/16px no-repeat;
-    transition:transform .3s;
-  }
-  .srv-card.open .srv-title::after{transform:rotate(180deg)}
-  .srv-card .srv-desc,.srv-card .srv-list,.srv-card .demo-cta{display:none;width:100%}
-  .srv-card.open .srv-desc{display:block;margin:6px 0 4px}
-  .srv-card.open .srv-list{display:block}
-  .srv-card.open .demo-cta{display:flex}
-  .srv-card.open{border-color:rgba(0,229,255,.45)}
-  .srv-tap-hint{display:block}
 }
 
 /* ── SERVICE TABS ── */
@@ -1040,7 +1042,7 @@ footer{
 .bk-grid .d.mute{color:#c3c9d3;background:transparent}
 .bk-grid .d.pick{cursor:pointer;transition:background .15s,color .15s}
 .bk-grid .d.pick:hover{background:#e2e5ea}
-.bk-grid .d.sel{background:#111;color:#fff;font-weight:700}
+.bk-grid .d.sel,.bk-grid .d.pick.sel,.bk-grid .d.pick.sel:hover{background:#111;color:#fff;font-weight:700}
 .bk-slots{
   border-top:1px solid #eee;padding:12px;display:flex;flex-direction:column;gap:8px;
   max-height:150px;overflow-y:auto;
@@ -1744,8 +1746,8 @@ button.em-in:disabled{cursor:default}
   <div class="sim-note-wrap"><div class="sim-note"><span class="dot"></span>לכל אוטומציה תוכלו לראות סימולציה בפעולה.</div></div>
 
   <div class="tabs-nav reveal">
-    <button class="tab-btn active" data-tab="tab-sales" type="button"><span class="tb-dot"></span>מכירות וקליטת לקוח</button>
-    <button class="tab-btn" data-tab="tab-whatsapp" type="button"><span class="tb-dot"></span>אוטומציות וואטסאפ</button>
+    <button class="tab-btn active" data-tab="tab-whatsapp" type="button"><span class="tb-dot"></span>אוטומציות WhatsApp</button>
+    <button class="tab-btn" data-tab="tab-sales" type="button"><span class="tb-dot"></span>מכירות וקליטת לקוח</button>
     <button class="tab-btn" data-tab="tab-ops" type="button"><span class="tb-dot"></span>תפעול</button>
     <button class="tab-btn" data-tab="tab-service" type="button"><span class="tb-dot"></span>שירות וחווית לקוח</button>
   </div>
@@ -1754,7 +1756,7 @@ button.em-in:disabled{cursor:default}
   <div class="tab-panels reveal" style="transition-delay:.1s">
 
     <!-- מכירות וקליטת לקוח -->
-    <div class="tab-panel active" id="tab-sales">
+    <div class="tab-panel" id="tab-sales">
       <div class="srv-grid">
         <div class="srv-card">
           <div class="blc"></div><div class="pulse-line"></div>
@@ -1796,8 +1798,8 @@ button.em-in:disabled{cursor:default}
       </div>
     </div>
 
-    <!-- אוטומציות וואטסאפ -->
-    <div class="tab-panel" id="tab-whatsapp">
+    <!-- אוטומציות WhatsApp -->
+    <div class="tab-panel active" id="tab-whatsapp">
       <div class="srv-grid">
         <div class="srv-card">
           <div class="blc"></div><div class="pulse-line"></div>
@@ -2055,14 +2057,12 @@ button.em-in:disabled{cursor:default}
 
 <script>
 (function(){
-  // Mobile: tap a service card's icon or title to expand it
-  const mq = window.matchMedia('(max-width:700px)');
+  // Tap a service card's icon or title to expand it
   document.querySelectorAll('.srv-card').forEach(card=>{
     const title = card.querySelector('.srv-title');
     if(!title) return;
     title.setAttribute('aria-expanded','false');
     const toggle = ()=>{
-      if(!mq.matches) return;
       const open = card.classList.toggle('open');
       title.setAttribute('aria-expanded', String(open));
     };
@@ -2958,6 +2958,8 @@ window.addEventListener('scroll',()=>{
   function scrollBottom(){
     const body = document.getElementById('waBody');
     body.scrollTop = body.scrollHeight;
+    const mb = body.closest('.modal-body');
+    if(mb) mb.scrollTop = mb.scrollHeight;
   }
   function showTyping(){
     const body = document.getElementById('waBody');
@@ -3051,6 +3053,7 @@ window.addEventListener('scroll',()=>{
   if(sigContinue) sigContinue.addEventListener('click', ()=>{
     goto(2);
     const body = document.getElementById('waBody');
+    scrollBottom();
     const t = showTyping();
     setTimeout(()=>{
       t.remove();
@@ -3059,8 +3062,8 @@ window.addEventListener('scroll',()=>{
       msg.style.whiteSpace = 'pre-line';
       msg.textContent = 'תודה על אישור וחתימת הנספחים.\nהכל התקבל ונקלט בהצלחה.\nנתראה בקרוב 😊\nהמצפן סוכנות לביטוח';
       body.appendChild(msg);
-      scrollBottom();
       document.getElementById('waContinueWrap').hidden = false;
+      scrollBottom();
     }, 900);
   });
 
@@ -5849,19 +5852,23 @@ window.addEventListener('scroll',()=>{
   }
   function setHint(){
     const firstOpen = [0,1,2].find(i=>ans[i]===undefined);
-    if(firstOpen !== undefined){ hint3.textContent = 'בחרו תשובה לכל שאלה'; return; }
+    if(firstOpen !== undefined){ hint3.textContent = 'בחרו תשובה לשאלה המודגשת'; return; }
     if(!sDone){ hint3.textContent = 'לחצו על שדה ההצעה כדי למלא אותו'; return; }
     if(ans[3]===undefined){ hint3.textContent = 'לחצו על "כן"'; return; }
     if(!nDone || !pDone){ hint3.textContent = 'לחצו על השדות כדי למלא את השם והטלפון'; return; }
     hint3.textContent = 'לחצו על "שליחת המשוב"';
   }
+  function point(btn, on){
+    btn.classList.toggle('ob-pulse', on);
+    let ptr = btn.querySelector('.ob-pointer');
+    if(on && !ptr){ ptr = document.createElement('span'); ptr.className = 'ob-pointer'; ptr.textContent = '👉'; btn.appendChild(ptr); }
+    if(!on && ptr) ptr.remove();
+  }
   function refresh(){
-    sugg.classList.toggle('ob-pulse', !sDone && [0,1,2].every(i=>ans[i]!==undefined));
-    const refReady = sDone && ans[3]===undefined;
-    refYes.classList.toggle('ob-pulse', refReady);
-    let ptr = refYes.querySelector('.ob-pointer');
-    if(refReady && !ptr){ ptr = document.createElement('span'); ptr.className = 'ob-pointer'; ptr.textContent = '👉'; refYes.appendChild(ptr); }
-    if(!refReady && ptr) ptr.remove();
+    const firstOpen = [0,1,2].find(i=>ans[i]===undefined);
+    [0,1,2].forEach(i=>point(ov.querySelector('.fb-yn[data-q="'+i+'"] button'), i===firstOpen));
+    sugg.classList.toggle('ob-pulse', !sDone && firstOpen===undefined);
+    point(refYes, sDone && ans[3]===undefined);
     nameF.classList.toggle('ob-pulse', ans[3]==='כן' && !nDone);
     phoneF.classList.toggle('ob-pulse', ans[3]==='כן' && nDone && !pDone);
     const ok = [0,1,2,3].every(i=>ans[i]!==undefined) && sDone && nDone && pDone;
