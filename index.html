@@ -264,16 +264,19 @@ section{position:relative;z-index:2}
 
 .btn-s{
   padding:14px 36px;
-  background:transparent;
-  color:var(--cyan);
-  border:1px solid var(--cyan);
+  background:linear-gradient(135deg,rgba(0,229,255,.12),rgba(0,255,157,.12)) padding-box,linear-gradient(var(--bg),var(--bg)) padding-box,linear-gradient(90deg,var(--cyan),var(--green)) border-box;
+  border:2px solid transparent;
   border-radius:4px;
-  font-size:1rem;font-weight:700;
+  font-size:1rem;font-weight:800;
   cursor:pointer;text-decoration:none;
-  transition:all .3s;
+  transition:transform .2s,box-shadow .3s;
   font-family:'Heebo',sans-serif;
+  box-shadow:0 0 18px rgba(0,229,255,.3),0 0 26px rgba(0,255,157,.18);
+  animation:btnSGlow 2.6s ease-in-out infinite;
 }
-.btn-s:hover{background:rgba(0,229,255,0.08);box-shadow:var(--glow)}
+.btn-s span{background:linear-gradient(90deg,var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.btn-s:hover{transform:translateY(-3px);box-shadow:0 0 26px rgba(0,229,255,.5),0 0 40px rgba(0,255,157,.3)}
+@keyframes btnSGlow{0%,100%{box-shadow:0 0 14px rgba(0,229,255,.25),0 0 22px rgba(0,255,157,.12)}50%{box-shadow:0 0 24px rgba(0,229,255,.5),0 0 38px rgba(0,255,157,.28)}}
 
 .hero-stats{
   display:flex;justify-content:center;gap:60px;
@@ -647,22 +650,11 @@ section{position:relative;z-index:2}
   gap:12px;margin-top:24px;
 }
 .val{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:6px;
-  padding:14px;
+  padding:4px 14px 4px 0;
+  border-right:3px solid;
+  border-image:linear-gradient(180deg,var(--cyan),var(--green)) 1;
   display:flex;align-items:flex-start;gap:10px;
-  transition:border-color .3s;
-  position:relative;overflow:hidden;
 }
-.val::before{
-  content:'';position:absolute;
-  bottom:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--green),transparent);
-  opacity:0;transition:opacity .3s;
-}
-.val:hover{border-color:rgba(0,255,157,.4)}
-.val:hover::before{opacity:1}
 .val-i{font-size:1.2rem;flex-shrink:0}
 .val-t{font-size:.85rem;color:var(--dim);line-height:1.5}
 .val-t strong{color:#fff;display:block;margin-bottom:2px;font-size:.88rem}
@@ -849,13 +841,10 @@ footer{
 .sim-note-wrap{text-align:center;margin:-34px 0 44px}
 .sim-note{
   display:inline-flex;align-items:center;gap:10px;
-  padding:11px 24px;border-radius:30px;
-  border:1px solid rgba(0,255,157,.5);
-  background:rgba(0,255,157,.08);
-  color:#fff;font-weight:700;font-size:1.05rem;
-  box-shadow:0 0 18px rgba(0,255,157,.25);
+  color:var(--green);font-weight:700;font-size:1.1rem;
+  text-shadow:0 0 14px rgba(0,255,157,.35);
 }
-@media(max-width:560px){.sim-note{font-size:.95rem;padding:10px 18px}}
+@media(max-width:560px){.sim-note{font-size:1rem}}
 .sim-note .dot,.demo-cta .dot{
   width:7px;height:7px;border-radius:50%;background:var(--green);
   box-shadow:0 0 10px rgba(0,255,157,.8);
@@ -1699,7 +1688,7 @@ button.em-in:disabled{cursor:default}
 
     <div class="hero-btns">
       <a href="#cta" class="btn-p">בואו נדבר &rarr;</a>
-      <a href="#services" class="btn-s">האוטומציות שלנו ל-Surense</a>
+      <a href="#services" class="btn-s"><span>האוטומציות שלנו ל-Surense</span></a>
     </div>
 
     <div class="hero-stats">
@@ -2242,7 +2231,7 @@ button.em-in:disabled{cursor:default}
           </div>
           <div class="stars">★★★★★</div>
           <div class="q-icon">"</div>
-          <p class="test-txt">רוצים לפרגן ולהמליץ מכל הלב על בר! 🙌 בר בנה והטמיע אצלנו אוטומציות שעשו שינוי משמעותי בהתנהלות היומיומית של העסק. מקליטת לקוחות חדשים, דרך שליחת מסמכים ועד תיאום פגישות, הכול הפך לפשוט, מהיר ויעיל הרבה יותר. התוצאה: חיסכון משמעותי בזמן, פחות עבודה ידנית ושירות מקצועי יותר ללקוחות שלנו. מעבר לתוצאה, בר תמיד זמין, סבלני וקשוב, חושב כמה צעדים קדימה ויודע להציע פתרונות חכמים שמתאימים בדיוק לצרכים של העסק. ממליצים בחום! 👏</p>
+          <p class="test-txt">רוצים לפרגן ולהמליץ מכל הלב על בר! 🙌<br>בר בנה והטמיע אצלנו אוטומציות שעשו שינוי משמעותי בעסק. מקליטת לקוחות חדשים, דרך שליחת מסמכים ועד תיאום פגישות – הכול הפך לפשוט, מהיר ויעיל הרבה יותר. חסכנו המון זמן, יש הרבה פחות עבודה ידנית והשירות ללקוחות שלנו הפך למקצועי יותר.<br>כיף לעבוד עם איש מקצוע שמבין גם בטכנולוגיה וגם באנשים.<br>ממליצים בחום לכל בעל עסק שרוצה להתייעל, לחסוך זמן ולקחת את העסק שלו צעד קדימה! 👏</p>
         </div>
         </div>
       </div>
