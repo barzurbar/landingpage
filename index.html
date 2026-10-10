@@ -1040,7 +1040,7 @@ footer{
 .bk-grid .d.mute{color:#c3c9d3;background:transparent}
 .bk-grid .d.pick{cursor:pointer;transition:background .15s,color .15s}
 .bk-grid .d.pick:hover{background:#e2e5ea}
-.bk-grid .d.sel{background:#111;color:#fff;font-weight:700}
+.bk-grid .d.sel,.bk-grid .d.pick.sel,.bk-grid .d.pick.sel:hover{background:#111;color:#fff;font-weight:700}
 .bk-slots{
   border-top:1px solid #eee;padding:12px;display:flex;flex-direction:column;gap:8px;
   max-height:150px;overflow-y:auto;
@@ -2958,6 +2958,8 @@ window.addEventListener('scroll',()=>{
   function scrollBottom(){
     const body = document.getElementById('waBody');
     body.scrollTop = body.scrollHeight;
+    const mb = body.closest('.modal-body');
+    if(mb) mb.scrollTop = mb.scrollHeight;
   }
   function showTyping(){
     const body = document.getElementById('waBody');
@@ -3051,6 +3053,7 @@ window.addEventListener('scroll',()=>{
   if(sigContinue) sigContinue.addEventListener('click', ()=>{
     goto(2);
     const body = document.getElementById('waBody');
+    scrollBottom();
     const t = showTyping();
     setTimeout(()=>{
       t.remove();
@@ -3059,8 +3062,8 @@ window.addEventListener('scroll',()=>{
       msg.style.whiteSpace = 'pre-line';
       msg.textContent = 'תודה על אישור וחתימת הנספחים.\nהכל התקבל ונקלט בהצלחה.\nנתראה בקרוב 😊\nהמצפן סוכנות לביטוח';
       body.appendChild(msg);
-      scrollBottom();
       document.getElementById('waContinueWrap').hidden = false;
+      scrollBottom();
     }, 900);
   });
 
@@ -5849,19 +5852,23 @@ window.addEventListener('scroll',()=>{
   }
   function setHint(){
     const firstOpen = [0,1,2].find(i=>ans[i]===undefined);
-    if(firstOpen !== undefined){ hint3.textContent = 'בחרו תשובה לכל שאלה'; return; }
+    if(firstOpen !== undefined){ hint3.textContent = 'בחרו תשובה לשאלה המודגשת'; return; }
     if(!sDone){ hint3.textContent = 'לחצו על שדה ההצעה כדי למלא אותו'; return; }
     if(ans[3]===undefined){ hint3.textContent = 'לחצו על "כן"'; return; }
     if(!nDone || !pDone){ hint3.textContent = 'לחצו על השדות כדי למלא את השם והטלפון'; return; }
     hint3.textContent = 'לחצו על "שליחת המשוב"';
   }
+  function point(btn, on){
+    btn.classList.toggle('ob-pulse', on);
+    let ptr = btn.querySelector('.ob-pointer');
+    if(on && !ptr){ ptr = document.createElement('span'); ptr.className = 'ob-pointer'; ptr.textContent = '👉'; btn.appendChild(ptr); }
+    if(!on && ptr) ptr.remove();
+  }
   function refresh(){
-    sugg.classList.toggle('ob-pulse', !sDone && [0,1,2].every(i=>ans[i]!==undefined));
-    const refReady = sDone && ans[3]===undefined;
-    refYes.classList.toggle('ob-pulse', refReady);
-    let ptr = refYes.querySelector('.ob-pointer');
-    if(refReady && !ptr){ ptr = document.createElement('span'); ptr.className = 'ob-pointer'; ptr.textContent = '👉'; refYes.appendChild(ptr); }
-    if(!refReady && ptr) ptr.remove();
+    const firstOpen = [0,1,2].find(i=>ans[i]===undefined);
+    [0,1,2].forEach(i=>point(ov.querySelector('.fb-yn[data-q="'+i+'"] button'), i===firstOpen));
+    sugg.classList.toggle('ob-pulse', !sDone && firstOpen===undefined);
+    point(refYes, sDone && ans[3]===undefined);
     nameF.classList.toggle('ob-pulse', ans[3]==='כן' && !nDone);
     phoneF.classList.toggle('ob-pulse', ans[3]==='כן' && nDone && !pDone);
     const ok = [0,1,2,3].every(i=>ans[i]!==undefined) && sDone && nDone && pDone;
