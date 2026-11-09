@@ -6041,7 +6041,7 @@ window.addEventListener('scroll',()=>{
     <div class="modal-head">
       <div class="modal-head-title" id="tvTitle">
         <span id="tvStepLabel">// שלב 1 — פוליסה מתקבלת במייל</span>
-        <span class="step-dots" aria-hidden="true"><i class="on" data-tv-dot="1"></i><i data-tv-dot="2"></i><i data-tv-dot="3"></i></span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-tv-dot="1"></i><i data-tv-dot="2"></i><i data-tv-dot="3"></i><i data-tv-dot="4"></i></span>
       </div>
       <button class="modal-close" id="tvClose" aria-label="סגור" type="button">✕</button>
     </div>
@@ -6108,7 +6108,18 @@ window.addEventListener('scroll',()=>{
           <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
           <div class="wa-body" id="tvWaBody"></div>
         </div>
-        <div class="wa-continue-wrap" id="tvEndWrap" hidden><button class="wa-continue-btn demo-finish" id="tvFinish" type="button">✓ סיום הדגמה</button></div>
+        <div class="wa-continue-wrap" id="tvEndWrap" hidden><button class="wa-continue-btn" id="tvToPlus" type="button">המשך לשדרוג אפשרי לאוטומציה ›</button></div>
+      </div>
+
+      <!-- TV STEP 4: optional add-on, messages by policy dates -->
+      <div class="step" data-tv-step="4">
+        <p class="ob-txt">✨ <b>שדרוג אפשרי לאוטומציה:</b> לפי תאריך תחילת הביטוח ותאריך הסיום שנקלטו מהפוליסה, הלקוח מקבל הודעות WhatsApp אוטומטיות יום לפני הטיסה וביום החזרה לארץ.</p>
+        <div class="wa-frame">
+          <div class="wa-top"><div class="wa-avatar">🧭</div>המצפן סוכנות לביטוח</div>
+          <div class="wa-body" id="tvWaBody2"></div>
+        </div>
+        <p class="ob-hint-txt" id="tvHint4"></p>
+        <div class="wa-continue-wrap" id="tvEndWrap2" hidden><button class="wa-continue-btn demo-finish" id="tvFinish" type="button">✓ סיום הדגמה</button></div>
       </div>
 
     </div>
@@ -6126,7 +6137,7 @@ window.addEventListener('scroll',()=>{
   const hint1 = document.getElementById('tvHint1');
   const read = document.getElementById('tvRead');
   const stepLabel = document.getElementById('tvStepLabel');
-  const labels = {1:'// שלב 1 — פוליסה מתקבלת במייל',2:'// שלב 2 — תהליך בשורנס',3:'// שלב 3 — הודעת WhatsApp ללקוח'};
+  const labels = {1:'// שלב 1 — פוליסה מתקבלת במייל',2:'// שלב 2 — תהליך בשורנס',3:'// שלב 3 — הודעת WhatsApp ללקוח',4:'// שלב 4 — שדרוג: הודעות לפי תאריכי הביטוח'};
   let timers = [];
   function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
   function show(n){
@@ -6200,8 +6211,65 @@ window.addEventListener('scroll',()=>{
       document.getElementById('tvEndWrap').hidden = false;
     }, 900);
   });
+  const wa2 = document.getElementById('tvWaBody2');
+  const hint4 = document.getElementById('tvHint4');
+  const PRE =
+    'היי דניאל 😊\nעוד מעט טסים! ✈\nכמה דברים קטנים שכדאי לוודא לפני היציאה:\n\n' +
+    '✔ שמרת את מספר החירום של הביטוח: 03-555-0199\n' +
+    '✔ אספת את הכרטיס או בדקת איפה נקודת האיסוף\n' +
+    '✔ נרשמת מראש לטרקלין, למקרה של עיכוב טיסה מעל 90 דקות\n' +
+    '✔ הורדת את האפליקציה לניהול הביטוח\n\n' +
+    '🔗 את ההרשמה לטרקלין אפשר לעשות דרך האפליקציה של הביטוח\n\n' +
+    'שתהיה לך טיסה נעימה וחופשה בטוחה! 🙌\nהמצפן סוכנות לביטוח';
+  const POST =
+    'היי דניאל 😊\nברוך הבא הביתה! מקווים שנהנית מכל רגע ✈🌍\n' +
+    'אם הייתה לך בנסיעה הוצאה רפואית או עיכוב בטיסה, נשמח לעזור לך להגיש תביעה ולקבל את ההחזר מהר.\n\n' +
+    '👉 ועוד משהו קטן: הרבה לקוחות שבדקנו אחרי החופשה גילו שהם:\n' +
+    '• משלמים על ביטוחים כפולים\n• לא מנצלים את הטבות המס שמגיעות להם\n• משלמים דמי ניהול גבוהים מדי\n\n' +
+    'אנחנו מציעים בדיקה קצרה וללא עלות, כדי לוודא שהכול אצלך מסודר.\nרוצה לשמוע פרטים?';
+  const REPLY = {'כן, אשמח':'מעולה, דניאל! 🙌\nנציג מטעמנו יחזור אליך בקרוב לתיאום הבדיקה.\n\nהמצפן סוכנות לביטוח',
+                 'לא כרגע':'אין בעיה 🙏\nאם תרצה לבדוק בהמשך, אנחנו כאן.\n\nהמצפן סוכנות לביטוח'};
+  function chip(t){ const c = document.createElement('div'); c.className = 'wa-daychip pop'; c.innerHTML = '<span>' + t + '</span>'; wa2.appendChild(c); }
+  function bot2(text, after, tmTxt){
+    const t = document.createElement('div'); t.className = 'wa-typing pop';
+    t.innerHTML = '<span class="dt"></span><span class="dt"></span><span class="dt"></span>';
+    wa2.appendChild(t); body.scrollTop = body.scrollHeight;
+    later(()=>{
+      t.remove();
+      const b = document.createElement('div'); b.className = 'wa-bubble pop'; b.textContent = text;
+      const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = tmTxt || '10:00';
+      b.appendChild(tm); wa2.appendChild(b);
+      if(after) after();
+    }, 900);
+  }
+  document.getElementById('tvToPlus').addEventListener('click', ()=>{
+    show(4);
+    chip(dayFmt(13) + ' · יום לפני הטיסה');
+    bot2(PRE, ()=>later(()=>{
+      chip(dayFmt(21) + ' · יום החזרה לארץ');
+      bot2(POST, ()=>{
+        const w = document.createElement('div'); w.className = 'wa-btns-wrap pop lb-q';
+        Object.keys(REPLY).forEach(label=>{
+          const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'wa-btn'; btn.textContent = label;
+          btn.addEventListener('click', ()=>{
+            w.querySelectorAll('button').forEach(x=>x.disabled = true);
+            hint4.textContent = '';
+            const o = document.createElement('div'); o.className = 'lb-out pop'; o.textContent = label;
+            const tm = document.createElement('div'); tm.className = 'wa-time'; tm.textContent = '10:02 ✓✓';
+            o.appendChild(tm); wa2.appendChild(o);
+            later(()=>bot2(REPLY[label], ()=>{ document.getElementById('tvEndWrap2').hidden = false; body.scrollTop = body.scrollHeight; }, '10:03'), 450);
+          });
+          w.appendChild(btn);
+        });
+        wa2.appendChild(w);
+        hint4.textContent = 'בחרו את תשובת הלקוח';
+      });
+    }, 900));
+  });
   function reset(){
     timers.forEach(clearTimeout); timers = [];
+    wa2.innerHTML = ''; hint4.textContent = '';
+    document.getElementById('tvEndWrap2').hidden = true;
     mail.hidden = false; openMail.hidden = true; badge.hidden = true;
     const n = document.getElementById('tvNew'); if(n) n.remove();
     mail.querySelectorAll('.ds-toast,.ds-fly').forEach(el=>el.remove());
