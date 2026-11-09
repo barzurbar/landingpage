@@ -1622,6 +1622,34 @@ button.em-in:disabled{cursor:default}
 .rl-rep .sr-table{box-shadow:none;border:none;border-radius:0;margin:0}
 .rl-rep .sr-row.rl-hit{background:#eef6ff;font-weight:700;animation:srFlip .45s ease-out both,srGlow 2.4s ease-in-out .45s infinite}
 .rl-xls{display:flex;align-items:center;gap:8px;padding:9px 14px;border-top:1px solid #e3e8ee;font-size:.78rem;color:#1d6f42;font-weight:700}
+.fm-files{display:flex;flex-direction:column;gap:10px}
+.fm-file{display:flex;align-items:center;gap:10px;background:#fff;border-radius:8px;padding:10px 12px;box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;color:#1f2d3d}
+.fm-file-ic{flex-shrink:0;width:34px;height:40px;border-radius:4px;background:#1d6f42;color:#fff;font-size:.62rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+.fm-file-meta{flex:1;min-width:0;font-size:.8rem;line-height:1.4}
+.fm-file-meta b{display:block;font-size:.82rem}
+.fm-file-meta small{color:#6b7785;font-size:.7rem}
+.fm-bar{height:5px;border-radius:3px;background:#e3e8ee;margin-top:6px;overflow:hidden}
+.fm-bar i{display:block;height:100%;width:0;background:#1d6f42;transition:width 1.1s ease-out}
+.fm-file.done .fm-bar i{width:100%}
+.fm-ok{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:#00c27a;color:#fff;font-size:.8rem;display:flex;align-items:center;justify-content:center;visibility:hidden}
+.fm-file.done .fm-ok{visibility:visible}
+.fm-xl{background:#fff;border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;color:#1f2d3d;overflow:hidden}
+.fm-xl-top{display:flex;align-items:center;gap:8px;background:#1d6f42;color:#fff;padding:8px 12px;font-size:.78rem;font-weight:700}
+.fm-xl-top small{margin-right:auto;font-weight:400;opacity:.85;font-size:.7rem}
+.fm-xl-scroll{overflow-x:auto}
+.fm-grid{display:grid;grid-template-columns:.75fr .85fr 1.05fr 1.2fr .95fr .95fr;font-size:.68rem}
+@media (max-width:480px){.fm-grid{font-size:.58rem}.fm-grid>span{padding:6px 3px!important}}
+#fmOpened{white-space:nowrap;font-size:.72rem}
+.fm-grid>span{padding:7px 5px;border-bottom:1px solid #e6e9ee;border-left:1px solid #eef0f3;white-space:nowrap;transition:background .3s}
+.fm-grid>span.h{background:#f3f6f4;color:#3c4b5a;font-weight:700;white-space:normal;line-height:1.25}
+.fm-grid>span.scan{background:#fff8d6}
+.fm-grid>span.up{background:#ffe3e3;color:#c00000;font-weight:800}
+.fm-grid>span.up small{display:block;font-weight:400;color:#8a5a5a;font-size:.62rem}
+.fm-grid>span.hit{background:#eef6ff;font-weight:700}
+.fm-alert{margin-top:12px;border:1px solid rgba(255,90,90,.6);background:rgba(255,80,80,.1);color:#ffd2d2;border-radius:8px;padding:10px 12px;font-size:.84rem;line-height:1.6}
+.fm-alert b{color:#fff}
+.fm-det{background:#fff;border-radius:8px;font-family:'Heebo',sans-serif;color:#1f2d3d;font-size:.78rem;padding:10px 12px;margin-top:10px;box-shadow:0 8px 28px rgba(0,0,0,.35);line-height:1.7}
+.fm-det b{color:#c00000}
 .rl-st{transition:background .3s}
 .rl-st.new{animation:srGlow 2.4s ease-in-out infinite}
 .ms-call{background:#111827;border-radius:10px;border:1px solid var(--border);box-shadow:0 8px 28px rgba(0,0,0,.35);font-family:'Heebo',sans-serif;color:#e5e7eb;overflow:hidden}
@@ -2067,6 +2095,9 @@ button.em-in:disabled{cursor:default}
             <li>הצגת השינוי וההשפעה הכספית על הלקוח</li>
             <li>פתיחת משימה והתראה לסוכנות בהתאם לסף שהוגדר</li>
           </ul>
+          <button class="demo-cta" id="openFmModal" type="button">
+      <span class="dot"></span> לחץ כאן לראות איך זה עובד
+    </button>
         </div>
       </div>
     </div>
@@ -6690,6 +6721,133 @@ window.addEventListener('scroll',()=>{
   document.getElementById('openMsModal').addEventListener('click', open);
   document.getElementById('msClose').addEventListener('click', close);
   document.getElementById('msFinish').addEventListener('click', close);
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+})();
+</script>
+<div class="overlay" id="fmOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="fmTitle">
+    <div class="modal-head">
+      <div class="modal-head-title" id="fmTitle">
+        <span id="fmStepLabel">// שלב 1 — הורדת דוחות מוצרים בניהול</span>
+        <span class="step-dots" aria-hidden="true"><i class="on" data-fm-dot="1"></i><i data-fm-dot="2"></i><i data-fm-dot="3"></i></span>
+      </div>
+      <button class="modal-close" id="fmClose" aria-label="סגור" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="fmBody">
+
+      <!-- FM STEP 1: download reports -->
+      <div class="step active" data-fm-step="1">
+        <p class="ob-txt">בתחילת כל חודש האוטומציה מורידה אוטומטית את דוחות האקסל של "מוצרים בניהול" עבור החודש הנוכחי והחודש הקודם.</p>
+        <div class="fb-search" id="fmSearch"></div>
+        <div class="fm-files">
+          <div class="fm-file" id="fmF1"><span class="fm-file-ic">XLSX</span><div class="fm-file-meta"><b>מוצרים בניהול – <span id="fmPrevM"></span></b><small>החודש הקודם</small><div class="fm-bar"><i></i></div></div><span class="fm-ok">✓</span></div>
+          <div class="fm-file" id="fmF2"><span class="fm-file-ic">XLSX</span><div class="fm-file-meta"><b>מוצרים בניהול – <span id="fmCurM"></span></b><small>החודש הנוכחי</small><div class="fm-bar"><i></i></div></div><span class="fm-ok">✓</span></div>
+        </div>
+        <div id="fmCmpWrap" style="margin-top:16px;visibility:hidden"><button class="wa-cta ob-pulse" id="fmToCmp" type="button">▶ השוואת דמי הניהול בין החודשים</button></div>
+      </div>
+
+      <!-- FM STEP 2: compare -->
+      <div class="step" data-fm-step="2">
+        <p class="ob-txt">האוטומציה עוברת על כל הלקוחות ומשווה את העמודות "דמי ניהול מצבירה" ו"דמי ניהול מהפקדה" בין החודש הקודם לחודש הנוכחי.</p>
+        <div class="fb-search" id="fmScan"></div>
+        <div class="fm-xl">
+          <div class="fm-xl-top">📗 מוצרים בניהול – <span id="fmCurM2"></span><small>השוואה מול <span id="fmPrevM2"></span></small></div>
+          <div class="fm-xl-scroll">
+            <div class="fm-grid" id="fmGrid">
+              <span class="h">שם פרטי</span><span class="h">שם משפחה</span><span class="h">ת.ז</span><span class="h">טלפון</span><span class="h">דמי ניהול מצבירה</span><span class="h">דמי ניהול מהפקדה</span>
+              <span data-r="1">רונית</span><span data-r="1">כהן</span><span data-r="1">034567891</span><span data-r="1" style="direction:ltr;text-align:right">054-218-3390</span><span data-r="1">0.22%</span><span data-r="1">1.49%</span>
+              <span data-r="2">דניאל</span><span data-r="2">ישראלי</span><span data-r="2">012345674</span><span data-r="2" style="direction:ltr;text-align:right">052-123-4567</span><span data-r="2" data-up="0.20%">0.45%</span><span data-r="2" data-up="1.50%">2.50%</span>
+              <span data-r="3">יוסי</span><span data-r="3">לוי</span><span data-r="3">045678912</span><span data-r="3" style="direction:ltr;text-align:right">050-774-1265</span><span data-r="3">0.18%</span><span data-r="3">1.20%</span>
+              <span data-r="4">מיכל</span><span data-r="4">אברהם</span><span data-r="4">056789123</span><span data-r="4" style="direction:ltr;text-align:right">053-602-8814</span><span data-r="4">0.25%</span><span data-r="4">2.00%</span>
+            </div>
+          </div>
+        </div>
+        <div class="fm-alert" id="fmAlert" style="visibility:hidden">⚠️ זוהתה עלייה בדמי ניהול אצל <b>דניאל ישראלי</b><br>דמי ניהול מצבירה: 0.20% ← 0.45%<br>דמי ניהול מהפקדה: 1.50% ← 2.50%</div>
+        <div id="fmProcWrap" style="margin-top:16px;visibility:hidden"><button class="wa-cta ob-pulse" id="fmToProc" type="button">▶ פתיחת תהליך בשורנס</button></div>
+      </div>
+
+      <!-- FM STEP 3: Surense process -->
+      <div class="step" data-fm-step="3">
+        <p class="ob-txt">נפתח אוטומטית בשורנס תהליך מסוג "עלייה בדמי ניהול" תחת דניאל ישראלי, לטיפול הצוות.</p>
+        <div class="sr-glow">
+          <div class="sr-table sr-meet au-proc">
+            <div class="sr-row head"><span>סוג תהליך</span><span>לקוח</span><span>סטטוס</span><span>נפתח</span></div>
+            <div class="sr-row"><span class="sr-type">עלייה בדמי ניהול</span><span class="sr-client">ישראלי דניאל</span><span class="sr-status" style="background:#1e90e0">חדש</span><span id="fmOpened"></span></div>
+          </div>
+        </div>
+        <div class="fm-det">📝 <strong>פירוט השינוי:</strong><br>דמי ניהול מצבירה: 0.20% ← <b>0.45%</b><br>דמי ניהול מהפקדה: 1.50% ← <b>2.50%</b></div>
+        <div class="wa-continue-wrap"><button class="wa-continue-btn demo-finish" id="fmFinish" type="button">✓ סיום הדגמה</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const ov = document.getElementById('fmOverlay');
+  const body = document.getElementById('fmBody');
+  const stepLabel = document.getElementById('fmStepLabel');
+  const labels = {1:'// שלב 1 — הורדת דוחות מוצרים בניהול',2:'// שלב 2 — השוואת דמי ניהול',3:'// שלב 3 — פתיחת תהליך בשורנס'};
+  const cells = ov.querySelectorAll('#fmGrid span[data-r]');
+  let timers = [];
+  function later(fn, ms){ timers.push(setTimeout(fn, ms)); }
+  function show(n){
+    ov.querySelectorAll('[data-fm-step]').forEach(el=>el.classList.toggle('active', Number(el.dataset.fmStep)===n));
+    ov.querySelectorAll('[data-fm-dot]').forEach(el=>el.classList.toggle('on', Number(el.dataset.fmDot)<=n));
+    stepLabel.textContent = labels[n];
+    body.scrollTop = 0;
+  }
+  function vis(id, on){ document.getElementById(id).style.visibility = on ? 'visible' : 'hidden'; }
+  function row(r){ return ov.querySelectorAll('#fmGrid span[data-r="'+r+'"]'); }
+  function compare(){
+    const scan = document.getElementById('fmScan');
+    scan.textContent = '🔍 משווה דמי ניהול...';
+    [1,2,3,4].forEach((r,i)=>{
+      later(()=>{
+        ov.querySelectorAll('#fmGrid span.scan').forEach(c=>c.classList.remove('scan'));
+        row(r).forEach(c=>c.classList.add('scan'));
+      }, i*700);
+    });
+    later(()=>{
+      ov.querySelectorAll('#fmGrid span.scan').forEach(c=>c.classList.remove('scan'));
+      row(2).forEach(c=>{
+        if(c.dataset.up){ c.classList.add('up'); c.innerHTML = c.textContent + ' ↑<small>היה ' + c.dataset.up + '</small>'; }
+        else c.classList.add('hit');
+      });
+      scan.textContent = '✓ ההשוואה הסתיימה – נמצא לקוח אחד עם עלייה בדמי ניהול';
+      vis('fmAlert', true);
+      later(()=>vis('fmProcWrap', true), 500);
+    }, 4*700);
+  }
+  function reset(){
+    timers.forEach(clearTimeout); timers = [];
+    const d = new Date(), p = new Date(d.getFullYear(), d.getMonth()-1, 1);
+    const fmt = x => String(x.getMonth()+1).padStart(2,'0') + '/' + x.getFullYear();
+    ['fmCurM','fmCurM2'].forEach(id=>document.getElementById(id).textContent = fmt(d));
+    ['fmPrevM','fmPrevM2'].forEach(id=>document.getElementById(id).textContent = fmt(p));
+    document.getElementById('fmOpened').textContent = '01/' + fmt(d);
+    cells.forEach(c=>{
+      c.classList.remove('scan','up','hit');
+      if(c.dataset.up) c.textContent = c.textContent.split(' ')[0].replace('↑','');
+    });
+    ['fmAlert','fmProcWrap','fmCmpWrap'].forEach(id=>vis(id,false));
+    document.getElementById('fmScan').textContent = '';
+    const f1 = document.getElementById('fmF1'), f2 = document.getElementById('fmF2'), s = document.getElementById('fmSearch');
+    f1.classList.remove('done'); f2.classList.remove('done');
+    s.textContent = '⬇️ מוריד את דוחות מוצרים בניהול...';
+    show(1);
+    later(()=>f1.classList.add('done'), 500);
+    later(()=>f2.classList.add('done'), 1400);
+    later(()=>{ s.textContent = '✓ שני הדוחות הורדו'; vis('fmCmpWrap', true); }, 2700);
+  }
+  document.getElementById('fmToCmp').addEventListener('click', ()=>{ show(2); compare(); });
+  document.getElementById('fmToProc').addEventListener('click', ()=>show(3));
+  function open(){ reset(); ov.hidden = false; }
+  function close(){ ov.hidden = true; timers.forEach(clearTimeout); timers = []; }
+  document.getElementById('openFmModal').addEventListener('click', open);
+  document.getElementById('fmClose').addEventListener('click', close);
+  document.getElementById('fmFinish').addEventListener('click', close);
   ov.addEventListener('click', (e)=>{ if(e.target===ov) close(); });
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
 })();
